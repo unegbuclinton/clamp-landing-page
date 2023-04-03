@@ -1,0 +1,8 @@
+.slides{
+    transform: translate(-70%);
+    transition: .2s ease-in;
+}
+.no-slides{
+    transform: translate(-200%);
+    transition: .2s ease-in;
+}

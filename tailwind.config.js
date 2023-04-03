@@ -8,7 +8,8 @@ module.exports = {
     extend: {
           colors: { 
             white: "#fff",
-            black:"000",
+            black:"#000",
+            "anti-white": "#e5e7eb"
            
            },
             backgroundImage: {
