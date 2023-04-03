@@ -12,7 +12,7 @@ const Navbar = () => {
   };
   const closeMenu = () => setOpen(false);
   return (
-    <div className="bg-gray-50 w-full py-4">
+    <div className="fixed top-0 bg-gray-50 w-full py-4">
       <nav className=" border-gray-200 px-2 ">
         <div className="flex flex-wrap items-center justify-between">
           <a href="#" className="flex">

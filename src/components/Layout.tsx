@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Navbar />
       <div className="h-screen flex gap-5 pr-3">
         <Sidebar />
-        <div className="lg:pt-0 overflow-auto w-full">{children}</div>
+        <div className="overflow-auto w-full pt-20">{children}</div>
       </div>
     </div>
   );

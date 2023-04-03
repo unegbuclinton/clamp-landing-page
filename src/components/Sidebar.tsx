@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { menu } from "../utilities/sidebarItems";
 import Link from "next/link";
 import Button from "./Button";
