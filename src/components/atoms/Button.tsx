@@ -5,10 +5,8 @@ type ButtonProps = {
   className?: string;
   light?: boolean;
   text: string;
-  pill?: string;
   type?: string;
-  alias?: string;
-  loading?: string;
+  onClick?: () => void;
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,10 +14,12 @@ const Button: React.FC<ButtonProps> = ({
   text,
   disabled,
   className,
+  onClick,
 }) => {
   return (
     <button
       disabled={disabled}
+      onClick={onClick}
       className={`${
         light ? "bg-white text-black" : "bg-black text-white"
       } text-sm py-3 px-7 rounded-[9px] hover:scale-90 duration-200 ${className}`}

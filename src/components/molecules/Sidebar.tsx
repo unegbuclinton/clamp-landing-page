@@ -1,7 +1,7 @@
 import React from "react";
-import { menu } from "../utilities/sidebarItems";
+import { menu } from "@/utilities/data/sidebarItems";
 import Link from "next/link";
-import Button from "./Button";
+import Button from "@components/atoms/Button";
 
 const Sidebar = () => {
   return (

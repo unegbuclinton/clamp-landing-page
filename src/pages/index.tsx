@@ -1,5 +1,5 @@
-import Layout from "@/components/Layout";
-import "../styles/Navbar.module.css";
+import Layout from "@/components/layouts/Layout";
+import "@/styles/Navbar.module.css";
 export default function Home() {
   return (
     <Layout>
