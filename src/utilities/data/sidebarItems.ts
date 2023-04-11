@@ -2,9 +2,9 @@ export const menu: Array<{
   title: string;
   to: string;
 }> = [
-  { title: "Employees", to: "/employee" },
-  { title: "Inbox", to: "/inbox" },
-  { title: "Users", to: "/user" },
-  { title: "Products", to: "/employee" },
+  { title: "Overview", to: "/employee" },
+  { title: "Loyalty Programs", to: "/inbox" },
+  { title: "Customers", to: "/user" },
+  { title: "Insights", to: "/employee" },
   { title: "Settings", to: "/employee" },
 ];
