@@ -1,13 +1,5 @@
 import React from "react";
-
-type ButtonProps = {
-  disabled?: boolean;
-  className?: string;
-  light?: boolean;
-  text: string;
-  type?: string;
-  onClick?: () => void;
-};
+import { ButtonProps } from "./types";
 
 const Button: React.FC<ButtonProps> = ({
   light,
