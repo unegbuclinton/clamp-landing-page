@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { BiDownArrow } from "react-icons/bi";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { menu } from "@/utilities/data/sidebarItems";
 import Link from "next/link";

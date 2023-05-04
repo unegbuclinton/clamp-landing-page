@@ -13,10 +13,6 @@ const CreateCampaign = () => {
             description="Campaign name"
             subText="E.g. Summer loyalty program"
           />
-          <>
-            {/* <p className="text-sm font-medium mb-2"></p> */}
-            {/* <p className=""></p> */}
-          </>
         </div>
       </div>
     </DashboardLayout>
