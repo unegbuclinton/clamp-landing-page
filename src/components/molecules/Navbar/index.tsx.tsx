@@ -16,7 +16,7 @@ const Navbar = () => {
     <div className="w-full py-1">
       <nav className=" border-gray-200 px-2 ">
         <div className="flex flex-wrap items-center justify-between">
-          <a href="#" className="font-semibold p-2 ml-4 text-xl">
+          <a href="#" className="font-semibold p-2 lg:ml-4 text-xl">
             Clamp
           </a>
           <div className="flex md:order-2">
