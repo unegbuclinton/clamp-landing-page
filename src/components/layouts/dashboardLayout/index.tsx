@@ -9,7 +9,7 @@ const DashboardLayout: React.FC<dashboardLayoutProps> = ({ children }) => {
       <Navbar />
       <div className=" flex gap-5 pr-3 ">
         <Sidebar />
-        <div className="overflow-auto w-full pt-5">{children}</div>
+        <div className="overflow-auto w-full ">{children}</div>
       </div>
     </div>
   );

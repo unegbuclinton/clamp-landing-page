@@ -4,4 +4,5 @@ export interface campaigncardProps {
   label?: string;
   description?: string;
   children?: ReactNode;
+  subText?: string;
 }
