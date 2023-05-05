@@ -1,15 +1,22 @@
 import React from "react";
-import Button from "@/components/atoms/button";
 import SideBarItems from "./SideBarItems";
+import ButtonComponent from "@/components/atoms/button";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
+  const router = useRouter();
   return (
     <div className="relative">
       <div className=" max-w-2xl mx-auto hidden lg:block">
         <aside className="w-64" aria-label="Sidebar">
           <div className=" h-screen px-3 py-4 overflow-y-auto rounded bg-gray-50 dark:bg-gray-800">
             <SideBarItems />
-            <Button text="Create Campaign" className="mt-10" />
+            <ButtonComponent
+              type="button"
+              text="Create Campaign"
+              className="mt-10"
+              onClick={() => router.push("/createCampaign")}
+            />
           </div>
         </aside>
       </div>
