@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
-import { BiDownArrow } from "react-icons/bi";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { menu } from "@/utilities/data/sidebarItems";
 import Link from "next/link";
@@ -14,7 +13,7 @@ const Navbar = () => {
   const showMenuBar = "-translate-x-[70%] duration-200";
   const hideMenueBar = "-translate-x-[200%] duration-200";
   return (
-    <div className="fixed top-0 bg-gray-50 w-full py-4">
+    <div className="w-full py-1">
       <nav className=" border-gray-200 px-2 ">
         <div className="flex flex-wrap items-center justify-between">
           <a href="#" className="font-semibold p-2 ml-4 text-xl">
@@ -23,7 +22,6 @@ const Navbar = () => {
           <div className="flex md:order-2">
             <div className="flex gap-2 items-center cursor-pointer">
               <FaUserCircle size={28} />
-              <BiDownArrow size={15} />
             </div>
             <div className="mt-1 lg:hidden ml-3" onClick={toggleMenu}>
               {open ? (

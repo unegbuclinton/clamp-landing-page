@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
-import AuthLayout from "@/components/layouts/authLayout";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import ButtonComponent from "@/components/atoms/button";
+import AuthLayout from "@/components/layouts/authLayout";
 
 const SignIn = () => {
   const router = useRouter();

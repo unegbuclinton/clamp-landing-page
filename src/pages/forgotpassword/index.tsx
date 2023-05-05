@@ -1,8 +1,8 @@
-import AuthLayout from "@/components/layouts/authLayout";
 import React from "react";
 import { Form, Input, Button } from "antd";
 import { useRouter } from "next/router";
 import ButtonComponent from "@/components/atoms/button";
+import AuthLayout from "@/components/layouts/authLayout";
 
 const ForgotPassword = () => {
   const router = useRouter();
