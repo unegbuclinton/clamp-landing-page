@@ -1,4 +1,4 @@
-import CreateCampaignTwo from "./createCampaign/createCampaignStep2";
+import CreateCampaign from "./createCampaign";
 export default function Home() {
   return (
     <>
