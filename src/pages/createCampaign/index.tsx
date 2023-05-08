@@ -1,6 +1,5 @@
 import DashboardLayout from "@/components/layouts/dashboardLayout";
-import CampaignCard from "@/components/molecules/campaignCard";
-import { Card } from "antd";
+import CampaignCard from "@/components/molecules/infoCard";
 import React from "react";
 
 const CreateCampaign = () => {

@@ -1,24 +1,30 @@
 import React from "react";
+import { Button } from "antd";
 import { ButtonProps } from "./types";
 
-const Button: React.FC<ButtonProps> = ({
-  light,
+const ButtonComponent: React.FC<ButtonProps> = ({
+  outline,
   text,
   disabled,
+  height,
+  type,
   className,
   onClick,
 }) => {
   return (
-    <button
+    <Button
+      htmlType={type}
       disabled={disabled}
       onClick={onClick}
-      className={`${
-        light ? "bg-white text-black" : "bg-black text-white"
-      } text-sm py-3 px-7 rounded-[9px] hover:scale-90 duration-200 ${className}`}
+      className={`${className} rounded-[8px] hover:scale-90 duration-200 px-7 ${
+        height ? height : "h-[43px]"
+      } text-sm bg-black  ${
+        outline ? "bg-white text-black" : "bg-black text-white"
+      }`}
     >
       {text}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default ButtonComponent;
