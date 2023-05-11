@@ -1,8 +1,9 @@
 export interface ButtonProps {
   disabled?: boolean;
   className?: string;
-  light?: boolean;
+  outline?: boolean;
+  type: "submit" | "reset" | "button" | undefined;
   text: string;
-  type?: string;
+  height?: string;
   onClick?: () => void;
 }
