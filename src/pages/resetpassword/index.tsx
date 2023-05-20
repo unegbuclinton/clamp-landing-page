@@ -29,7 +29,7 @@ const ResetPassword = () => {
         <Button
           type="primary"
           htmlType="submit"
-          className="bg-dim-grey w-full h-16 mt-6 text-white"
+          className="bg-black w-full h-16 mt-6 text-white"
         >
           Send reset link
         </Button>

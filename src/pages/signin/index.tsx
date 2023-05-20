@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import AuthLayout from "@/components/layouts/authLayout";
-import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import {
+  AiOutlineEyeInvisible,
+  AiOutlineEye,
+  AiOutlineUnlock,
+} from "react-icons/ai";
 import { useRouter } from "next/navigation";
 
 const SignIn = () => {
@@ -64,11 +68,17 @@ const SignIn = () => {
             }
           />
         </Form.Item>
-
+        <div
+          onClick={() => router.push("/forgotpassword")}
+          className="flex items-center w-fit transition duration-200 cursor-pointer font-normal text-sm rounded-lg text-black hover:text-charcoal hover:font-semibold "
+        >
+          <AiOutlineUnlock color="#000" />
+          <span className="inline-block ml-1">Forgot Password ?</span>
+        </div>
         <Button
           type="primary"
           htmlType="submit"
-          className="bg-dim-grey w-full h-16 mt-6 text-white"
+          className="bg-black w-full h-16 mt-6 text-white"
         >
           Login
         </Button>
