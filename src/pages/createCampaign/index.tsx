@@ -5,51 +5,48 @@ import CreateCampaignTwo from "./createCampaignSteps/CreateCampaignTwo";
 import CreateCampaignOne from "./createCampaignSteps/CreateCampaignOne";
 import CreateCampaignSummary from "./createCampaignSummary";
 import { Form } from "antd";
-
-interface campaignFormData {
-  campaignName: string;
-  campaignTrigger: number;
-  campaignEarnings: number;
-  campaignRedeem: number;
-  campaignCashBack: number;
-  campaignDiscount: number;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { useAppSelector } from "@/utilities/hooks";
+import { getCampaignData } from "@/utilities/redux/CampaignFormSlice";
 
 const CampaignForm = () => {
+  const { createCampaignData } = useAppSelector(
+    (state: RootState) => state.campign
+  );
+  const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<campaignFormData>({
-    campaignName: "InitialCampaign",
-    campaignTrigger: 1,
-    campaignEarnings: 1,
-    campaignRedeem: 1,
-    campaignCashBack: 5,
-    campaignDiscount: 5,
-  });
-  const [form] = Form.useForm();
-  const steps = [
-    {
-      component: <CreateCampaignOne form={form} formData={formData} />,
-    },
-    {
-      component: <CreateCampaignTwo form={form} formData={formData} />,
-    },
-    {
-      component: <CreateCampaignSummary />,
-    },
-  ];
+
   useEffect(() => {
     // Check if there are saved form values in localStorage
     const savedFormValues = localStorage.getItem("formValues");
     if (savedFormValues) {
       const parsedFormValues = JSON.parse(savedFormValues);
-      setFormData(parsedFormValues);
+      dispatch(getCampaignData(parsedFormValues));
     }
   }, []);
-  console.log(formData);
+  const [form] = Form.useForm();
+
+  const steps = [
+    {
+      component: (
+        <CreateCampaignOne form={form} formData={createCampaignData} />
+      ),
+    },
+    {
+      component: (
+        <CreateCampaignTwo form={form} formData={createCampaignData} />
+      ),
+    },
+    {
+      component: <CreateCampaignSummary />,
+    },
+  ];
+
   const handleStepForward = () => {
     form.validateFields().then((values) => {
-      const updatedFormData = { ...formData, ...values };
-      setFormData(updatedFormData);
+      const updatedFormData = { ...createCampaignData, ...values };
+      dispatch(getCampaignData(updatedFormData));
       setCurrentStep((prev) => prev + 1);
       localStorage.setItem("formValues", JSON.stringify(updatedFormData));
     });
@@ -58,12 +55,16 @@ const CampaignForm = () => {
     setCurrentStep((prev) => prev - 1);
   };
   const handleFinish = () => {
-    console.log(formData);
+    console.log(createCampaignData);
   };
 
   return (
     <DashboardLayout>
-      <Form initialValues={formData} form={form} onFinish={handleFinish}>
+      <Form
+        initialValues={createCampaignData}
+        form={form}
+        onFinish={handleFinish}
+      >
         <div className=" flex justify-center mb-6">
           <div className="relative max-w-[462px] ">
             <h1 className="text-2xl font-semibold mb-8">
