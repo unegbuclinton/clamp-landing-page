@@ -13,8 +13,8 @@ const PillButton: React.FC<pillButtonProp> = ({
   return (
     <Button
       className={`${
-        outline ? outlineVariant : "bg-black text-white"
-      } flex items-center gap-[11px] py-2 px-3`}
+        outline ? outlineVariant : "bg-black  text-white"
+      } flex items-center hover:bg-black/30 gap-[11px] py-2 px-3`}
       type="primary"
       icon={icon}
       onClick={onClick}
