@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 
 export interface infoCardProps {
   label?: string;
-  description?: string;
+  description?: string | number;
   outline?: boolean;
   children?: ReactNode;
-  subText?: string;
+  subText?: string | number;
 }

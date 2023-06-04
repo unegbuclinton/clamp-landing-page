@@ -18,7 +18,7 @@ const SignUp = () => {
       <Form
         onFinish={onFinish}
         requiredMark="optional"
-        className="max-w-[463px] pt-[28rem] pb-20"
+        className="max-w-[463px] pt-8 pb-5"
       >
         <h1 className="text-2xl font-medium mb-2">Create your clamp account</h1>
         <p className="text-dim-grey mb-[44px]">

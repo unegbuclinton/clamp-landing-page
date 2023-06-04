@@ -9,7 +9,7 @@ const Sidebar = () => {
     <div className="relative h-full shadow-xl bg-white">
       <div className=" max-w-2xl mx-auto hidden lg:block">
         <aside className="w-64" aria-label="Sidebar">
-          <div className=" h-screen px-3 py-4 overflow-y-auto rounded dark:bg-gray-800">
+          <div className="px-3 py-4 overflow-y-auto rounded dark:bg-gray-800">
             <SideBarItems />
             <ButtonComponent
               onClick={() => router.push("/createCampaign")}

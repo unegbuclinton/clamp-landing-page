@@ -6,7 +6,7 @@ import {
 } from "@/utilities/data/campaignOption";
 import { Form, Input, Select } from "antd";
 import React, { useState } from "react";
-import { AiFillCheckCircle, AiOutlinePercentage } from "react-icons/ai";
+import { AiFillCheckCircle } from "react-icons/ai";
 import { FormInstance } from "antd/lib/form";
 
 interface campaignStepTwo {
@@ -21,12 +21,13 @@ interface campaignStepTwo {
   };
 }
 
-const CreateCampaignTwo: React.FC<campaignStepTwo> = ({ form, formData }) => {
+const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
   const { Option } = Select;
-  const [activeReward, setActiveReward] = useState<number>(0);
+  const [rewardType, setRewardType] = useState<number>(0);
   const [activeExpiry, setActiveExpiry] = useState<number>(0);
+
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full ">
       <div>
         <p className="text-xs text-dim-grey mb-4">Step 1 of 2</p>
         <h1 className="text-lg font-semibold mb-5">Set trigger & reward</h1>
@@ -70,17 +71,17 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({ form, formData }) => {
             <div className="flex gap-2">
               {campaignOptions?.map(({ text }, idx) => (
                 <PillButton
-                  onClick={() => setActiveReward(idx)}
-                  outline={activeReward === idx ? false : true}
+                  onClick={() => setRewardType(idx)}
+                  outline={rewardType === idx ? false : true}
                   text={text}
                   key={idx}
-                  icon={activeReward === idx ? <AiFillCheckCircle /> : ""}
+                  icon={rewardType === idx ? <AiFillCheckCircle /> : ""}
                 />
               ))}
             </div>
           </div>
 
-          {activeReward === 0 && (
+          {rewardType === 0 && (
             <div>
               <p className="font-medium py-4">Cashback amount</p>
 
@@ -98,7 +99,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({ form, formData }) => {
               </div>
             </div>
           )}
-          {activeReward === 1 && (
+          {rewardType === 1 && (
             <div>
               <p className="font-medium py-4">Discount</p>
               <div>
@@ -117,7 +118,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({ form, formData }) => {
               </div>
             </div>
           )}
-          {activeReward === 2 && (
+          {rewardType === 2 && (
             <div>
               <p className="font-medium py-4">Cashback amount</p>
 
