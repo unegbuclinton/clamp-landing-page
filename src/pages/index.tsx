@@ -4,13 +4,14 @@ import GetAccessModalComponent from "@/components/molecules/GetAccess";
 import Modal from "@/components/molecules/Modal";
 import Footer from "@/components/molecules/Footer";
 import { heroImg } from "@/utilities/data/heroImg";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LandingNavbar from "@/components/molecules/LandingPageNav";
+import Image from "next/image";
+import retain from "@/assets/imgs/retain-customers.jpg";
+import demo from "@/assets/imgs/demo.jpg";
 
 export default function Home() {
   const [accessModal, setAccessModal] = useState<boolean>(false);
-  const route = useRouter();
 
   return (
     <div className="overflow-auto pb-5">
@@ -32,8 +33,8 @@ export default function Home() {
             />
           </div>
           <div className="w-1/2 rounded-lg h-full">
-            <img
-              src="https://vzy.s3.amazonaws.com/uploads/64498823ced772c01d38bbfb/nathan-dumlao-oRKF_ZBJYGM-unsplash.jpg"
+            <Image
+              src={retain}
               alt="happy customer"
               className="w-full h-full object-cover rounded-lg"
             />
@@ -46,7 +47,7 @@ export default function Home() {
               key={idx}
               className="w-full p-5 border rounded-[10px] border-light-grey/20"
             >
-              <img
+              <Image
                 src={url}
                 alt=""
                 className="h-[300px] rounded-[5px] w-full object-cover"
@@ -58,8 +59,8 @@ export default function Home() {
 
         <div className="w-full flex items-center gap-10 h-[400px] my-14">
           <div className="w-1/2 rounded-lg h-full">
-            <img
-              src="https://vzy.s3.amazonaws.com/uploads/64498823ced772c01d38bbfb/k40yn49t_1663505264026.jpg"
+            <Image
+              src={demo}
               alt="happy customer"
               className="w-full h-full object-cover rounded-lg"
             />

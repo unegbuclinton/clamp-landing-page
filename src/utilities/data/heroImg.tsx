@@ -1,16 +1,25 @@
-export const heroImg: Array<{ url: string; title: string; alt: string }> = [
+import engageCustomerImg from "@/assets/imgs/engage-customers.jpg";
+import customer from "@/assets/imgs/customers.jpg";
+import purchase from "@/assets/imgs/purchase.jpg";
+import { StaticImageData } from "next/image";
+
+export const heroImg: Array<{
+  url: string | StaticImageData;
+  title: string;
+  alt: string;
+}> = [
   {
-    url: "https://vzy.s3.amazonaws.com/uploads/64498823ced772c01d38bbfb/jonathan-borba-omRDidvbqsU-unsplash.jpg",
+    url: customer,
     title: "Increase Customer Retention",
     alt: "customer retention",
   },
   {
-    url: "https://vzy.s3.amazonaws.com/uploads/64498823ced772c01d38bbfb/nathan-dumlao-lvWw_G8tKsk-unsplash.jpg",
+    url: purchase,
     title: "Drive Repeat Purchases",
     alt: "purchase",
   },
   {
-    url: "https://vzy.s3.amazonaws.com/uploads/64498823ced772c01d38bbfb/qxfj8gdy_1663505225481.jpg",
+    url: engageCustomerImg,
     title: "Enagage your customers",
     alt: "engagement",
   },
