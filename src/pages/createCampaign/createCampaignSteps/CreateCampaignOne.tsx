@@ -9,8 +9,7 @@ interface campaignStepOne {
     campaignTrigger: number;
     campaignEarnings: number;
     campaignRedeem: number;
-    campaignCashBack: number;
-    campaignDiscount: number;
+    campaignReward: number;
   };
 }
 const CreateCampaignOne: React.FC<campaignStepOne> = () => {
