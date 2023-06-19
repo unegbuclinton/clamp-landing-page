@@ -4,10 +4,13 @@ import {
   campaignExpiration,
   campaignOptions,
 } from "@/utilities/data/campaignOption";
+import type { DatePickerProps } from "antd";
 import { Form, Input, Select } from "antd";
 import React, { useState } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { FormInstance } from "antd/lib/form";
+import { DatePicker, Space } from "antd";
+import { triggerOptions } from "@/utilities/data/triggerOptions";
 
 interface campaignStepTwo {
   form: FormInstance;
@@ -25,13 +28,60 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
   const { Option } = Select;
   const [rewardType, setRewardType] = useState<number>(0);
   const [activeExpiry, setActiveExpiry] = useState<number>(0);
+  const [selectedOption, setSelectedOption] = useState<string>("");
 
+  const handleChange = (value: string) => {
+    setSelectedOption(value);
+  };
+
+  const handleStartDate: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
+  const handleEndDate: DatePickerProps["onChange"] = (date, dateString) => {
+    console.log(dateString);
+  };
   return (
     <div className="flex justify-center w-full ">
       <div>
         <p className="text-xs text-dim-grey mb-4">Step 1 of 2</p>
         <h1 className="text-lg font-semibold mb-5">Set trigger & reward</h1>
-        <InfoCard label="TRIGGER" description="Every time customer spends">
+        <InfoCard label="TRIGGER">
+          <Form.Item name={"triggerSelect"}>
+            <Select
+              className="cursor-pointer"
+              style={{ width: "100%" }}
+              placeholder="Select Trigger"
+              onChange={handleChange}
+            >
+              {triggerOptions?.map(({ value, label }, idx) => (
+                <Option key={idx} value={value}>
+                  {label}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          {selectedOption ==
+            "Transaction is greater than or equal to a particular amount" && (
+            <p className="font-bold text-sm">
+              Transaction is greater or equals this amount
+            </p>
+          )}
+          {selectedOption ==
+            "Frequency of transaction is equal to or gretaer than a particular number of time" && (
+            <p className="font-bold text-sm">
+              Frequency of transaction greater than
+            </p>
+          )}
+          {selectedOption == "Transaction in a specific location" && (
+            <Form.Item>
+              <Input
+                className="shadow-lg w-[120px] h-[32px]"
+                placeholder="Location"
+              />
+            </Form.Item>
+          )}
+
           <Form.Item
             name={"campaignTrigger"}
             rules={[{ required: true, message: "Add trigger point!" }]}
@@ -139,17 +189,17 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
             Customer needs to spend at least $35 to earn this reward
           </p>
         </InfoCard>
-        <InfoCard label="CAMPAIGN EXPIRATION" subText="Campaign expires in">
+        <InfoCard label="CAMPAIGN DURATION">
           <div className="flex gap-2">
-            {campaignExpiration?.map(({ text }, idx) => (
-              <PillButton
-                onClick={() => setActiveExpiry(idx)}
-                outline={activeExpiry === idx ? false : true}
-                text={text}
-                key={idx}
-                icon={activeExpiry === idx ? <AiFillCheckCircle /> : ""}
-              />
-            ))}
+            <div className="flex-1">
+              <p className="text-dim-grey">Start Date</p>
+              <DatePicker onChange={handleStartDate} className="w-full" />
+            </div>
+
+            <div className="flex-1">
+              <p className="text-dim-grey">End Date</p>
+              <DatePicker onChange={handleEndDate} className="w-full" />
+            </div>
           </div>
         </InfoCard>
       </div>

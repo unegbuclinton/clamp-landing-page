@@ -7,15 +7,8 @@ const CreateCampaignSummary = () => {
     (state: RootState) => state.campign
   );
 
-  console.log(createCampaignData);
-  const {
-    campaignCashBack,
-    campaignDiscount,
-    campaignEarnings,
-    campaignName,
-    campaignRedeem,
-    campaignTrigger,
-  } = createCampaignData;
+  const { campaignEarnings, campaignName, campaignRedeem, campaignTrigger } =
+    createCampaignData;
   return (
     <div>
       <p className="text-xs text-dim-grey mb-4">Step 2 of 2</p>

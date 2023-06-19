@@ -1,3 +1,4 @@
+import ButtonComponent from "@/components/atoms/button";
 import AuthLayout from "@/components/layouts/authLayout";
 import { Form, Input, Button } from "antd";
 import { useRouter } from "next/router";
@@ -35,7 +36,7 @@ const SignUp = () => {
             { min: 4, message: "Username must be at least 4 characters!" },
           ]}
         >
-          <Input className="py-4 px-8" />
+          <Input className="py-2 px-8" />
         </Form.Item>
 
         <Form.Item
@@ -49,7 +50,7 @@ const SignUp = () => {
             { min: 4, message: "Username must be at least 4 characters!" },
           ]}
         >
-          <Input className="py-4 px-8" />
+          <Input className="py-2 px-8" />
         </Form.Item>
         <Form.Item
           className="mb-2 text-dim-grey"
@@ -62,7 +63,7 @@ const SignUp = () => {
             { min: 4, message: "Username must be at least 4 characters!" },
           ]}
         >
-          <Input className="py-4 px-8" />
+          <Input className="py-2 px-8" />
         </Form.Item>
         <Form.Item
           className="mb-2 text-dim-grey"
@@ -75,7 +76,7 @@ const SignUp = () => {
             { min: 4, message: "Username must be at least 4 characters!" },
           ]}
         >
-          <Input className="py-4 px-8" />
+          <Input className="py-2 px-8" />
         </Form.Item>
         <Form.Item
           className="mb-2 text-dim-grey"
@@ -88,7 +89,7 @@ const SignUp = () => {
             { min: 4, message: "Username must be at least 4 characters!" },
           ]}
         >
-          <Input className="py-4 px-8" />
+          <Input className="py-2 px-8" />
         </Form.Item>
         <Form.Item
           className="mb-2 text-dim-grey"
@@ -101,7 +102,7 @@ const SignUp = () => {
             { min: 4, message: "Username must be at least 4 characters!" },
           ]}
         >
-          <Input className="py-4 px-8" />
+          <Input className="py-2 px-8" />
         </Form.Item>
         <Form.Item
           className="mb-2 text-dim-grey"
@@ -115,7 +116,7 @@ const SignUp = () => {
           ]}
         >
           <Input.Password
-            className="py-4 px-8"
+            className="py-2 px-8"
             type={visible ? "text" : "password"}
             iconRender={
               visible
@@ -134,13 +135,12 @@ const SignUp = () => {
             }
           />
         </Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="bg-black w-full h-16 mt-6 text-white"
-        >
-          Sign Up with Email
-        </Button>
+        <ButtonComponent
+          type="submit"
+          text=" Sign Up with Email"
+          className="w-full mt-6"
+        />
+
         <p className="p-3">
           Already have an account?{" "}
           <span

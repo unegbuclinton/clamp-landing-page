@@ -5,7 +5,7 @@ import CreateCampaignTwo from "./createCampaignSteps/CreateCampaignTwo";
 import CreateCampaignOne from "./createCampaignSteps/CreateCampaignOne";
 import CreateCampaignSummary from "./createCampaignSummary";
 import { Form } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { RootState } from "@/store";
 import { useAppSelector } from "@/utilities/hooks";
 import { getCampaignData } from "@/utilities/redux/CampaignFormSlice";
@@ -57,7 +57,6 @@ const CampaignForm = () => {
   const handleFinish = () => {
     console.log(createCampaignData);
   };
-
   return (
     <DashboardLayout>
       <Form
