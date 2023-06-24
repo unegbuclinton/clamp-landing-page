@@ -18,3 +18,13 @@ export default function ClientOnly({
 
   return <div>{children}</div>;
 }
+
+export function useTheme(theme: boolean) {
+  useEffect(() => {
+    if (theme) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [theme]);
+}

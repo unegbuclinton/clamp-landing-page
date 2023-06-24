@@ -13,7 +13,7 @@ interface campaignStepOne {
     campaignDiscount: number;
   };
 }
-const CreateCampaignOne: React.FC<campaignStepOne> = ({ form, formData }) => {
+const CreateCampaignOne: React.FC<campaignStepOne> = () => {
   return (
     <div>
       <CampaignCard description="Campaign name">

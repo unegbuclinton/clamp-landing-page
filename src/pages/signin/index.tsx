@@ -17,7 +17,7 @@ const SignIn = () => {
 
   return (
     <AuthLayout>
-      <Form requiredMark="optional" className="max-w-[463px] ">
+      <Form requiredMark="optional" className="max-w-[463px] pt-20">
         <h1 className="text-2xl font-medium mb-2">Sign In your account</h1>
         <p className="text-dim-grey mb-[44px]">
           Welcome back, enter your details to access your account
@@ -70,7 +70,7 @@ const SignIn = () => {
         </Form.Item>
         <div
           onClick={() => router.push("/forgotpassword")}
-          className="flex items-center w-fit transition duration-200 cursor-pointer font-normal text-sm rounded-lg text-black hover:text-charcoal hover:font-semibold "
+          className="flex items-center w-fit transition duration-200 cursor-pointer font-normal text-sm rounded-lg text-black hover:text-charcoal hover:underline"
         >
           <AiOutlineUnlock color="#000" />
           <span className="inline-block ml-1">Forgot Password ?</span>
