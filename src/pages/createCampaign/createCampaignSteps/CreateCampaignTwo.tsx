@@ -36,7 +36,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
         {/* Trigger */}
 
         <InfoCard label="TRIGGER" description="Every time customer spends">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Form.Item
               className="m-0"
               name={"campaignTrigger"}
@@ -53,7 +53,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
 
         {/* Effect */}
         <InfoCard label="EFFECT" description="Customer earns">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Form.Item
               className="m-0"
               name={"campaignEarnings"}
@@ -74,7 +74,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
           label="REDEMPTION"
           description="Points needed to redeemed reward"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <Form.Item
               className="m-0"
               rules={[{ required: true, message: "Add points for redeeming!" }]}
