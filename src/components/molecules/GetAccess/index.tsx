@@ -28,6 +28,17 @@ const GetAccessModalComponent = () => {
         <Input />
       </Form.Item>
       <Form.Item
+        name="role"
+        label="Your Company role"
+        labelCol={{ span: 24 }}
+        wrapperCol={{ span: 24 }}
+        rules={[
+          { required: true, message: "Please input your role in your company" },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item
         name="phone"
         label="Phone number"
         labelCol={{ span: 24 }}

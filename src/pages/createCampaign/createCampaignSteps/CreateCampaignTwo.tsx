@@ -112,7 +112,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
                 {rewardType === 1 && "Discount"}
               </p>
 
-              <div>
+              <div className="flex">
                 <Form.Item
                   rules={[{ required: true, message: "Add cash back!" }]}
                   name={"campaignReward"}
@@ -122,6 +122,10 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
                     placeholder="5"
                   />
                 </Form.Item>
+                <p className="pt-1">
+                  {rewardType === 0 && "Dollar"}
+                  {rewardType === 1 && "%"}
+                </p>
               </div>
             </div>
           ) : null}
