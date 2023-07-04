@@ -1,54 +1,46 @@
 import ButtonComponent from "@/components/atoms/button";
-import { Form, Input } from "antd";
-import React from "react";
+import emailjs from "@emailjs/browser";
 
 const GetAccessModalComponent = () => {
-  const onFinish = (values: any) => {
-    console.log(values);
-  };
-  return (
-    <Form onFinish={onFinish} requiredMark="optional">
-      <Form.Item
-        name="name"
-        label="Your Name"
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        rules={[{ required: true, message: "Please input your name!" }]}
-      >
-        <Input />
-      </Form.Item>
+  const onFinish = (e: any) => {
+    e.preventDefault();
+    emailjs
+      .sendForm(
+        "service_1gof2mh",
+        "template_4vel0c9",
+        e.target,
+        "ZG6_8nmE_wB-uc5O3"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
 
-      <Form.Item
-        name="email"
-        label="Your Email"
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        rules={[{ required: true, message: "Please input your email!" }]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="role"
-        label="Your Company role"
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        rules={[
-          { required: true, message: "Please input your role in your company" },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="phone"
-        label="Phone number"
-        labelCol={{ span: 24 }}
-        wrapperCol={{ span: 24 }}
-        rules={[{ required: true, message: "Please input your phone!" }]}
-      >
-        <Input />
-      </Form.Item>
+    e.target.reset();
+  };
+  const fields: Array<{ type: string; label: string }> = [
+    { type: "from_name", label: "Name" },
+    { type: "message", label: "Email" },
+    { type: "message", label: "Role" },
+  ];
+  return (
+    <form onSubmit={onFinish}>
+      {fields?.map(({ type, label }, idx) => (
+        <div key={idx} className="mb-4 py-5">
+          <label>{label}</label>
+          <input
+            name={type}
+            className="border rounded-lg dark:text-dark outline-none focus:border-black duration-200 px-3 py-2 mt-1 text-base w-full "
+          />
+        </div>
+      ))}
+
       <ButtonComponent text="Get Access" type="submit" />
-    </Form>
+    </form>
   );
 };
 
