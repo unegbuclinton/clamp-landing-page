@@ -11,7 +11,7 @@ module.exports = {
         "anti-white": "#e5e7eb",
         "dim-grey": "#666666",
         seasalt: "#F7F7F7",
-        "light-grey": "rgb(102, 102, 102)",
+        "light-grey": "#E6E6E6",
         "battle-grey": "#999999",
       },
       backgroundImage: {

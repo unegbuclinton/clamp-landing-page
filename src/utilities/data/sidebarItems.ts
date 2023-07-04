@@ -3,7 +3,7 @@ export const menu: Array<{
   to: string;
 }> = [
   { title: "Overview", to: "/overview" },
-  { title: "Loyalty Programs", to: "/loyaltyCampaign" },
+  { title: "Loyalty Campaigns", to: "/loyaltyCampaign" },
   { title: "Customers", to: "/customers" },
   { title: "Insights", to: "/insight" },
   { title: "Settings", to: "/settings" },

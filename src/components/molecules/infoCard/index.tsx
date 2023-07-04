@@ -2,7 +2,7 @@ import { Card } from "antd";
 import React from "react";
 import { infoCardProps } from "./types";
 
-const infoCard: React.FC<infoCardProps> = ({
+const InfoCard: React.FC<infoCardProps> = ({
   children,
   label,
   subText,
@@ -25,4 +25,4 @@ const infoCard: React.FC<infoCardProps> = ({
   );
 };
 
-export default infoCard;
+export default InfoCard;
