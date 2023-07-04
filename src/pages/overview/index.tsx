@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layouts/dashboardLayout";
 import ActivityInfo from "@/components/molecules/ActivityInfo";
-import CampaignTable from "@/components/molecules/campaiignTable";
+import CampaignTable from "@/components/molecules/campaignTable";
 import InfoCard from "@/components/molecules/infoCard";
 import { activities } from "@/utilities/data/activitiesJson";
 import { AiOutlineRight } from "react-icons/ai";
@@ -27,17 +27,7 @@ const Overview = () => {
           </div>
         </InfoCard>
       </div>
-
-      <div className="flex rounded-xl border border-light-grey flex-col w-[85%] mb-5">
-        <CampaignTable />
-        <div className="flex items-center w-full justify-center py-3">
-          <p className="text-center font-semibold text-base">
-            See all campaigns
-          </p>
-          <AiOutlineRight size={10} />
-        </div>
-      </div>
-
+      <CampaignTable />
       <div>
         <h2 className="mb-4 text-xl font-semibold">Activities</h2>
         <div className="rounded border border-light-grey p-6 w-[85%]">

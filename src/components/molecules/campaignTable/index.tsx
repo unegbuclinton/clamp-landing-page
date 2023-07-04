@@ -1,9 +1,9 @@
 import { campaigns } from "@/utilities/data/campaignJson";
-import { AiOutlineMore } from "react-icons/ai";
+import { AiOutlineMore, AiOutlineRight } from "react-icons/ai";
 
 const CampaignTable = () => {
   return (
-    <>
+    <div className="flex rounded-xl border border-light-grey flex-col w-[85%] mb-5">
       <div className="flex justify-between border-light-grey  border-b font-bold">
         <div className=" p-4">CAMPAIGN NAMES</div>
         <div className=" p-4">OPTED IN</div>
@@ -33,7 +33,11 @@ const CampaignTable = () => {
           </div>
         )
       )}
-    </>
+      <div className="flex items-center w-full justify-center py-3">
+        <p className="text-center font-semibold text-base">See all campaigns</p>
+        <AiOutlineRight size={10} />
+      </div>
+    </div>
   );
 };
 
