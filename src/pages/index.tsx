@@ -20,7 +20,7 @@ export default function Home() {
         <div className="w-full flex items-center gap-10 h-[600px]">
           <div className="w-1/2">
             <h2 className="text-[48px] font-bold ">Retain your customers</h2>
-            <p className="text-xl text-light-grey mt-5">
+            <p className="text-xl text-grey mt-5">
               Boost Customer Loyalty and Drive Repeat Purchases with Our Loyalty
               Management Platform.
             </p>
@@ -69,7 +69,7 @@ export default function Home() {
             <h2 className="text-[30px] font-bold ">
               Increase life time value.
             </h2>
-            <p className="text-base text-light-grey mt-5">
+            <p className="text-base text-grey mt-5">
               Ready to take your customer loyalty to the next level? Schedule a
               demo with our team today and see how Clamp Loyalty can help your
               business thrive!

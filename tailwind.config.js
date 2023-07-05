@@ -13,6 +13,7 @@ module.exports = {
         seasalt: "#F7F7F7",
         "light-grey": "#E6E6E6",
         "battle-grey": "#999999",
+        grey: "rgb(102, 102, 102)",
       },
       backgroundImage: {
         "hero-pattern":
