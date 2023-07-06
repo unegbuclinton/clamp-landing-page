@@ -29,7 +29,7 @@ const LandingNavbar: React.FC<landingPageProps> = ({ buttonClick }) => {
   });
   return (
     <div className="fixed w-full flex justify-center bg-white/90 dark:bg-dark/90 z-10">
-      <nav className=" w-full max-w-[75%] flex justify-between items-center py-5">
+      <nav className=" w-full px-4 lg:px-0 lg:max-w-[75%] flex justify-between items-center py-5">
         <h1 className="text-lg font-semibold cursor-pointer">Clamployalty</h1>
         <div className="flex items-center">
           <div

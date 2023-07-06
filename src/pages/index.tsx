@@ -16,9 +16,9 @@ export default function Home() {
   return (
     <div className="overflow-auto pb-5">
       <LandingNavbar buttonClick={() => setAccessModal(true)} />
-      <div className="w-full max-w-[75%] my-0 mx-auto pb-4 pt-36">
-        <div className="w-full flex items-center gap-10 h-[600px]">
-          <div className="w-1/2">
+      <div className="w-full lg:max-w-[75%] my-0 mx-auto pb-4 pt-36">
+        <div className="w-full flex flex-col lg:flex-row items-center gap-10 lg:h-[600px]">
+          <div className="w-full px-10 lg:w-1/2">
             <h2 className="text-[48px] font-bold ">Retain your customers</h2>
             <p className="text-xl text-grey mt-5">
               Boost Customer Loyalty and Drive Repeat Purchases with Our Loyalty
@@ -32,7 +32,7 @@ export default function Home() {
               onClick={() => setAccessModal(true)}
             />
           </div>
-          <div className="w-1/2 rounded-lg h-full">
+          <div className="hidden lg:block w-full lg:w-1/2 rounded-lg h-full">
             <Image
               src={retain}
               alt="happy customer"
@@ -41,7 +41,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex gap-[10px] my-14">
+        <div className="flex flex-col lg:flex-row gap-[10px] my-14">
           {heroImg?.map(({ url, title }, idx) => (
             <div
               key={idx}
@@ -57,15 +57,15 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="w-full flex items-center gap-10 h-[400px] my-14">
-          <div className="w-1/2 rounded-lg h-full">
+        <div className="w-full flex flex-col-reverse lg:flex-row items-center gap-10 lg:h-[400px] my-14 px-10">
+          <div className="w-full lg:w-1/2 rounded-lg h-full">
             <Image
               src={demo}
               alt="happy customer"
               className="w-full h-full object-cover rounded-lg"
             />
           </div>
-          <div className="w-1/2">
+          <div className="w-full lg:w-1/2">
             <h2 className="text-[30px] font-bold ">
               Increase life time value.
             </h2>
