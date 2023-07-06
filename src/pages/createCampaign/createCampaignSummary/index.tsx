@@ -3,14 +3,12 @@ import InfoCard from "@/components/molecules/infoCard";
 import { useAppSelector } from "@/utilities/hooks";
 import { RootState } from "@/store";
 const CreateCampaignSummary = () => {
-  const { createCampaignData } = useAppSelector(
+  const { createCampaignData, redemptionType } = useAppSelector(
     (state: RootState) => state.campign
   );
 
-  console.log(createCampaignData);
   const {
-    campaignCashBack,
-    campaignDiscount,
+    campaignReward,
     campaignEarnings,
     campaignName,
     campaignRedeem,
@@ -40,11 +38,13 @@ const CreateCampaignSummary = () => {
       >
         <div className="py-4">
           <p className="text-dim">Reward</p>
-          <p className="font-medium">Cashback</p>
+          <p className="font-medium">{redemptionType}</p>
         </div>
         <div className="py-4">
           <p className="text-dim">Cashback amount</p>
-          <p className="font-medium">$5</p>
+          <p className="font-medium">{`${campaignReward} ${
+            redemptionType === "Cashback" ? "dollars" : "%"
+          }`}</p>
         </div>
       </InfoCard>
     </div>
