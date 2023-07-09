@@ -18,9 +18,12 @@ interface campaignStepTwo {
   form: FormInstance;
   formData: {
     campaignName: string;
-    campaignTrigger: number;
+    campaignTriggerValue: number;
     campaignEarnings: number;
     campaignRedeem: number;
+    campaignStartDate: number;
+    campaignEndDate: number;
+    campaignTrigger: string;
     campaignReward: number;
   };
 }
@@ -35,7 +38,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
   };
 
   const handleStartDate: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
+    console.log(dateString);
   };
 
   const handleEndDate: DatePickerProps['onChange'] = (date, dateString) => {
@@ -49,7 +52,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
         <p className='text-xs text-dim-grey mb-4'>Step 1 of 2</p>
         <h1 className='text-lg font-semibold mb-5'>Set trigger & reward</h1>
         <InfoCard label='TRIGGER'>
-          <Form.Item name={'triggerSelect'}>
+          <Form.Item name='campaignTrigger'>
             <Select
               className='cursor-pointer'
               style={{ width: '100%' }}
@@ -76,17 +79,12 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
             </p>
           )}
           {selectedOption == 'Transaction in a specific location' && (
-            <Form.Item>
-              <Input
-                className='shadow-lg w-[120px] h-[32px]'
-                placeholder='Location'
-              />
-            </Form.Item>
+            <p className='font-bold text-sm'>In a location</p>
           )}
 
           <Form.Item
             className='m-0'
-            name={'campaignTrigger'}
+            name='campaignTriggerValue'
             rules={[{ required: true, message: 'Add trigger point!' }]}
           >
             <Input
@@ -97,10 +95,12 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
           </Form.Item>
         </InfoCard>
 
+        {/* Effect */}
+
         <InfoCard label='EFFECT' description='Customer earns'>
           <Form.Item
             className='m-0'
-            name={'campaignEarnings'}
+            name='campaignEarnings'
             rules={[{ required: true, message: 'Add customer earnings!' }]}
           >
             <Input
@@ -121,7 +121,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
             <Form.Item
               className='m-0'
               rules={[{ required: true, message: 'Add points for redeeming!' }]}
-              name={'campaignRedeem'}
+              name='campaignRedeem'
             >
               <Input
                 className='shadow-lg w-[48px] h-[32px] text-right mr-2'
@@ -158,7 +158,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
               <div className='flex'>
                 <Form.Item
                   rules={[{ required: true, message: 'Add cash back!' }]}
-                  name={'campaignReward'}
+                  name='campaignReward'
                 >
                   <Input
                     className='shadow-lg w-[48px] h-[32px] text-right mr-2'
@@ -177,7 +177,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
             <div>
               <p className='font-medium py-4'>Perks</p>
 
-              <Form.Item name={'campaignPerks'}>
+              <Form.Item name='campaignPerks'>
                 <Select
                   className='cursor-pointer'
                   style={{ width: 200 }}

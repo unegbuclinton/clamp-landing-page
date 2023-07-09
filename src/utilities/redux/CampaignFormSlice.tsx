@@ -1,28 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 interface campaignState {
   createCampaignData: {
     campaignName: string;
-    campaignTrigger: number;
+    campaignTriggerValue: number;
     campaignEarnings: number;
     campaignRedeem: number;
+    campaignStartDate: number;
+    campaignEndDate: number;
+    campaignTrigger: string;
     campaignReward: number;
   };
   redemptionType: string;
 }
 const initialState = {
   createCampaignData: {
-    campaignName: "",
+    campaignName: '',
     campaignReward: 5,
     campaignEarnings: 1,
     campaignRedeem: 1,
-    campaignTrigger: 1,
+    campaignStartDate: 2023 - 7 - 0,
+    campaignEndDate: 2023 - 8 - 31,
+    campaignTrigger: '',
+    campaignTriggerValue: 1,
   },
-  redemptionType: "Cashback",
+  redemptionType: 'Cashback',
 } as campaignState;
 
 export const campaignSlice = createSlice({
-  name: "campaign",
+  name: 'campaign',
   initialState,
   reducers: {
     getCampaignData: (state, action) => {

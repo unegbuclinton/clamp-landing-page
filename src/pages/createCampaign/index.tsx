@@ -1,14 +1,15 @@
-import ButtonComponent from "@/components/atoms/button";
-import DashboardLayout from "@/components/layouts/dashboardLayout";
-import React, { useEffect, useState } from "react";
-import CreateCampaignTwo from "./createCampaignSteps/CreateCampaignTwo";
-import CreateCampaignOne from "./createCampaignSteps/CreateCampaignOne";
-import CreateCampaignSummary from "./createCampaignSummary";
-import { Form } from "antd";
-import { useDispatch } from "react-redux";
-import { RootState } from "@/store";
-import { useAppSelector } from "@/utilities/hooks";
-import { getCampaignData } from "@/utilities/redux/CampaignFormSlice";
+import ButtonComponent from '@/components/atoms/button';
+import DashboardLayout from '@/components/layouts/dashboardLayout';
+import React, { useEffect, useState } from 'react';
+import CreateCampaignTwo from './createCampaignSteps/CreateCampaignTwo';
+import CreateCampaignOne from './createCampaignSteps/CreateCampaignOne';
+import CreateCampaignSummary from './createCampaignSummary';
+import { Form } from 'antd';
+import { useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { useAppSelector } from '@/utilities/hooks';
+import { getCampaignData } from '@/utilities/redux/CampaignFormSlice';
+import { CampaignInterface } from '@/utilities/types';
 
 const CampaignForm = () => {
   const { createCampaignData } = useAppSelector(
@@ -19,7 +20,7 @@ const CampaignForm = () => {
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
-    const savedFormValues = localStorage.getItem("formValues");
+    const savedFormValues = localStorage.getItem('formValues');
     if (savedFormValues) {
       const parsedFormValues = JSON.parse(savedFormValues);
       dispatch(getCampaignData(parsedFormValues));
@@ -48,14 +49,58 @@ const CampaignForm = () => {
       const updatedFormData = { ...createCampaignData, ...values };
       dispatch(getCampaignData(updatedFormData));
       setCurrentStep((prev) => prev + 1);
-      localStorage.setItem("formValues", JSON.stringify(updatedFormData));
+      localStorage.setItem('formValues', JSON.stringify(updatedFormData));
     });
   };
   const handleStepBack = () => {
     setCurrentStep((prev) => prev - 1);
   };
   const handleFinish = () => {
-    console.log(createCampaignData);
+    const data: CampaignInterface = {
+      id: '',
+      startDate: '',
+      endDate: '',
+      name: createCampaignData.campaignName,
+      rules: [
+        {
+          id: '',
+          asset: {
+            id: '',
+            name: '',
+            category: '',
+            type: '',
+            tags: [''],
+            value: '',
+            monetaryValue: '',
+            currency: '',
+            pointValue: '',
+            data: '',
+            status: 'active',
+            createdAt: '',
+            updatedAt: '',
+          },
+          trigger: {
+            id: '',
+            customerId: '',
+            eventName: createCampaignData.campaignTrigger,
+            payload: {
+              product_id: '',
+              quantity: createCampaignData.campaignTriggerValue,
+            },
+          },
+          qty: 5,
+          conditions: [
+            {
+              key: '',
+              operator: '',
+              value: '',
+            },
+          ],
+        },
+      ],
+      status: '',
+    };
+    console.log(data);
   };
   return (
     <DashboardLayout>
@@ -64,9 +109,9 @@ const CampaignForm = () => {
         form={form}
         onFinish={handleFinish}
       >
-        <div className=" flex justify-center mb-6">
-          <div className="relative max-w-[462px] ">
-            <h1 className="text-2xl font-semibold mb-8">
+        <div className=' flex justify-center mb-6'>
+          <div className='relative max-w-[462px] '>
+            <h1 className='text-2xl font-semibold mb-8'>
               Create Rewards Campaign
             </h1>
             {steps[currentStep].component}
@@ -74,35 +119,34 @@ const CampaignForm = () => {
               <div>
                 <ButtonComponent
                   onClick={handleStepForward}
-                  type="button"
-                  text="Continue"
-                  className=" w-full "
+                  type='button'
+                  text='Continue'
+                  className=' w-full '
                 />
               </div>
             )}
             {currentStep > 0 && (
-              <div className="flex gap-2">
+              <div className='flex gap-2'>
                 <ButtonComponent
                   onClick={handleStepBack}
-                  type="button"
-                  text="Back"
+                  type='button'
+                  text='Back'
                   outline
-                  className=" w-full "
+                  className=' w-full '
                 />
                 {currentStep < 2 && (
                   <ButtonComponent
                     onClick={handleStepForward}
-                    type="button"
-                    text="Continue"
-                    className=" w-full "
+                    type='button'
+                    text='Continue'
+                    className=' w-full '
                   />
                 )}
                 {currentStep === 2 && (
                   <ButtonComponent
-                    onClick={handleFinish}
-                    type="button"
-                    text="Submit"
-                    className=" w-full "
+                    type='submit'
+                    text='Submit'
+                    className=' w-full '
                   />
                 )}
               </div>

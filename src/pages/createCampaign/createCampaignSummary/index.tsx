@@ -23,7 +23,7 @@ const CreateCampaignSummary = () => {
       <InfoCard
         outline
         description='Every time customer spends'
-        subText={`$${campaignTrigger}`}
+        subText={`${campaignTrigger}`}
       >
         <div className='py-4'>
           <p className='text-dim'>Customer earns</p>
@@ -38,11 +38,11 @@ const CreateCampaignSummary = () => {
       >
         <div className='py-4'>
           <p className='text-dim'>Reward</p>
-          <p className='font-medium'>{redemptionType}</p>
+          <p className='font-semibold'>{redemptionType}</p>
         </div>
         <div className='py-4'>
           <p className='text-dim'>Cashback amount</p>
-          <p className='font-medium'>{`${campaignReward} ${
+          <p className='font-semibold'>{`${campaignReward} ${
             redemptionType === 'Cashback' ? 'dollars' : '%'
           }`}</p>
         </div>
