@@ -6,19 +6,19 @@ interface campaignState {
     campaignTrigger: number;
     campaignEarnings: number;
     campaignRedeem: number;
-    campaignCashBack: number;
-    campaignDiscount: number;
+    campaignReward: number;
   };
+  redemptionType: string;
 }
 const initialState = {
   createCampaignData: {
     campaignName: "",
-    campaignCashBack: 5,
-    campaignDiscount: 5,
+    campaignReward: 5,
     campaignEarnings: 1,
     campaignRedeem: 1,
     campaignTrigger: 1,
   },
+  redemptionType: "Cashback",
 } as campaignState;
 
 export const campaignSlice = createSlice({
@@ -28,6 +28,9 @@ export const campaignSlice = createSlice({
     getCampaignData: (state, action) => {
       state.createCampaignData = action.payload;
     },
+    getRedemptiontype: (state, action) => {
+      state.redemptionType = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // builder.addCase(getAllProperties.fulfilled, (state, action) => {
@@ -35,5 +38,5 @@ export const campaignSlice = createSlice({
     // });
   },
 });
-export const { getCampaignData } = campaignSlice.actions;
+export const { getCampaignData, getRedemptiontype } = campaignSlice.actions;
 export default campaignSlice.reducer;
