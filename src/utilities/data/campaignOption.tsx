@@ -1,7 +1,7 @@
-export const campaignOptions = [
-  { text: "Cashback" },
-  { text: "% Discount" },
-  { text: "Perk" },
+export const campaignOptions: Array<{ text: string; type: string }> = [
+  { text: "Cashback", type: "Cashback" },
+  { text: "% Discount", type: "Discount" },
+  { text: "Perk", type: "Perk" },
 ];
 
 export const campaignExpiration = [
