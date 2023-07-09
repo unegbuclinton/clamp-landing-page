@@ -6,8 +6,8 @@ interface campaignState {
     campaignTriggerValue: number;
     campaignEarnings: number;
     campaignRedeem: number;
-    campaignStartDate: number;
-    campaignEndDate: number;
+    campaignStartDate: string;
+    campaignEndDate: string;
     campaignTrigger: string;
     campaignReward: number;
   };
@@ -19,8 +19,8 @@ const initialState = {
     campaignReward: 5,
     campaignEarnings: 1,
     campaignRedeem: 1,
-    campaignStartDate: 2023 - 7 - 0,
-    campaignEndDate: 2023 - 8 - 31,
+    campaignStartDate: new Date().toISOString().split('T')[0],
+    campaignEndDate: new Date().toISOString().split('T')[0],
     campaignTrigger: '',
     campaignTriggerValue: 1,
   },

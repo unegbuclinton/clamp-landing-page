@@ -21,30 +21,38 @@ interface campaignStepTwo {
     campaignTriggerValue: number;
     campaignEarnings: number;
     campaignRedeem: number;
-    campaignStartDate: number;
-    campaignEndDate: number;
+    campaignStartDate: string;
+    campaignEndDate: string;
     campaignTrigger: string;
     campaignReward: number;
   };
+  handleDateSelection: (x: string, y: string) => void;
 }
 
-const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
+const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
+  handleDateSelection,
+}) => {
   const { Option } = Select;
   const [rewardType, setRewardType] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
 
   const handleChange = (value: string) => {
     setSelectedOption(value);
   };
 
   const handleStartDate: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(dateString);
+    setStartDate(dateString);
+    handleDateSelection(dateString, endDate);
   };
 
   const handleEndDate: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(dateString);
+    setEndDate(dateString);
+    handleDateSelection(startDate, dateString);
   };
 
+  console.log(startDate, endDate);
   const dispatch = useDispatch();
   return (
     <div className='flex justify-center w-full '>

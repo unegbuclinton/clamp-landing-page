@@ -9,8 +9,8 @@ interface campaignStepOne {
     campaignTriggerValue: number;
     campaignEarnings: number;
     campaignRedeem: number;
-    campaignStartDate: number;
-    campaignEndDate: number;
+    campaignStartDate: string;
+    campaignEndDate: string;
     campaignTrigger: string;
     campaignReward: number;
   };

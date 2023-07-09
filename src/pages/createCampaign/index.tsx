@@ -16,7 +16,9 @@ const CampaignForm = () => {
     (state: RootState) => state.campign
   );
   const dispatch = useDispatch();
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [startDate, setStartDate] = useState<string>('');
+  const [endDate, setEndDate] = useState<string>('');
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
@@ -27,7 +29,12 @@ const CampaignForm = () => {
     }
   }, []);
   const [form] = Form.useForm();
+  const handleDateSelection = (startDate: string, endDate: string) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
 
+  const currentDate = new Date().toISOString().split('T')[0];
   const steps = [
     {
       component: (
@@ -36,7 +43,11 @@ const CampaignForm = () => {
     },
     {
       component: (
-        <CreateCampaignTwo form={form} formData={createCampaignData} />
+        <CreateCampaignTwo
+          form={form}
+          formData={createCampaignData}
+          handleDateSelection={handleDateSelection}
+        />
       ),
     },
     {
@@ -56,50 +67,51 @@ const CampaignForm = () => {
   const handleStepBack = () => {
     setCurrentStep((prev) => prev - 1);
   };
+
   const handleFinish = () => {
     const data: CampaignInterface = {
       id: '',
-      startDate: '',
-      endDate: '',
+      startDate: startDate,
+      endDate: endDate,
       name: createCampaignData.campaignName,
       rules: [
         {
-          id: '',
+          id: 'c3',
           asset: {
-            id: '',
-            name: '',
-            category: '',
-            type: '',
-            tags: [''],
-            value: '',
+            id: 'n1',
+            name: 'Product A',
+            category: 'Electronics',
+            type: 'physical',
+            tags: ['tag1'],
+            value: '100',
             monetaryValue: String(createCampaignData.campaignEarnings),
-            currency: '',
-            pointValue: '',
-            data: '',
+            currency: 'USD',
+            pointValue: String(createCampaignData.campaignRedeem),
+            data: currentDate,
             status: 'active',
             createdAt: '',
             updatedAt: '',
           },
           trigger: {
-            id: '',
-            customerId: '',
+            id: '5',
+            customerId: '12',
             eventName: createCampaignData.campaignTrigger,
             payload: {
-              product_id: '',
+              product_id: 'p1',
               quantity: createCampaignData.campaignTriggerValue,
             },
           },
           qty: 5,
           conditions: [
             {
-              key: '',
-              operator: '',
-              value: '',
+              key: 'price',
+              operator: 'gt',
+              value: '10',
             },
           ],
         },
       ],
-      status: '',
+      status: 'Active',
     };
     console.log(data);
   };
