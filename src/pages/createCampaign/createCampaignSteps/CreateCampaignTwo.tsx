@@ -52,7 +52,6 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     handleDateSelection(startDate, dateString);
   };
 
-  console.log(startDate, endDate);
   const dispatch = useDispatch();
   return (
     <div className='flex justify-center w-full '>
@@ -82,41 +81,44 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
           )}
           {selectedOption ==
             'Frequency of transaction is equal to or gretaer than a particular number of time' && (
-            <p className='font-bold text-sm'>
+            <p className='font-bold text-sm '>
               Frequency of transaction greater than
             </p>
           )}
           {selectedOption == 'Transaction in a specific location' && (
             <p className='font-bold text-sm'>In a location</p>
           )}
-
-          <Form.Item
-            className='m-0'
-            name='campaignTriggerValue'
-            rules={[{ required: true, message: 'Add trigger point!' }]}
-          >
-            <Input
-              className='shadow-lg w-[48px] h-[32px] text-right mr-2'
-              placeholder='1'
-            />
-          </Form.Item>
-          <span>Dollar</span>
+          <div className='flex items-center mt-2'>
+            <Form.Item
+              className='m-0'
+              name='campaignTriggerValue'
+              rules={[{ required: true, message: 'Add trigger point!' }]}
+            >
+              <Input
+                className='shadow-lg w-[48px] h-[32px] text-right mr-2'
+                placeholder='1'
+              />
+            </Form.Item>
+            <span>Dollar</span>
+          </div>
         </InfoCard>
 
         {/* Effect */}
 
         <InfoCard label='EFFECT' description='Customer earns'>
-          <Form.Item
-            className='m-0'
-            name='campaignEarnings'
-            rules={[{ required: true, message: 'Add customer earnings!' }]}
-          >
-            <Input
-              className='shadow-lg w-[48px] h-[32px] text-right mr-2'
-              placeholder='1'
-            />
-          </Form.Item>
-          <span>Points</span>
+          <div className='flex items-center'>
+            <Form.Item
+              className='m-0'
+              name='campaignEarnings'
+              rules={[{ required: true, message: 'Add customer earnings!' }]}
+            >
+              <Input
+                className='shadow-lg w-[48px] h-[32px] text-right mr-2'
+                placeholder='1'
+              />
+            </Form.Item>
+            <span>Points</span>
+          </div>
         </InfoCard>
 
         {/* Redemption */}

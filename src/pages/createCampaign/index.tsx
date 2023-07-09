@@ -57,7 +57,6 @@ const CampaignForm = () => {
 
   const handleStepForward = () => {
     form.validateFields().then((values) => {
-      console.log(values);
       const updatedFormData = { ...createCampaignData, ...values };
       dispatch(getCampaignData(updatedFormData));
       setCurrentStep((prev) => prev + 1);
