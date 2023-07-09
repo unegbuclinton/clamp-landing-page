@@ -91,8 +91,8 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
               className='shadow-lg w-[48px] h-[32px] text-right mr-2'
               placeholder='1'
             />
-            <span>Dollar</span>
           </Form.Item>
+          <span>Dollar</span>
         </InfoCard>
 
         {/* Effect */}
@@ -107,8 +107,8 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
               className='shadow-lg w-[48px] h-[32px] text-right mr-2'
               placeholder='1'
             />
-            <span>Points</span>
           </Form.Item>
+          <span>Points</span>
         </InfoCard>
 
         {/* Redemption */}
