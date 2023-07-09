@@ -31,8 +31,13 @@ const Overview = () => {
       <div>
         <h2 className="mb-4 text-xl font-semibold">Activities</h2>
         <div className="rounded border border-light-grey p-6 w-[85%]">
-          {activities?.map(({ badge, time, title }, index) => (
-            <ActivityInfo key={index} title={title} badge={badge} time={time} />
+          {activities?.map(({ badge, timestamp, title }, index) => (
+            <ActivityInfo
+              key={index}
+              title={title}
+              badge={badge}
+              time={timestamp}
+            />
           ))}
         </div>
       </div>
