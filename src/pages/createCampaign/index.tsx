@@ -70,7 +70,7 @@ const CampaignForm = () => {
 
   const handleFinish = () => {
     const data: CampaignInterface = {
-      id: '',
+      id: 'v2',
       startDate: startDate,
       endDate: endDate,
       name: createCampaignData.campaignName,
