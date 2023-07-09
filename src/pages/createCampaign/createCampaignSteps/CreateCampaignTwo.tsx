@@ -175,7 +175,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
 
           {rewardType === 2 && (
             <div>
-              <p className='font-medium py-4'>Cashback amount</p>
+              <p className='font-medium py-4'>Perks</p>
 
               <Form.Item name={'campaignPerks'}>
                 <Select
