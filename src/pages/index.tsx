@@ -1,17 +1,17 @@
-'use client';
-import ButtonComponent from '@/components/atoms/button';
-import GetAccessModalComponent from '@/components/molecules/GetAccess';
-import Modal from '@/components/molecules/Modal';
-import Footer from '@/components/molecules/Footer';
-import { heroImg } from '@/utilities/data/heroImg';
-import { useState } from 'react';
-import LandingNavbar from '@/components/molecules/LandingPageNav';
-import Image from 'next/image';
-import retain from '@/assets/imgs/retain-customers.jpg';
-import demo from '@/assets/imgs/demo.jpg';
+'use client'
+import ButtonComponent from '@/components/atoms/button'
+import GetAccessModalComponent from '@/components/molecules/GetAccess'
+import Modal from '@/components/molecules/Modal'
+import Footer from '@/components/molecules/Footer'
+import { heroImg } from '@/utilities/data/heroImg'
+import { useState } from 'react'
+import LandingNavbar from '@/components/molecules/LandingPageNav'
+import Image from 'next/image'
+import retain from '@/assets/imgs/retain-customers.jpg'
+import demo from '@/assets/imgs/demo.jpg'
 
 export default function Home() {
-  const [accessModal, setAccessModal] = useState<boolean>(false);
+  const [accessModal, setAccessModal] = useState<boolean>(false)
 
   return (
     <div className='overflow-auto pb-5'>
@@ -21,8 +21,8 @@ export default function Home() {
           <div className='w-full px-10 lg:w-1/2'>
             <h2 className='text-[48px] font-bold '>Retain your customers</h2>
             <p className='text-xl text-grey mt-5'>
-              Boost Customer Loyalty and Drive Repeat Purchases with Our Loyalty
-              Management Platform.
+              Boost customer loyalty and drive repeat purchases with our loyalty
+              management platform.
             </p>
 
             <ButtonComponent
@@ -71,7 +71,7 @@ export default function Home() {
             </h2>
             <p className='text-base text-grey mt-5'>
               Ready to take your customer loyalty to the next level? Schedule a
-              demo with our team today and see how Clamp Loyalty can help your
+              demo with our team today and see how clamp loyalty can help your
               business thrive!
             </p>
           </div>
@@ -88,5 +88,5 @@ export default function Home() {
         <GetAccessModalComponent onClose={() => setAccessModal(false)} />
       </Modal>
     </div>
-  );
+  )
 }
