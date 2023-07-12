@@ -1,19 +1,19 @@
-import CampaignCard from '@/components/molecules/infoCard';
-import { Form, Input } from 'antd';
-import { FormInstance } from 'antd/lib/form';
+import CampaignCard from '@/components/molecules/infoCard'
+import { Form, Input } from 'antd'
+import { FormInstance } from 'antd/lib/form'
 
 interface campaignStepOne {
-  form: FormInstance;
+  form: FormInstance
   formData: {
-    campaignName: string;
-    campaignTriggerValue: number;
-    campaignEarnings: number;
-    campaignRedeem: number;
-    campaignStartDate: string;
-    campaignEndDate: string;
-    campaignTrigger: string;
-    campaignReward: number;
-  };
+    campaignName: string
+    campaignTriggerValue: number
+    campaignEarnings: number
+    campaignRedeem: number
+    campaignStartDate: string
+    campaignEndDate: string
+    campaignTrigger: string
+    campaignReward: number
+  }
 }
 const CreateCampaignOne: React.FC<campaignStepOne> = () => {
   return (
@@ -32,7 +32,7 @@ const CreateCampaignOne: React.FC<campaignStepOne> = () => {
         </Form.Item>
       </CampaignCard>
     </div>
-  );
-};
+  )
+}
 
-export default CreateCampaignOne;
+export default CreateCampaignOne

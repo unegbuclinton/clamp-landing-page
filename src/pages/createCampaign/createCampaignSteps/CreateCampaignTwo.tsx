@@ -1,58 +1,58 @@
-import PillButton from '@/components/atoms/pillButton';
-import InfoCard from '@/components/molecules/infoCard';
+import PillButton from '@/components/atoms/pillButton'
+import InfoCard from '@/components/molecules/infoCard'
 import {
   campaignExpiration,
   campaignOptions,
-} from '@/utilities/data/campaignOption';
-import type { DatePickerProps } from 'antd';
-import { Form, Input, Select } from 'antd';
-import React, { useState } from 'react';
-import { AiFillCheckCircle } from 'react-icons/ai';
-import { FormInstance } from 'antd/lib/form';
-import { DatePicker, Space } from 'antd';
-import { triggerOptions } from '@/utilities/data/triggerOptions';
-import { useDispatch } from 'react-redux';
-import { getRedemptiontype } from '@/utilities/redux/CampaignFormSlice';
+} from '@/utilities/data/campaignOption'
+import type { DatePickerProps } from 'antd'
+import { Form, Input, Select } from 'antd'
+import React, { useState } from 'react'
+import { AiFillCheckCircle } from 'react-icons/ai'
+import { FormInstance } from 'antd/lib/form'
+import { DatePicker, Space } from 'antd'
+import { triggerOptions } from '@/utilities/data/triggerOptions'
+import { useDispatch } from 'react-redux'
+import { getRedemptiontype } from '@/utilities/redux/CampaignFormSlice'
 
 interface campaignStepTwo {
-  form: FormInstance;
+  form: FormInstance
   formData: {
-    campaignName: string;
-    campaignTriggerValue: number;
-    campaignEarnings: number;
-    campaignRedeem: number;
-    campaignStartDate: string;
-    campaignEndDate: string;
-    campaignTrigger: string;
-    campaignReward: number;
-  };
-  handleDateSelection: (x: string, y: string) => void;
+    campaignName: string
+    campaignTriggerValue: number
+    campaignEarnings: number
+    campaignRedeem: number
+    campaignStartDate: string
+    campaignEndDate: string
+    campaignTrigger: string
+    campaignReward: number
+  }
+  handleDateSelection: (x: string, y: string) => void
 }
 
 const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   handleDateSelection,
 }) => {
-  const { Option } = Select;
-  const [rewardType, setRewardType] = useState<number>(0);
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const { Option } = Select
+  const [rewardType, setRewardType] = useState<number>(0)
+  const [selectedOption, setSelectedOption] = useState<string>('')
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
 
   const handleChange = (value: string) => {
-    setSelectedOption(value);
-  };
+    setSelectedOption(value)
+  }
 
   const handleStartDate: DatePickerProps['onChange'] = (date, dateString) => {
-    setStartDate(dateString);
-    handleDateSelection(dateString, endDate);
-  };
+    setStartDate(dateString)
+    handleDateSelection(dateString, endDate)
+  }
 
   const handleEndDate: DatePickerProps['onChange'] = (date, dateString) => {
-    setEndDate(dateString);
-    handleDateSelection(startDate, dateString);
-  };
+    setEndDate(dateString)
+    handleDateSelection(startDate, dateString)
+  }
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   return (
     <div className='flex justify-center w-full '>
       <div>
@@ -146,8 +146,8 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               {campaignOptions?.map(({ text, type }, idx) => (
                 <PillButton
                   onClick={() => {
-                    dispatch(getRedemptiontype(type));
-                    setRewardType(idx);
+                    dispatch(getRedemptiontype(type))
+                    setRewardType(idx)
                   }}
                   outline={rewardType === idx ? false : true}
                   text={text}
@@ -219,7 +219,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
         </InfoCard>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateCampaignTwo;
+export default CreateCampaignTwo

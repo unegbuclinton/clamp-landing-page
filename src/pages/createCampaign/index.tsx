@@ -1,40 +1,52 @@
-import ButtonComponent from '@/components/atoms/button';
-import DashboardLayout from '@/components/layouts/dashboardLayout';
-import React, { useEffect, useState } from 'react';
-import CreateCampaignTwo from './createCampaignSteps/CreateCampaignTwo';
-import CreateCampaignOne from './createCampaignSteps/CreateCampaignOne';
-import CreateCampaignSummary from './createCampaignSummary';
-import { Form } from 'antd';
-import { useDispatch } from 'react-redux';
-import { RootState } from '@/store';
-import { useAppSelector } from '@/utilities/hooks';
-import { getCampaignData } from '@/utilities/redux/CampaignFormSlice';
-import { CampaignInterface } from '@/utilities/types';
+import ButtonComponent from '@/components/atoms/button'
+import DashboardLayout from '@/components/layouts/dashboardLayout'
+import React, { useEffect, useState } from 'react'
+import CreateCampaignTwo from './createCampaignSteps/CreateCampaignTwo'
+import CreateCampaignOne from './createCampaignSteps/CreateCampaignOne'
+import CreateCampaignSummary from './createCampaignSummary'
+import { Form } from 'antd'
+import { useDispatch } from 'react-redux'
+import { RootState } from '@/store'
+import { useAppSelector } from '@/utilities/hooks'
+import { getCampaignData } from '@/utilities/redux/CampaignFormSlice'
+import { CampaignInterface } from '@/utilities/types'
+import {
+  assetsInterface,
+  createCampaign,
+  ruleInterface,
+  triggerInterface,
+} from '@/utilities/types/createCampaign'
+import {
+  createAssets,
+  createNewCampaign,
+  createRule,
+  createTrigger,
+} from '@/api/campaign'
 
 const CampaignForm = () => {
-  const { createCampaignData } = useAppSelector(
+  const { createCampaignData, redemptionType } = useAppSelector(
     (state: RootState) => state.campign
-  );
-  const dispatch = useDispatch();
-  const [currentStep, setCurrentStep] = useState<number>(0);
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  )
+  const dispatch = useDispatch()
+  const [currentStep, setCurrentStep] = useState<number>(0)
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
-    const savedFormValues = localStorage.getItem('formValues');
+    const savedFormValues = localStorage.getItem('formValues')
     if (savedFormValues) {
-      const parsedFormValues = JSON.parse(savedFormValues);
-      dispatch(getCampaignData(parsedFormValues));
+      const parsedFormValues = JSON.parse(savedFormValues)
+      dispatch(getCampaignData(parsedFormValues))
     }
-  }, []);
-  const [form] = Form.useForm();
+  }, [])
+  const [form] = Form.useForm()
   const handleDateSelection = (startDate: string, endDate: string) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
-  };
+    setStartDate(startDate)
+    setEndDate(endDate)
+  }
 
-  const currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = new Date().toISOString().split('T')[0]
   const steps = [
     {
       component: (
@@ -53,67 +65,105 @@ const CampaignForm = () => {
     {
       component: <CreateCampaignSummary />,
     },
-  ];
+  ]
 
   const handleStepForward = () => {
     form.validateFields().then((values) => {
-      const updatedFormData = { ...createCampaignData, ...values };
-      dispatch(getCampaignData(updatedFormData));
-      setCurrentStep((prev) => prev + 1);
-      localStorage.setItem('formValues', JSON.stringify(updatedFormData));
-    });
-  };
+      const updatedFormData = { ...createCampaignData, ...values }
+      dispatch(getCampaignData(updatedFormData))
+      setCurrentStep((prev) => prev + 1)
+      localStorage.setItem('formValues', JSON.stringify(updatedFormData))
+    })
+  }
   const handleStepBack = () => {
-    setCurrentStep((prev) => prev - 1);
-  };
-
+    setCurrentStep((prev) => prev - 1)
+  }
+  const id = 'bhyu5f'
   const handleFinish = () => {
-    const data: CampaignInterface = {
-      id: 'v2',
+    const campaignData: createCampaign = {
+      id: id,
+      name: createCampaignData.campaignName,
       startDate: startDate,
       endDate: endDate,
-      name: createCampaignData.campaignName,
-      rules: [
+      status: 'active',
+      ruleIds: [''],
+      redemptionRules: [
         {
-          id: 'c3',
-          asset: {
-            id: 'n1',
-            name: 'Product A',
-            category: 'Electronics',
-            type: 'physical',
-            tags: ['tag1'],
-            value: '100',
-            monetaryValue: String(createCampaignData.campaignEarnings),
-            currency: 'USD',
-            pointValue: String(createCampaignData.campaignRedeem),
-            data: currentDate,
-            status: 'active',
-            createdAt: '',
-            updatedAt: '',
-          },
-          trigger: {
-            id: '5',
-            customerId: '12',
-            eventName: createCampaignData.campaignTrigger,
-            payload: {
-              product_id: 'p1',
-              quantity: createCampaignData.campaignTriggerValue,
+          assetConditions: [
+            {
+              key: 'point',
+              operator: 'gt',
+              value: String(createCampaignData.campaignRedeem),
             },
-          },
-          qty: 5,
-          conditions: [
+          ],
+          customerConditions: [
             {
               key: 'price',
               operator: 'gt',
               value: '10',
             },
           ],
+          liquidationInstrument: redemptionType,
+          redeemableUntil: '2023-07-01',
+          redeemableFrom: '2023-12-31',
         },
       ],
-      status: 'Active',
-    };
-    console.log(data);
-  };
+    }
+    const rulesData: ruleInterface = {
+      id: id,
+      assetId: createCampaignData.campaignName,
+      assetQty: 2,
+      eventName: createCampaignData.campaignName,
+      conditions: [
+        {
+          key: createCampaignData.campaignTrigger,
+          operator: 'gt',
+          value: String(createCampaignData.campaignReward),
+        },
+      ],
+      multiplier: {
+        key: 'sre',
+        multiple: 2,
+      },
+    }
+    const trigger: triggerInterface = {
+      id: id,
+      eventName: 'purchase',
+      customerId: 'dde55',
+      payload: {
+        product_id: '',
+        quantity: 2,
+      },
+      status: 'pending',
+    }
+    const assetData: assetsInterface = {
+      id: id,
+      name: createCampaignData.campaignName,
+      category: 'eee',
+      type: 'eee',
+      tags: [''],
+      value: '100',
+      monetaryValue: '100',
+      currency: 'USD',
+      pointValue: String(createCampaignData.campaignEarnings),
+      data: '',
+      status: 'active',
+    }
+
+    createRule(rulesData).then((data) => {
+      if (data) {
+        createNewCampaign(campaignData).then((data) => {
+          if (data) {
+            createTrigger(trigger).then((data) => {
+              if (data) {
+                createAssets(assetData)
+              }
+            })
+          }
+        })
+      }
+    })
+  }
   return (
     <DashboardLayout>
       <Form
@@ -167,7 +217,7 @@ const CampaignForm = () => {
         </div>
       </Form>
     </DashboardLayout>
-  );
-};
+  )
+}
 
-export default CampaignForm;
+export default CampaignForm
