@@ -31,15 +31,17 @@ const GetAccessModalComponent: React.FC<getAccessProp> = ({ onClose }) => {
     )
   }
   const fields: Array<{ type: string; label: string }> = [
-    { type: 'from_name', label: 'Name' },
+    { type: 'from_name', label: 'Full name' },
     { type: 'message', label: 'Email' },
+    { type: 'message', label: 'Phone number' },
+    { type: 'message', label: 'Company name' },
     { type: 'message', label: 'Role' },
   ]
   return (
     <form onSubmit={onFinish}>
       {fields?.map(({ type, label }, idx) => (
-        <div key={idx} className='mb-4 py-5'>
-          <label>{label}</label>
+        <div key={idx} className='pt-3'>
+          <label className='dark:text-dark'>{label}</label>
           <input
             name={type}
             className='border rounded-lg dark:text-dark outline-none focus:border-black duration-200 px-3 py-2 mt-1 text-base w-full '
@@ -47,7 +49,17 @@ const GetAccessModalComponent: React.FC<getAccessProp> = ({ onClose }) => {
         </div>
       ))}
 
-      <ButtonComponent text='Get Access' type='submit' />
+      <div className='pt-3'>
+        <label className='dark:text-dark'>Message</label>
+        <textarea
+          name='message'
+          className='border rounded-lg dark:text-dark outline-none focus:border-black duration-200 px-3 py-2 mt-1 text-base w-full '
+        ></textarea>
+      </div>
+
+      <div>
+        <ButtonComponent text='Get Access' type='submit' />
+      </div>
     </form>
   )
 }
