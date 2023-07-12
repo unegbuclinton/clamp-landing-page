@@ -12,7 +12,7 @@ import { getCampaignData } from '@/utilities/redux/CampaignFormSlice'
 import { CampaignInterface } from '@/utilities/types'
 import {
   assetsInterface,
-  createCampaign,
+  createCampaignInterface,
   ruleInterface,
   triggerInterface,
 } from '@/utilities/types/createCampaign'
@@ -80,7 +80,7 @@ const CampaignForm = () => {
   }
   const id = 'bhyu5f'
   const handleFinish = () => {
-    const campaignData: createCampaign = {
+    const campaignData: createCampaignInterface = {
       id: id,
       name: createCampaignData.campaignName,
       startDate: startDate,
@@ -152,11 +152,11 @@ const CampaignForm = () => {
 
     createRule(rulesData).then((data) => {
       if (data) {
-        createNewCampaign(campaignData).then((data) => {
+        createAssets(assetData).then((data) => {
           if (data) {
-            createTrigger(trigger).then((data) => {
+            createNewCampaign(campaignData).then((data) => {
               if (data) {
-                createAssets(assetData)
+                createTrigger(trigger)
               }
             })
           }

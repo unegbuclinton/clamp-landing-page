@@ -1,12 +1,12 @@
 import {
   assetsInterface,
-  createCampaign,
+  createCampaignInterface,
   ruleInterface,
   triggerInterface,
 } from '@/utilities/types/createCampaign'
 import axios from 'axios'
 const apiKey = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
-export const createNewCampaign = async (body: createCampaign) => {
+export const createNewCampaign = async (body: createCampaignInterface) => {
   try {
     const response = await axios({
       method: 'post',
