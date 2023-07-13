@@ -31,7 +31,7 @@ export default function Home() {
             <h2 className='text-[48px] font-bold '>Retain your customers</h2>
             <p className='text-xl text-dark mt-5'>
               Increase customer loyalty with{' '}
-              <b>Clamp's API-driven loyalty software</b>, delivering
+              <b>Clamp&apos;s API-driven loyalty software</b>, delivering
               personalized offers for <b>repeat purchases</b>.
             </p>
 
@@ -110,7 +110,7 @@ export default function Home() {
         <div className='py-6 flex gap-2 flex-col justify-center items-center'>
           <Image src={check} alt='Thank you' width={50} />
           <p className='text-center'>
-            Thank you for contacting us! We'll be in touch soon.
+            Thank you for contacting us! We&apos;ll be in touch soon.
           </p>
         </div>
       </Modal>
