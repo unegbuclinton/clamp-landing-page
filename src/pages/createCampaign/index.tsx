@@ -78,8 +78,9 @@ const CampaignForm = () => {
   const handleStepBack = () => {
     setCurrentStep((prev) => prev - 1)
   }
-  const id = 'bhyu5f'
+
   const handleFinish = () => {
+    const id = String(Math.random())
     const campaignData: createCampaignInterface = {
       id: id,
       name: createCampaignData.campaignName,
@@ -93,7 +94,7 @@ const CampaignForm = () => {
             {
               key: 'point',
               operator: 'gt',
-              value: String(createCampaignData.campaignRedeem),
+              value: String(createCampaignData.campaignTriggerValue),
             },
           ],
           customerConditions: [
@@ -146,7 +147,7 @@ const CampaignForm = () => {
       monetaryValue: '100',
       currency: 'USD',
       pointValue: String(createCampaignData.campaignEarnings),
-      data: '',
+      data: id,
       status: 'active',
     }
 

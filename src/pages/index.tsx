@@ -22,8 +22,9 @@ export default function Home() {
           <div className='w-1/2'>
             <h2 className='text-[48px] font-bold '>Retain your customers</h2>
             <p className='text-xl text-light-grey mt-5'>
-              Boost Customer Loyalty and Drive Repeat Purchases with Our Loyalty
-              Management Platform.
+              Increase customer loyalty with{' '}
+              <b>Clamp's API-driven loyalty software</b>, delivering
+              personalized offers for <b>repeat purchases</b>.
             </p>
 
             <ButtonComponent
