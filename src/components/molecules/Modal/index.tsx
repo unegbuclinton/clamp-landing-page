@@ -8,6 +8,7 @@ const Modal: React.FC<ModalProps> = ({
   children,
   height,
   className,
+  headerClass,
 }) => {
   if (!isShown) return null
   return (
@@ -22,7 +23,9 @@ const Modal: React.FC<ModalProps> = ({
         } max-h-[90vh] overflow-auto`}
       >
         <header className='flex justify-between items center border-b border-gray-200 py-3'>
-          <p className='text-2xl font-bold text-gray-800 px-3'>{header}</p>
+          <p className={`text-2xl font-bold text-gray-800 px-3 ${headerClass}`}>
+            {header}
+          </p>
 
           <div
             onClick={hide}
