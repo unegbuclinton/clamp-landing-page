@@ -107,7 +107,10 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                 placeholder='1'
               />
             </Form.Item>
-            <span>Dollar</span>
+            {selectedOption === 'Price' && <span>Dollar</span>}
+            {selectedOption === 'Bet' && <span>Dollar</span>}
+            {selectedOption === 'Money Deposit' && <span>Times</span>}
+            {selectedOption === 'Benin' && <span>Location</span>}
           </div>
         </InfoCard>
 

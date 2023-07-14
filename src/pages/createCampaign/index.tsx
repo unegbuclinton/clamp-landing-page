@@ -92,7 +92,7 @@ const CampaignForm = () => {
           assetConditions: [
             {
               key: 'point',
-              operator: 'gt',
+              operator: 'gte',
               value: String(createCampaignData.campaignRedeem),
             },
           ],
@@ -135,7 +135,7 @@ const CampaignForm = () => {
       tags: [''],
       value: String(createCampaignData.campaignReward),
       monetaryValue: `${createCampaignData.campaignReward} USD`,
-      currency: 'USD',
+      currency: redemptionType === 'Discount' ? '%' : 'USD',
       pointValue: String(createCampaignData.campaignRedeem),
       data: id,
       status: 'active',

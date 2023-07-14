@@ -1,19 +1,19 @@
-import React from 'react';
-import InfoCard from '@/components/molecules/infoCard';
-import { useAppSelector } from '@/utilities/hooks';
-import { RootState } from '@/store';
+import React from 'react'
+import InfoCard from '@/components/molecules/infoCard'
+import { useAppSelector } from '@/utilities/hooks'
+import { RootState } from '@/store'
 const CreateCampaignSummary = () => {
   const { createCampaignData, redemptionType } = useAppSelector(
     (state: RootState) => state.campign
-  );
+  )
 
   const {
     campaignReward,
     campaignEarnings,
     campaignName,
     campaignRedeem,
-    campaignTrigger,
-  } = createCampaignData;
+    campaignTriggerValue,
+  } = createCampaignData
   return (
     <div>
       <p className='text-xs text-dim-grey mb-4'>Step 2 of 2</p>
@@ -23,7 +23,7 @@ const CreateCampaignSummary = () => {
       <InfoCard
         outline
         description='Every time customer spends'
-        subText={`${campaignTrigger}`}
+        subText={`${campaignTriggerValue}`}
       >
         <div className='py-4'>
           <p className='text-dim'>Customer earns</p>
@@ -48,7 +48,7 @@ const CreateCampaignSummary = () => {
         </div>
       </InfoCard>
     </div>
-  );
-};
+  )
+}
 
-export default CreateCampaignSummary;
+export default CreateCampaignSummary
