@@ -43,11 +43,11 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const dispatch = useDispatch()
   const handleChange = (value: any) => {
     setSelectedOption(value)
-    const selectedOption = triggerOptions.find(
+    const selectedOperator = triggerOptions.find(
       (option) => option.value === value
     )
-    if (selectedOption) {
-      dispatch(getRuleOperator(selectedOption?.operator))
+    if (selectedOperator) {
+      dispatch(getRuleOperator(selectedOperator?.operator))
     }
   }
 
