@@ -4,25 +4,24 @@ export const triggerOptions: Array<{
   operator: string
 }> = [
   {
-    value: 'Transaction is greater than or equal to a particular amount',
+    value: 'Price',
     label: 'Transaction is greater than or equal to a particular amount',
     operator: 'gte',
   },
   {
-    value:
-      'Frequency of transaction is equal to or gretaer than a particular number of time',
+    value: 'Money Deposit',
     label:
       'Frequency of transaction is equal to or gretaer than a particular number of time',
     operator: 'gte',
   },
   {
-    value: 'Transaction in a specific location',
+    value: 'Benin',
     label: 'Transaction in a specific location',
     operator: 'eq',
   },
   {
-    value: 'Bet Price',
-    label: 'Bet price greater than value',
+    value: 'Bet',
+    label: 'Bet amount greater than value',
     operator: 'gt',
   },
 ]

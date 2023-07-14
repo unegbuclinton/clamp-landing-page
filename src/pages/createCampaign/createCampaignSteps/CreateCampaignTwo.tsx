@@ -12,7 +12,10 @@ import { FormInstance } from 'antd/lib/form'
 import { DatePicker, Space } from 'antd'
 import { triggerOptions } from '@/utilities/data/triggerOptions'
 import { useDispatch } from 'react-redux'
-import { getRedemptiontype } from '@/utilities/redux/CampaignFormSlice'
+import {
+  getRedemptiontype,
+  getRuleOperator,
+} from '@/utilities/redux/CampaignFormSlice'
 
 interface campaignStepTwo {
   form: FormInstance
@@ -37,9 +40,15 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const [selectedOption, setSelectedOption] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
-
-  const handleChange = (value: string) => {
+  const dispatch = useDispatch()
+  const handleChange = (value: any) => {
     setSelectedOption(value)
+    const selectedOption = triggerOptions.find(
+      (option) => option.value === value
+    )
+    if (selectedOption) {
+      dispatch(getRuleOperator(selectedOption?.operator))
+    }
   }
 
   const handleStartDate: DatePickerProps['onChange'] = (date, dateString) => {
@@ -52,7 +61,6 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     handleDateSelection(startDate, dateString)
   }
 
-  const dispatch = useDispatch()
   return (
     <div className='flex justify-center w-full '>
       <div>
@@ -66,9 +74,9 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               placeholder='Select Trigger'
               onChange={handleChange}
             >
-              {triggerOptions?.map(({ value, label }, idx) => (
-                <Option key={idx} value={value}>
-                  {label}
+              {triggerOptions?.map((options, idx) => (
+                <Option key={idx} value={options.value}>
+                  {options.label}
                 </Option>
               ))}
             </Select>

@@ -12,6 +12,7 @@ interface campaignState {
     campaignReward: number
   }
   redemptionType: string
+  ruleOperator: string
 }
 const initialState = {
   createCampaignData: {
@@ -25,6 +26,7 @@ const initialState = {
     campaignTriggerValue: 1,
   },
   redemptionType: 'Cashback',
+  ruleOperator: '',
 } as campaignState
 
 export const campaignSlice = createSlice({
@@ -37,6 +39,9 @@ export const campaignSlice = createSlice({
     getRedemptiontype: (state, action) => {
       state.redemptionType = action.payload
     },
+    getRuleOperator: (state, action) => {
+      state.ruleOperator = action.payload
+    },
   },
   extraReducers: (builder) => {
     // builder.addCase(getAllProperties.fulfilled, (state, action) => {
@@ -44,5 +49,6 @@ export const campaignSlice = createSlice({
     // });
   },
 })
-export const { getCampaignData, getRedemptiontype } = campaignSlice.actions
+export const { getCampaignData, getRedemptiontype, getRuleOperator } =
+  campaignSlice.actions
 export default campaignSlice.reducer

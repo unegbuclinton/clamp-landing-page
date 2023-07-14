@@ -24,7 +24,7 @@ import {
 } from '@/api/campaign'
 
 const CampaignForm = () => {
-  const { createCampaignData, redemptionType } = useAppSelector(
+  const { createCampaignData, redemptionType, ruleOperator } = useAppSelector(
     (state: RootState) => state.campign
   )
   const dispatch = useDispatch()
@@ -46,7 +46,6 @@ const CampaignForm = () => {
     setEndDate(endDate)
   }
 
-  const currentDate = new Date().toISOString().split('T')[0]
   const steps = [
     {
       component: (
@@ -87,14 +86,14 @@ const CampaignForm = () => {
       startDate: startDate,
       endDate: endDate,
       status: 'active',
-      ruleIds: [''],
+      ruleIds: [id],
       redemptionRules: [
         {
           assetConditions: [
             {
               key: 'point',
               operator: 'gt',
-              value: String(createCampaignData.campaignTriggerValue),
+              value: String(createCampaignData.campaignRedeem),
             },
           ],
           customerConditions: [
@@ -113,13 +112,13 @@ const CampaignForm = () => {
     const rulesData: ruleInterface = {
       id: id,
       assetId: createCampaignData.campaignName,
-      assetQty: 2,
+      assetQty: createCampaignData.campaignReward,
       eventName: createCampaignData.campaignName,
       conditions: [
         {
           key: createCampaignData.campaignTrigger,
-          operator: 'gt',
-          value: String(createCampaignData.campaignReward),
+          operator: ruleOperator,
+          value: String(createCampaignData.campaignTriggerValue),
         },
       ],
       multiplier: {
@@ -127,26 +126,17 @@ const CampaignForm = () => {
         multiple: 2,
       },
     }
-    const trigger: triggerInterface = {
-      id: id,
-      eventName: 'purchase',
-      customerId: 'dde55',
-      payload: {
-        product_id: '',
-        quantity: 2,
-      },
-      status: 'pending',
-    }
+
     const assetData: assetsInterface = {
       id: id,
       name: createCampaignData.campaignName,
       category: 'eee',
-      type: 'eee',
+      type: redemptionType,
       tags: [''],
-      value: '100',
-      monetaryValue: '100',
+      value: String(createCampaignData.campaignReward),
+      monetaryValue: `${createCampaignData.campaignReward} USD`,
       currency: 'USD',
-      pointValue: String(createCampaignData.campaignEarnings),
+      pointValue: String(createCampaignData.campaignRedeem),
       data: id,
       status: 'active',
     }
@@ -155,11 +145,7 @@ const CampaignForm = () => {
       if (data) {
         createAssets(assetData).then((data) => {
           if (data) {
-            createNewCampaign(campaignData).then((data) => {
-              if (data) {
-                createTrigger(trigger)
-              }
-            })
+            createNewCampaign(campaignData)
           }
         })
       }
