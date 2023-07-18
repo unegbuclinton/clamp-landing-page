@@ -154,14 +154,15 @@ const AreaChart = () => {
       scales: 1433,
     },
   ]
-  const config = {
+  const config: any = {
     data,
     xField: 'Date',
     yField: 'scales',
     xAxis: false,
     yAxis: false,
+
     line: {
-      color: '#000', // Update the color of the line
+      color: '#0000', // Update the color of the line
     },
     areaStyle: () => {
       return {
