@@ -1,6 +1,6 @@
-import AreaChart from '@/components/AreaChart'
 import React from 'react'
 import ArrowUp from '@/assets/svgs/arrow-up.svg'
+import AreaChart from '../AreaChart'
 
 const LoyaltyAttribute = () => {
   return (
