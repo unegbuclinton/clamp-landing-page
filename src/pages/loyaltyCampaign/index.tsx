@@ -1,5 +1,4 @@
 import DashboardLayout from '@/components/layouts/dashboardLayout'
-import CampaignTable from '@/components/molecules/CampaignTable'
 import React from 'react'
 
 const LoyaltyCampaigns = () => {

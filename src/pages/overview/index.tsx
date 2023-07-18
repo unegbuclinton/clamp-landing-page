@@ -1,8 +1,8 @@
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 import ActivityInfo from '@/components/molecules/ActivityInfo'
-import CampaignTable from '@/components/molecules/CampaignTable'
 import LoyaltyAttribute from '@/components/molecules/LoyaltyAttributeAnalysis'
 import PointAnalysisCard from '@/components/molecules/PointAnalysisCard'
+import CampaignTable from '@/components/molecules/campaignTable'
 import { activities } from '@/utilities/data/activitiesJson'
 
 const Overview = () => {
