@@ -98,9 +98,9 @@ const CampaignForm = () => {
           ],
           customerConditions: [
             {
-              key: 'price',
-              operator: 'gt',
-              value: '10',
+              key: 'membership',
+              operator: 'eq',
+              value: 'preminum',
             },
           ],
           liquidationInstrument: redemptionType,
@@ -122,8 +122,8 @@ const CampaignForm = () => {
         },
       ],
       multiplier: {
-        key: 'sre',
-        multiple: 2,
+        key: createCampaignData.campaignTrigger,
+        multiple: 0.04,
       },
     }
 
@@ -141,9 +141,9 @@ const CampaignForm = () => {
       status: 'active',
     }
 
-    createRule(rulesData).then((data) => {
+    createAssets(assetData).then((data) => {
       if (data) {
-        createAssets(assetData).then((data) => {
+        createRule(rulesData).then((data) => {
           if (data) {
             createNewCampaign(campaignData)
           }
