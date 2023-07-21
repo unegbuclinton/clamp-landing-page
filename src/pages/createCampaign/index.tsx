@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { RootState } from '@/store'
 import { useAppSelector } from '@/utilities/hooks'
 import { getCampaignData } from '@/utilities/redux/CampaignFormSlice'
-import { CampaignInterface } from '@/utilities/types'
+
 import {
   assetsInterface,
   createCampaignInterface,
@@ -31,6 +31,7 @@ const CampaignForm = () => {
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
+  const [earningType, setEarningType] = useState<any>(null)
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
@@ -46,6 +47,10 @@ const CampaignForm = () => {
     setEndDate(endDate)
   }
 
+  const handleEarningType = (value: string) => {
+    setEarningType(value)
+  }
+
   const steps = [
     {
       component: (
@@ -58,6 +63,7 @@ const CampaignForm = () => {
           form={form}
           formData={createCampaignData}
           handleDateSelection={handleDateSelection}
+          handleEarningType={handleEarningType}
         />
       ),
     },
@@ -111,43 +117,29 @@ const CampaignForm = () => {
     }
     const rulesData: ruleInterface = {
       id: id,
-      assetId: createCampaignData.campaignName,
+      assetId: 'ast-001',
       assetQty: createCampaignData.campaignReward,
       eventName: createCampaignData.campaignName,
       conditions: [
         {
           key: createCampaignData.campaignTrigger,
-          operator: ruleOperator,
+          operator: ruleOperator.operator,
           value: String(createCampaignData.campaignTriggerValue),
         },
       ],
       multiplier: {
         key: createCampaignData.campaignTrigger,
-        multiple: 0.04,
+        multiple:
+          earningType === 'flat'
+            ? 0
+            : createCampaignData.campaignEarnings /
+              createCampaignData.campaignTriggerValue,
       },
     }
 
-    const assetData: assetsInterface = {
-      id: id,
-      name: createCampaignData.campaignName,
-      category: 'eee',
-      type: redemptionType,
-      tags: [''],
-      value: String(createCampaignData.campaignReward),
-      monetaryValue: `${createCampaignData.campaignReward} USD`,
-      currency: redemptionType === 'Discount' ? '%' : 'USD',
-      pointValue: String(createCampaignData.campaignRedeem),
-      data: id,
-      status: 'active',
-    }
-
-    createAssets(assetData).then((data) => {
+    createRule(rulesData).then((data) => {
       if (data) {
-        createRule(rulesData).then((data) => {
-          if (data) {
-            createNewCampaign(campaignData)
-          }
-        })
+        createNewCampaign(campaignData)
       }
     })
   }

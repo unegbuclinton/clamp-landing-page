@@ -8,11 +8,11 @@ const CreateCampaignSummary = () => {
   )
 
   const {
-    campaignReward,
     campaignEarnings,
     campaignName,
     campaignRedeem,
     campaignTriggerValue,
+    earningType,
   } = createCampaignData
   return (
     <div>
@@ -23,11 +23,15 @@ const CreateCampaignSummary = () => {
       <InfoCard
         outline
         description='Every time customer spends'
-        subText={`${campaignTriggerValue}`}
+        subText={`${campaignTriggerValue} USD`}
       >
         <div className='py-4'>
           <p className='text-dim'>Customer earns</p>
           <p className='font-medium'>{campaignEarnings}</p>
+        </div>
+        <div className='py-4'>
+          <p className='text-dim'>Earning Type</p>
+          <p className='font-medium'>{earningType}</p>
         </div>
       </InfoCard>
 
@@ -42,7 +46,7 @@ const CreateCampaignSummary = () => {
         </div>
         <div className='py-4'>
           <p className='text-dim'>Cashback amount</p>
-          <p className='font-semibold'>{`${campaignReward} ${
+          <p className='font-semibold'>{`${campaignEarnings} ${
             redemptionType === 'Cashback' ? 'dollars' : '%'
           }`}</p>
         </div>

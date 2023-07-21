@@ -6,6 +6,7 @@ interface campaignStepOne {
   form: FormInstance
   formData: {
     campaignName: string
+    earningType: string
     campaignTriggerValue: number
     campaignEarnings: number
     campaignRedeem: number

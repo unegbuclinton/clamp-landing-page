@@ -10,9 +10,10 @@ interface campaignState {
     campaignEndDate: string
     campaignTrigger: string
     campaignReward: number
+    earningType: string
   }
   redemptionType: string
-  ruleOperator: string
+  ruleOperator: { operator: string; value: string }
 }
 const initialState = {
   createCampaignData: {
@@ -22,11 +23,12 @@ const initialState = {
     campaignRedeem: 1,
     campaignStartDate: new Date().toISOString().split('T')[0],
     campaignEndDate: new Date().toISOString().split('T')[0],
-    campaignTrigger: '',
+    campaignTrigger: 'Select Trigger',
     campaignTriggerValue: 1,
+    earningType: 'Earning type',
   },
   redemptionType: 'Cashback',
-  ruleOperator: '',
+  ruleOperator: {},
 } as campaignState
 
 export const campaignSlice = createSlice({
