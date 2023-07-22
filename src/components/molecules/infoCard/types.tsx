@@ -1,8 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 
 export interface infoCardProps {
-  label?: string;
-  description?: string;
-  children?: ReactNode;
-  subText?: string;
+  label?: string
+  description?: string | number
+  outline?: boolean
+  children?: ReactNode
+  subText?: string | number
 }
