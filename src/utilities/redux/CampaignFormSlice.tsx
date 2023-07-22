@@ -1,35 +1,48 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 interface campaignState {
   createCampaignData: {
-    campaignName: string;
-    campaignTrigger: number;
-    campaignEarnings: number;
-    campaignRedeem: number;
-    campaignReward: number;
-  };
-  redemptionType: string;
+    campaignName: string
+    campaignTriggerValue: number
+    campaignEarnings: number
+    campaignRedeem: number
+    campaignStartDate: string
+    campaignEndDate: string
+    campaignTrigger: string
+    campaignReward: number
+    earningType: string
+  }
+  redemptionType: string
+  ruleOperator: { operator: string; value: string }
 }
 const initialState = {
   createCampaignData: {
-    campaignName: "",
+    campaignName: '',
     campaignReward: 5,
     campaignEarnings: 1,
     campaignRedeem: 1,
-    campaignTrigger: 1,
+    campaignStartDate: new Date().toISOString().split('T')[0],
+    campaignEndDate: new Date().toISOString().split('T')[0],
+    campaignTrigger: 'Select Trigger',
+    campaignTriggerValue: 1,
+    earningType: 'Earning type',
   },
-  redemptionType: "Cashback",
-} as campaignState;
+  redemptionType: 'Cashback',
+  ruleOperator: {},
+} as campaignState
 
 export const campaignSlice = createSlice({
-  name: "campaign",
+  name: 'campaign',
   initialState,
   reducers: {
     getCampaignData: (state, action) => {
-      state.createCampaignData = action.payload;
+      state.createCampaignData = action.payload
     },
     getRedemptiontype: (state, action) => {
-      state.redemptionType = action.payload;
+      state.redemptionType = action.payload
+    },
+    getRuleOperator: (state, action) => {
+      state.ruleOperator = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -37,6 +50,7 @@ export const campaignSlice = createSlice({
     //   state.buyProperties = action.payload;
     // });
   },
-});
-export const { getCampaignData, getRedemptiontype } = campaignSlice.actions;
-export default campaignSlice.reducer;
+})
+export const { getCampaignData, getRedemptiontype, getRuleOperator } =
+  campaignSlice.actions
+export default campaignSlice.reducer

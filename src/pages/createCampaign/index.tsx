@@ -10,12 +10,28 @@ import { RootState } from '@/store'
 import { useAppSelector } from '@/utilities/hooks'
 import { getCampaignData } from '@/utilities/redux/CampaignFormSlice'
 
+import {
+  assetsInterface,
+  createCampaignInterface,
+  ruleInterface,
+  triggerInterface,
+} from '@/utilities/types/createCampaign'
+import {
+  createAssets,
+  createNewCampaign,
+  createRule,
+  createTrigger,
+} from '@/api/campaign'
+
 const CampaignForm = () => {
-  const { createCampaignData } = useAppSelector(
+  const { createCampaignData, redemptionType, ruleOperator } = useAppSelector(
     (state: RootState) => state.campign
   )
   const dispatch = useDispatch()
-  const [currentStep, setCurrentStep] = useState(0)
+  const [currentStep, setCurrentStep] = useState<number>(0)
+  const [startDate, setStartDate] = useState<string>('')
+  const [endDate, setEndDate] = useState<string>('')
+  const [earningType, setEarningType] = useState<any>(null)
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
@@ -26,6 +42,14 @@ const CampaignForm = () => {
     }
   }, [])
   const [form] = Form.useForm()
+  const handleDateSelection = (startDate: string, endDate: string) => {
+    setStartDate(startDate)
+    setEndDate(endDate)
+  }
+
+  const handleEarningType = (value: string) => {
+    setEarningType(value)
+  }
 
   const steps = [
     {
@@ -35,7 +59,12 @@ const CampaignForm = () => {
     },
     {
       component: (
-        <CreateCampaignTwo form={form} formData={createCampaignData} />
+        <CreateCampaignTwo
+          form={form}
+          formData={createCampaignData}
+          handleDateSelection={handleDateSelection}
+          handleEarningType={handleEarningType}
+        />
       ),
     },
     {
@@ -54,10 +83,66 @@ const CampaignForm = () => {
   const handleStepBack = () => {
     setCurrentStep((prev) => prev - 1)
   }
-  const handleFinish = () => {
-    console.log(createCampaignData)
-  }
 
+  const handleFinish = () => {
+    const id = String(Math.random())
+    const campaignData: createCampaignInterface = {
+      id: id,
+      name: createCampaignData.campaignName,
+      startDate: startDate,
+      endDate: endDate,
+      status: 'active',
+      ruleIds: [id],
+      redemptionRules: [
+        {
+          assetConditions: [
+            {
+              key: 'point',
+              operator: 'gte',
+              value: String(createCampaignData.campaignRedeem),
+            },
+          ],
+          customerConditions: [
+            {
+              key: 'membership',
+              operator: 'eq',
+              value: 'preminum',
+            },
+          ],
+          liquidationInstrument: redemptionType,
+          redeemableUntil: '2023-07-01',
+          redeemableFrom: '2023-12-31',
+        },
+      ],
+    }
+    const rulesData: ruleInterface = {
+      id: id,
+      assetId: 'ast-001',
+      assetQty: createCampaignData.campaignReward,
+      eventName: createCampaignData.campaignName,
+      conditions: [
+        {
+          key: createCampaignData.campaignTrigger,
+          operator: ruleOperator.operator,
+          value: String(createCampaignData.campaignTriggerValue),
+        },
+      ],
+      multiplier: {
+        key: createCampaignData.campaignTrigger,
+        multiple:
+          earningType === 'flat'
+            ? 0
+            : createCampaignData.campaignEarnings /
+              createCampaignData.campaignTriggerValue,
+      },
+    }
+
+    createRule(rulesData).then((data) => {
+      if (data) {
+        createNewCampaign(campaignData)
+      }
+    })
+  }
   return (
     <DashboardLayout>
       <Form
@@ -100,8 +185,7 @@ const CampaignForm = () => {
                 )}
                 {currentStep === 2 && (
                   <ButtonComponent
-                    onClick={handleFinish}
-                    type='button'
+                    type='submit'
                     text='Submit'
                     className=' w-full '
                   />
