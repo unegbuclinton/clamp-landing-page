@@ -1,9 +1,10 @@
 // import { campaigns } from '@/utilities/data/campaignJson'
 import { ColumnsType } from 'antd/es/table'
-import { Table, Typography } from 'antd'
+import { Table } from 'antd'
 import { AiOutlineMore } from 'react-icons/ai'
 import PrupleBadge from '@/assets/svgs/purpleBadge.svg'
 import GoldBadge from '@/assets/svgs/goldBadge.svg'
+import { useRouter } from 'next/router'
 
 const CampaignTable = () => {
   interface DataType {
@@ -16,7 +17,7 @@ const CampaignTable = () => {
     status: string
     subscription: string
   }
-
+  const router = useRouter()
   const columns: ColumnsType<DataType> = [
     {
       title: 'CAMPAIGN NAME',
@@ -111,8 +112,15 @@ const CampaignTable = () => {
 
   return (
     <>
-      <Typography.Text>Campaigns</Typography.Text>
-      <Table columns={columns} dataSource={data} className='max-w-[85%] pt-4' />
+      <h2 className='mb-4 text-xl font-semibold'>Campaigns</h2>
+      <Table
+        onRow={(record) => ({
+          onClick: () => router.push(`/loyaltyCampaign/campaign/${record.id}`),
+        })}
+        columns={columns}
+        dataSource={data}
+        className='max-w-[85%] pt-4'
+      />
     </>
   )
 }

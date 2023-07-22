@@ -9,7 +9,7 @@ const Overview = () => {
   return (
     <DashboardLayout>
       <div className='flex justify-between items-center'>
-        <h1 className='font-bold mb-[38px]'>Overview Page</h1>
+        <h1 className='font-bold mb-[38px] text-2xl'>Overview Page</h1>
       </div>
 
       <div className='flex gap-4 w-[85%] mb-11 max-h-[450px]'>

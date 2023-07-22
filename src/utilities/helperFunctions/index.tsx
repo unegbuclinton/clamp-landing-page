@@ -1,30 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export default function ClientOnly({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   // State / Props
-  const [hasMounted, setHasMounted] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false)
 
   // Hooks
   useEffect(() => {
-    setHasMounted(true);
-  }, []);
+    setHasMounted(true)
+  }, [])
 
   // Render
-  if (!hasMounted) return null;
+  if (!hasMounted) return null
 
-  return <div>{children}</div>;
+  return <div>{children}</div>
 }
 
 export function useTheme(theme: boolean) {
   useEffect(() => {
     if (theme) {
-      document.body.classList.add("dark");
+      document.body.classList.add('dark')
     } else {
-      document.body.classList.remove("dark");
+      document.body.classList.remove('dark')
     }
-  }, [theme]);
+  }, [theme])
+}
+
+export function getFirstLetter(inputString: string) {
+  if (inputString && inputString.length > 0) {
+    return inputString.charAt(0)
+  } else {
+    return null
+  }
 }

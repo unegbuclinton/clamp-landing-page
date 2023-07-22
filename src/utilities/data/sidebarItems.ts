@@ -1,10 +1,9 @@
 export const menu: Array<{
-  title: string;
-  to: string;
+  title: string
+  to: string
 }> = [
-  { title: "Overview", to: "/overview" },
-  { title: "Loyalty Campaigns", to: "/loyaltyCampaign" },
-  { title: "Customers", to: "/customers" },
-  { title: "Insights", to: "/insight" },
-  { title: "Settings", to: "/settings" },
-];
+  { title: 'Overview', to: '/overview' },
+  { title: 'Campaigns', to: '/loyaltyCampaign' },
+  { title: 'Customers', to: '/customers' },
+  { title: 'Settings', to: '/settings' },
+]
