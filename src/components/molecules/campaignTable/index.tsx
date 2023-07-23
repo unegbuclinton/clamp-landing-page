@@ -43,7 +43,6 @@ const CampaignTable = () => {
       render: (text) => (
         <p className='flex gap-3 items-center'>
           <span>
-            {/* {subscription === 'gold' ? <GoldBadge /> : <PrupleBadge />} */}
             <GoldBadge />
           </span>
           {text}
@@ -55,12 +54,7 @@ const CampaignTable = () => {
       title: 'ALLOCATED POINTS',
       dataIndex: 'allocationPoints',
       key: 'allocationPoints',
-      render: (text, record) => (
-        <p className='flex flex-col '>
-          {text}{' '}
-          {/* <span className='text-[#999999]'>{record.allocationValue}</span> */}
-        </p>
-      ),
+      render: (text, record) => <p className='flex flex-col '>{text} </p>,
     },
     {
       title: 'STATUS',
