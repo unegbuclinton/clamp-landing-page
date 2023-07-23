@@ -5,33 +5,33 @@ import CreateCampaignTwo from './createCampaignSteps/CreateCampaignTwo'
 import CreateCampaignOne from './createCampaignSteps/CreateCampaignOne'
 import CreateCampaignSummary from './createCampaignSummary'
 import { Form } from 'antd'
-import { useDispatch } from 'react-redux'
 import { RootState } from '@/store'
-import { useAppSelector } from '@/utilities/hooks'
-import { getCampaignData } from '@/utilities/redux/CampaignFormSlice'
+import { useAppDispatch, useAppSelector } from '@/utilities/hooks'
+import {
+  getCampaignData,
+  getSpecificCampaign,
+} from '@/utilities/redux/CampaignFormSlice'
+import { useRouter } from 'next/router'
 
 import {
-  assetsInterface,
   createCampaignInterface,
   ruleInterface,
-  triggerInterface,
 } from '@/utilities/types/createCampaign'
-import {
-  createAssets,
-  createNewCampaign,
-  createRule,
-  createTrigger,
-} from '@/api/campaign'
+import { createNewCampaign } from '@/api/campaign'
+import { createRule } from '@/api/rules'
+import { getSpecificRule } from '@/utilities/redux/RuleSlice'
 
 const CampaignForm = () => {
+  const router = useRouter()
   const { createCampaignData, redemptionType, ruleOperator } = useAppSelector(
-    (state: RootState) => state.campign
+    (state: RootState) => state.campaign
   )
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
   const [earningType, setEarningType] = useState<any>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
@@ -85,6 +85,7 @@ const CampaignForm = () => {
   }
 
   const handleFinish = () => {
+    setLoading(true)
     const id = String(Math.random())
     const campaignData: createCampaignInterface = {
       id: id,
@@ -138,8 +139,18 @@ const CampaignForm = () => {
     }
 
     createRule(rulesData).then((data) => {
-      if (data) {
-        createNewCampaign(campaignData)
+      if (data.id) {
+        createNewCampaign(campaignData).then((data) => {
+          if (data.id) {
+            dispatch(getSpecificCampaign(data.id)).then((data) => {
+              if (data.payload.ruleIds) {
+                // dispatch(getSpecificRule(data.payload.ruleIds[0]))
+              }
+            })
+            setLoading(false)
+            router.push(`/loyaltyCampaign/campaign/${data.id}`)
+          }
+        })
       }
     })
   }
@@ -186,6 +197,7 @@ const CampaignForm = () => {
                 {currentStep === 2 && (
                   <ButtonComponent
                     type='submit'
+                    loading={loading}
                     text='Submit'
                     className=' w-full '
                   />

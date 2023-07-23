@@ -36,3 +36,15 @@ export function getFirstLetter(inputString: string) {
     return null
   }
 }
+
+export function formatDateToCustomFormat<T extends string>(
+  dateString: T,
+  format: string
+): string {
+  const dateObject = new Date(dateString)
+  const day = dateObject.getDate().toString().padStart(2, '0')
+  const month = (dateObject.getMonth() + 1).toString().padStart(2, '0')
+  const year = dateObject.getFullYear().toString()
+
+  return format.replace('DD', day).replace('MM', month).replace('YYYY', year)
+}

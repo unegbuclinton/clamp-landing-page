@@ -46,7 +46,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const [endDate, setEndDate] = useState<string>('')
 
   const dispatch = useDispatch()
-  const { ruleOperator } = useAppSelector((state: RootState) => state.campign)
+  const { ruleOperator } = useAppSelector((state: RootState) => state.campaign)
 
   const handleChange = (value: any) => {
     // setSelectedOption(value)
@@ -214,10 +214,10 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               </div>
             </div>
           ) : null}
-
+          {/* 
           <p className='py-4 text-dim-grey'>
             Customer needs to spend at least $35 to earn this reward
-          </p>
+          </p> */}
         </InfoCard>
         <InfoCard label='CAMPAIGN DURATION'>
           <div className='flex gap-2'>

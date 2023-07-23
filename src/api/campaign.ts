@@ -1,17 +1,40 @@
 import {
   assetsInterface,
   createCampaignInterface,
-  ruleInterface,
   triggerInterface,
 } from '@/utilities/types/createCampaign'
 import axios from 'axios'
-const apiKey = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
+const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
 export const createNewCampaign = async (body: createCampaignInterface) => {
   try {
     const response = await axios({
       method: 'post',
-      url: `${apiKey}/campaigns`,
+      url: `${baseURL}/campaigns`,
       data: body,
+    })
+    // console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error
+  }
+}
+
+export const getCampaigns = async () => {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${baseURL}/campaigns`,
+    })
+    return response.data
+  } catch (error: any) {
+    return error
+  }
+}
+export const getSingleCampaign = async (id: string) => {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${baseURL}/campaigns/${id}`,
     })
     // console.log(response)
     return response.data
@@ -24,21 +47,7 @@ export const createTrigger = async (body: triggerInterface) => {
   try {
     const response = await axios({
       method: 'post',
-      url: `${apiKey}/triggers`,
-      data: body,
-    })
-    console.log(response)
-    return response.data
-  } catch (error: any) {
-    return error
-  }
-}
-
-export const createRule = async (body: ruleInterface) => {
-  try {
-    const response = await axios({
-      method: 'post',
-      url: `${apiKey}/rules`,
+      url: `${baseURL}/triggers`,
       data: body,
     })
     console.log(response)
@@ -52,7 +61,7 @@ export const createAssets = async (body: assetsInterface) => {
   try {
     const response = await axios({
       method: 'post',
-      url: `${apiKey}/assets`,
+      url: `${baseURL}/assets`,
       data: body,
     })
     console.log(response)

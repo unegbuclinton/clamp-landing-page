@@ -9,12 +9,14 @@ const ButtonComponent: React.FC<ButtonProps> = ({
   height,
   type,
   className,
+  loading,
   onClick,
 }) => {
   return (
     <Button
       htmlType={type}
       disabled={disabled}
+      loading={loading}
       onClick={onClick}
       className={`${className} rounded-[8px] hover:scale-90 duration-200 px-7 ${
         height ? height : 'h-[43px]'

@@ -1,4 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createCampaignInterface } from '../types/createCampaign'
+import { getCampaigns, getSingleCampaign } from '@/api/campaign'
 
 interface campaignState {
   createCampaignData: {
@@ -13,6 +15,8 @@ interface campaignState {
     earningType: string
   }
   redemptionType: string
+  specificCampaign: createCampaignInterface
+  allCampaigns: Array<createCampaignInterface>
   ruleOperator: { operator: string; value: string }
 }
 const initialState = {
@@ -27,10 +31,20 @@ const initialState = {
     campaignTriggerValue: 1,
     earningType: 'Earning type',
   },
+  specificCampaign: {},
+  allCampaigns: [{}],
   redemptionType: 'Cashback',
   ruleOperator: {},
 } as campaignState
 
+export const getAllCampaign = createAsyncThunk(
+  'campaign/getAllCampaign',
+  getCampaigns
+)
+export const getSpecificCampaign = createAsyncThunk(
+  'campaign/getSingleCampaign',
+  getSingleCampaign
+)
 export const campaignSlice = createSlice({
   name: 'campaign',
   initialState,
@@ -46,9 +60,12 @@ export const campaignSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // builder.addCase(getAllProperties.fulfilled, (state, action) => {
-    //   state.buyProperties = action.payload;
-    // });
+    builder.addCase(getSpecificCampaign.fulfilled, (state, action) => {
+      state.specificCampaign = action.payload
+    })
+    builder.addCase(getAllCampaign.fulfilled, (state, action) => {
+      state.allCampaigns = action.payload
+    })
   },
 })
 export const { getCampaignData, getRedemptiontype, getRuleOperator } =

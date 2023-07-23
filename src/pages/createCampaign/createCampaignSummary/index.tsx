@@ -4,7 +4,7 @@ import { useAppSelector } from '@/utilities/hooks'
 import { RootState } from '@/store'
 const CreateCampaignSummary = () => {
   const { createCampaignData, redemptionType } = useAppSelector(
-    (state: RootState) => state.campign
+    (state: RootState) => state.campaign
   )
 
   const {
@@ -12,6 +12,7 @@ const CreateCampaignSummary = () => {
     campaignName,
     campaignRedeem,
     campaignTriggerValue,
+    campaignReward,
     earningType,
   } = createCampaignData
   return (
@@ -23,7 +24,7 @@ const CreateCampaignSummary = () => {
       <InfoCard
         outline
         description='Every time customer spends'
-        subText={`${campaignTriggerValue} USD`}
+        subText={`${campaignTriggerValue} `}
       >
         <div className='py-4'>
           <p className='text-dim'>Customer earns</p>
@@ -46,7 +47,7 @@ const CreateCampaignSummary = () => {
         </div>
         <div className='py-4'>
           <p className='text-dim'>Cashback amount</p>
-          <p className='font-semibold'>{`${campaignEarnings} ${
+          <p className='font-semibold'>{`${campaignReward} ${
             redemptionType === 'Cashback' ? 'dollars' : '%'
           }`}</p>
         </div>

@@ -7,8 +7,19 @@ import { LeftOutlined } from '@ant-design/icons'
 import { CiCircleMore } from 'react-icons/ci'
 import type { MenuProps } from 'antd'
 import { useRouter } from 'next/router'
+import { RootState } from '@/store'
+import { useAppSelector } from '@/utilities/hooks'
+import { formatDateToCustomFormat } from '@/utilities/helperFunctions'
 const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
-  console.log(params)
+  const { specificCampaign } = useAppSelector(
+    (state: RootState) => state.campaign
+  )
+  const { specificRule } = useAppSelector((state: RootState) => state.rule)
+  const { name, startDate, endDate, status, redemptionRules } = specificCampaign
+
+  const formattedStartDate = formatDateToCustomFormat(startDate, 'DD/MM/YYYY')
+  const formattedEndDate = formatDateToCustomFormat(endDate, 'DD/MM/YYYY')
+
   const router = useRouter()
   const data = [
     {
@@ -54,9 +65,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
           <LeftOutlined color='#999999' className='cursor-pointer' />
         </span>
         <div className='flex justify-between items-center mt-3'>
-          <h1 className='py-4 font-bold text-xl'>
-            1 point for every dollar spent
-          </h1>
+          <h1 className='py-4 font-bold text-xl'>{name}</h1>
           <Dropdown className='cursor-pointer' menu={{ items }}>
             <a onClick={(e) => e.preventDefault()}>
               <CiCircleMore size={20} fill='#999999' />
@@ -94,14 +103,14 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
           <div className='mb-10'>
             <p className='font-medium mb-3 text-dim-grey'>STATUS</p>
             <p className='flex font-medium text-base items-center gap-3'>
-              ACTIVE
+              {status?.toLocaleUpperCase()}
             </p>
           </div>
 
           <div>
             <p className='font-medium mb-3 text-dim-grey'>DURATION</p>
             <p className='flex font-medium text-xl items-center gap-3'>
-              2/12/2023 – No end date
+              {`${formattedStartDate} - ${formattedEndDate}`}
             </p>
           </div>
           <Divider />
@@ -121,10 +130,37 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
           </div>
           <div className='py-6'>
             <p className='text-dim-grey'>POINTS NEEDED</p>
-            <p className='font-medium text-xl py-1.5'>20 POINTS</p>
-            <p className='text-dim-grey'>
-              Customer earns points if `{'>'}` or = $1
-            </p>
+            <p className='font-medium text-xl py-1.5'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
+            {redemptionRules?.[0].assetConditions?.[0].operator === 'gte' && (
+              <p className='text-dim-grey'>
+                Customer earns points if {'>'} or ={' '}
+                {redemptionRules?.[0].assetConditions?.[0].value}
+              </p>
+            )}
+            {redemptionRules?.[0].assetConditions?.[0].operator === 'gt' && (
+              <p className='text-dim-grey'>
+                Customer earns points if {'>'}{' '}
+                {redemptionRules?.[0].assetConditions?.[0].value}
+              </p>
+            )}
+            {redemptionRules?.[0].assetConditions?.[0].operator === 'lt' && (
+              <p className='text-dim-grey'>
+                Customer earns points if {'<'}{' '}
+                {redemptionRules?.[0].assetConditions?.[0].value}
+              </p>
+            )}
+            {redemptionRules?.[0].assetConditions?.[0].operator === 'lte' && (
+              <p className='text-dim-grey'>
+                Customer earns points if {'<'} or ={' '}
+                {redemptionRules?.[0].assetConditions?.[0].value}
+              </p>
+            )}
+            {redemptionRules?.[0].assetConditions?.[0].operator === 'eq' && (
+              <p className='text-dim-grey'>
+                Customer earns points if ={' '}
+                {redemptionRules?.[0].assetConditions?.[0].value}
+              </p>
+            )}
           </div>
         </div>
 

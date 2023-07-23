@@ -12,6 +12,7 @@ import {
 // import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'
 import campaignReducer from './utilities/redux/CampaignFormSlice'
+import ruleReducer from './utilities/redux/RuleSlice'
 import { injectStore } from './apiInstance'
 
 const persistConfig = {
@@ -21,7 +22,8 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-  campign: campaignReducer,
+  campaign: campaignReducer,
+  rule: ruleReducer,
 })
 
 export const persistedReducer = persistReducer(persistConfig, rootReducer)
