@@ -3,7 +3,6 @@ import ArrowUp from '@/assets/svgs/arrow-up.svg'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 import { Divider, Button, Dropdown } from 'antd'
 import GoldBadge from '@/assets/svgs/goldBadge.svg'
-import { LeftOutlined } from '@ant-design/icons'
 import { CiCircleMore } from 'react-icons/ci'
 import type { MenuProps } from 'antd'
 import { useRouter } from 'next/router'
@@ -65,7 +64,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
       <DashboardLayout>
         <div className='w-[85%]'>
           <span onClick={() => router.push('/loyaltyCampaign')}>
-            <LeftOutlined color='#999999' className='cursor-pointer' />
+            {/* <LeftOutlined color='#999999' className='cursor-pointer' /> */}
           </span>
           <div className='flex justify-between items-center mt-3'>
             <h1 className='py-4 font-bold text-xl'>{name}</h1>
