@@ -3,9 +3,12 @@ import InfoCard from '@/components/molecules/infoCard'
 import { useAppSelector } from '@/utilities/hooks'
 import { RootState } from '@/store'
 const CreateCampaignSummary = () => {
-  const { createCampaignData, redemptionType } = useAppSelector(
-    (state: RootState) => state.campaign
-  )
+  const {
+    createCampaignData,
+    redemptionType,
+    campaignStartDate,
+    campaignEndDate,
+  } = useAppSelector((state: RootState) => state.campaign)
 
   const {
     campaignEarnings,
@@ -43,13 +46,26 @@ const CreateCampaignSummary = () => {
       >
         <div className='py-4'>
           <p className='text-dim'>Reward</p>
-          <p className='font-semibold'>{redemptionType}</p>
+          <p className='font-semibold'>{redemptionType.type}</p>
         </div>
         <div className='py-4'>
-          <p className='text-dim'>Cashback amount</p>
+          <p className='text-dim'>Reward amount</p>
           <p className='font-semibold'>{`${campaignReward} ${
-            redemptionType === 'Cashback' ? 'dollars' : '%'
+            redemptionType.type === 'Cashback' ? 'Dollars' : '%'
           }`}</p>
+        </div>
+      </InfoCard>
+      <InfoCard outline>
+        <div className='flex items-center gap-5'>
+          <div className='py-4'>
+            <p className='text-dim'>Start Date:</p>
+            <p className='font-bold'>{campaignStartDate}</p>
+          </div>
+          -
+          <div className='py-4'>
+            <p className='text-dim'>End Date:</p>
+            <p className='font-bold'>{campaignEndDate}</p>
+          </div>
         </div>
       </InfoCard>
     </div>

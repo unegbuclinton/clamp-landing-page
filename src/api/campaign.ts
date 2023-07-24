@@ -12,7 +12,7 @@ export const createNewCampaign = async (body: createCampaignInterface) => {
       url: `${baseURL}/campaigns`,
       data: body,
     })
-    // console.log(response)
+
     return response.data
   } catch (error: any) {
     return error

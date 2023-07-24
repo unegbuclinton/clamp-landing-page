@@ -8,6 +8,7 @@ import { Form } from 'antd'
 import { RootState } from '@/store'
 import { useAppDispatch, useAppSelector } from '@/utilities/hooks'
 import {
+  clearState,
   getCampaignData,
   getSpecificCampaign,
 } from '@/utilities/redux/CampaignFormSlice'
@@ -23,13 +24,16 @@ import { getSpecificRule } from '@/utilities/redux/RuleSlice'
 
 const CampaignForm = () => {
   const router = useRouter()
-  const { createCampaignData, redemptionType, ruleOperator } = useAppSelector(
-    (state: RootState) => state.campaign
-  )
+  const {
+    createCampaignData,
+    redemptionType,
+    ruleOperator,
+    campaignEndDate,
+    campaignStartDate,
+  } = useAppSelector((state: RootState) => state.campaign)
   const dispatch = useAppDispatch()
   const [currentStep, setCurrentStep] = useState<number>(0)
-  const [startDate, setStartDate] = useState<string>('')
-  const [endDate, setEndDate] = useState<string>('')
+
   const [earningType, setEarningType] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -42,10 +46,6 @@ const CampaignForm = () => {
     }
   }, [])
   const [form] = Form.useForm()
-  const handleDateSelection = (startDate: string, endDate: string) => {
-    setStartDate(startDate)
-    setEndDate(endDate)
-  }
 
   const handleEarningType = (value: string) => {
     setEarningType(value)
@@ -62,7 +62,6 @@ const CampaignForm = () => {
         <CreateCampaignTwo
           form={form}
           formData={createCampaignData}
-          handleDateSelection={handleDateSelection}
           handleEarningType={handleEarningType}
         />
       ),
@@ -90,8 +89,8 @@ const CampaignForm = () => {
     const campaignData: createCampaignInterface = {
       id: id,
       name: createCampaignData.campaignName,
-      startDate: startDate,
-      endDate: endDate,
+      startDate: campaignStartDate,
+      endDate: campaignEndDate,
       status: 'active',
       ruleIds: [id],
       redemptionRules: [
@@ -110,7 +109,7 @@ const CampaignForm = () => {
               value: 'preminum',
             },
           ],
-          liquidationInstrument: redemptionType,
+          liquidationInstrument: redemptionType.type,
           redeemableUntil: '2023-07-01',
           redeemableFrom: '2023-12-31',
         },
@@ -131,7 +130,7 @@ const CampaignForm = () => {
       multiplier: {
         key: createCampaignData.campaignTrigger,
         multiple:
-          earningType === 'flat'
+          earningType === 'Fixed'
             ? 0
             : createCampaignData.campaignEarnings /
               createCampaignData.campaignTriggerValue,
@@ -148,6 +147,8 @@ const CampaignForm = () => {
               }
             })
             setLoading(false)
+            localStorage.removeItem('formValues')
+            dispatch(clearState())
             router.push(`/loyaltyCampaign/campaign/${data.id}`)
           }
         })

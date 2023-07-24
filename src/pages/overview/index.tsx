@@ -4,8 +4,11 @@ import LoyaltyAttribute from '@/components/molecules/LoyaltyAttributeAnalysis'
 import PointAnalysisCard from '@/components/molecules/PointAnalysisCard'
 import CampaignTable from '@/components/molecules/campaignTable'
 import { activities } from '@/utilities/data/activitiesJson'
+import { useAppDispatch } from '@/utilities/hooks'
 
 const Overview = () => {
+  const dispatch = useAppDispatch()
+
   return (
     <DashboardLayout>
       <div className='flex justify-between items-center'>

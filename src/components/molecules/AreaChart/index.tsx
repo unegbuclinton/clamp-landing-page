@@ -4,7 +4,6 @@ const Area = dynamic(
   () => import('@ant-design/plots').then(({ Area }) => Area),
   { ssr: false }
 )
-// import { Area } from '@ant-design/plots'
 
 const AreaChart = () => {
   const data = [

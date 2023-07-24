@@ -6,7 +6,8 @@ import { Form, Input, Select } from 'antd'
 import React, { useState } from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { FormInstance } from 'antd/lib/form'
-import { DatePicker, Space } from 'antd'
+import { DatePicker } from 'antd'
+import dayjs from 'dayjs'
 import {
   earningTypeOptions,
   triggerOptions,
@@ -15,6 +16,8 @@ import { useDispatch } from 'react-redux'
 import {
   getRedemptiontype,
   getRuleOperator,
+  setCampaignEndDate,
+  setCampaignStartDate,
 } from '@/utilities/redux/CampaignFormSlice'
 import { RootState } from '@/store'
 import { useAppSelector } from '@/utilities/hooks'
@@ -23,33 +26,29 @@ interface campaignStepTwo {
   form: FormInstance
   formData: {
     campaignName: string
-    campaignTriggerValue: number
+    campaignTriggerValue: any
     campaignEarnings: number
     campaignRedeem: number
-    campaignStartDate: string
-    campaignEndDate: string
     campaignTrigger: string
     campaignReward: number
   }
-  handleDateSelection: (x: string, y: string) => void
+
   handleEarningType: (x: string) => void
 }
 
 const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
-  handleDateSelection,
   handleEarningType,
 }) => {
   const { Option } = Select
-  const [rewardType, setRewardType] = useState<number>(0)
-  // const [selectedOption, setSelectedOption] = useState<string>('')
-  const [startDate, setStartDate] = useState<string>('')
-  const [endDate, setEndDate] = useState<string>('')
+  const { ruleOperator, redemptionType, campaignEndDate, campaignStartDate } =
+    useAppSelector((state: RootState) => state.campaign)
 
+  const startDateObject = dayjs(campaignStartDate)
+  const EndDateObject = dayjs(campaignEndDate)
+  const [selectedOption, setSelectedOption] = useState<string>('')
   const dispatch = useDispatch()
-  const { ruleOperator } = useAppSelector((state: RootState) => state.campaign)
-
   const handleChange = (value: any) => {
-    // setSelectedOption(value)
+    setSelectedOption(value)
     const selectedOperator = triggerOptions.find(
       (option) => option.value === value
     )
@@ -64,16 +63,15 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   }
 
   const handleStartDate: DatePickerProps['onChange'] = (date, dateString) => {
-    setStartDate(dateString)
-    handleDateSelection(dateString, endDate)
+    dispatch(setCampaignStartDate(dateString))
   }
 
   const handleEndDate: DatePickerProps['onChange'] = (date, dateString) => {
-    setEndDate(dateString)
-    handleDateSelection(startDate, dateString)
+    dispatch(setCampaignEndDate(dateString))
   }
 
   const handleTypeOfEarning = (value: string) => {
+    console.log(value)
     handleEarningType(value)
   }
   return (
@@ -81,7 +79,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
       <div>
         <p className='text-xs text-dim-grey mb-4'>Step 1 of 2</p>
         <h1 className='text-lg font-semibold mb-5'>Set campaign rules </h1>
-        <InfoCard label='CONDITION'>
+        <InfoCard label='CONDITION' description={'If'}>
           <Form.Item name='campaignTrigger'>
             <Select
               className='cursor-pointer'
@@ -101,12 +99,22 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
             <Form.Item
               className='m-0'
               name='campaignTriggerValue'
-              rules={[{ required: true, message: 'Add trigger point!' }]}
+              rules={[{ required: true, message: '' }]}
             >
-              <Input
-                className='shadow-lg w-[60px] h-[32px] text-right mr-2'
-                placeholder='1'
-              />
+              {selectedOption === 'Location' && (
+                <Input
+                  type='text'
+                  className='shadow-lg w-[80px] h-[32px] text-right mr-2'
+                  placeholder='Location'
+                />
+              )}
+              {selectedOption !== 'Location' && (
+                <Input
+                  type='number'
+                  className='shadow-lg w-[60px] h-[32px] text-right mr-2'
+                  placeholder='1'
+                />
+              )}
             </Form.Item>
 
             {ruleOperator.value === 'Price' && <span>Dollar</span>}
@@ -122,7 +130,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
             <Form.Item
               className='m-0'
               name='campaignEarnings'
-              rules={[{ required: true, message: 'Add customer earnings!' }]}
+              rules={[{ required: true, message: '' }]}
             >
               <Input
                 className='shadow-lg w-[60px] h-[32px] text-right mr-2'
@@ -144,11 +152,18 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               placeholder='Earning Type'
               onChange={handleTypeOfEarning}
             >
-              {earningTypeOptions?.map((options, idx) => (
-                <Option key={idx} value={options.value}>
-                  {options.label}
-                </Option>
-              ))}
+              {selectedOption === 'Location' &&
+                [{ label: 'Fixed', value: 'Fixed' }]?.map((options, idx) => (
+                  <Option key={idx} value={options.value}>
+                    {options.label}
+                  </Option>
+                ))}
+              {selectedOption !== 'Location' &&
+                earningTypeOptions?.map((options, idx) => (
+                  <Option key={idx} value={options.value}>
+                    {options.label}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
         </InfoCard>
@@ -162,7 +177,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
           <div className='flex items-center'>
             <Form.Item
               className='m-0'
-              rules={[{ required: true, message: 'Add points for redeeming!' }]}
+              rules={[{ required: true, message: '' }]}
               name='campaignRedeem'
             >
               <Input
@@ -178,28 +193,27 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               {campaignOptions?.map(({ text, type }, idx) => (
                 <PillButton
                   onClick={() => {
-                    dispatch(getRedemptiontype(type))
-                    setRewardType(idx)
+                    dispatch(getRedemptiontype({ type: type, id: idx }))
                   }}
-                  outline={rewardType === idx ? false : true}
+                  outline={redemptionType.id === idx ? false : true}
                   text={text}
                   key={idx}
-                  icon={rewardType === idx ? <AiFillCheckCircle /> : ''}
+                  icon={redemptionType.id === idx ? <AiFillCheckCircle /> : ''}
                 />
               ))}
             </div>
           </div>
 
-          {rewardType === 0 || rewardType === 1 ? (
+          {redemptionType.id === 0 || redemptionType.id === 1 ? (
             <div>
               <p className='font-medium py-4'>
-                {rewardType === 0 && 'Cashback amount'}
-                {rewardType === 1 && 'Discount'}
+                {redemptionType.id === 0 && 'Cashback'}
+                {redemptionType.id === 1 && 'Discount'}
               </p>
 
               <div className='flex'>
                 <Form.Item
-                  rules={[{ required: true, message: 'Add cash back!' }]}
+                  rules={[{ required: true, message: '' }]}
                   name='campaignReward'
                 >
                   <Input
@@ -208,8 +222,8 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                   />
                 </Form.Item>
                 <p className='pt-1'>
-                  {rewardType === 0 && 'Dollar'}
-                  {rewardType === 1 && '%'}
+                  {redemptionType.id === 0 && 'Dollar'}
+                  {redemptionType.id === 1 && '%'}
                 </p>
               </div>
             </div>
@@ -223,12 +237,20 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
           <div className='flex gap-2'>
             <div className='flex-1'>
               <p className='text-dim-grey'>Start Date</p>
-              <DatePicker onChange={handleStartDate} className='w-full' />
+              <DatePicker
+                defaultValue={startDateObject}
+                onChange={handleStartDate}
+                className='w-full'
+              />
             </div>
 
             <div className='flex-1'>
               <p className='text-dim-grey'>End Date</p>
-              <DatePicker onChange={handleEndDate} className='w-full' />
+              <DatePicker
+                defaultValue={EndDateObject}
+                onChange={handleEndDate}
+                className='w-full'
+              />
             </div>
           </div>
         </InfoCard>

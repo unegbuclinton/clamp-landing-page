@@ -5,36 +5,36 @@ import { getCampaigns, getSingleCampaign } from '@/api/campaign'
 interface campaignState {
   createCampaignData: {
     campaignName: string
-    campaignTriggerValue: number
+    campaignTriggerValue: any
     campaignEarnings: number
     campaignRedeem: number
-    campaignStartDate: string
-    campaignEndDate: string
     campaignTrigger: string
     campaignReward: number
     earningType: string
   }
-  redemptionType: string
+  redemptionType: { type: string; id: number }
   specificCampaign: createCampaignInterface
   allCampaigns: Array<createCampaignInterface>
   ruleOperator: { operator: string; value: string }
+  campaignStartDate: string
+  campaignEndDate: string
 }
 const initialState = {
   createCampaignData: {
     campaignName: '',
     campaignReward: 5,
-    campaignEarnings: 1,
-    campaignRedeem: 1,
-    campaignStartDate: new Date().toISOString().split('T')[0],
-    campaignEndDate: new Date().toISOString().split('T')[0],
+    campaignEarnings: 2,
+    campaignRedeem: 5,
     campaignTrigger: 'Select Trigger',
-    campaignTriggerValue: 1,
+    campaignTriggerValue: '',
     earningType: 'Earning type',
   },
   specificCampaign: {},
   allCampaigns: [{}],
-  redemptionType: 'Cashback',
+  redemptionType: { type: 'Cashback', id: 0 },
   ruleOperator: {},
+  campaignStartDate: new Date().toISOString().split('T')[0],
+  campaignEndDate: new Date().toISOString().split('T')[0],
 } as campaignState
 
 export const getAllCampaign = createAsyncThunk(
@@ -49,6 +49,11 @@ export const campaignSlice = createSlice({
   name: 'campaign',
   initialState,
   reducers: {
+    clearState: (state) => {
+      state.createCampaignData = initialState.createCampaignData
+      state.campaignEndDate = initialState.campaignEndDate
+      state.campaignStartDate = initialState.campaignStartDate
+    },
     getCampaignData: (state, action) => {
       state.createCampaignData = action.payload
     },
@@ -57,6 +62,12 @@ export const campaignSlice = createSlice({
     },
     getRuleOperator: (state, action) => {
       state.ruleOperator = action.payload
+    },
+    setCampaignStartDate: (state, action) => {
+      state.campaignStartDate = action.payload
+    },
+    setCampaignEndDate: (state, action) => {
+      state.campaignEndDate = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -68,6 +79,12 @@ export const campaignSlice = createSlice({
     })
   },
 })
-export const { getCampaignData, getRedemptiontype, getRuleOperator } =
-  campaignSlice.actions
+export const {
+  getCampaignData,
+  setCampaignStartDate,
+  setCampaignEndDate,
+  getRedemptiontype,
+  getRuleOperator,
+  clearState,
+} = campaignSlice.actions
 export default campaignSlice.reducer

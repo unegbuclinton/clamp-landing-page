@@ -1,8 +1,5 @@
-// import { campaigns } from '@/utilities/data/campaignJson'
 import { ColumnsType } from 'antd/es/table'
 import { Table } from 'antd'
-import { AiOutlineMore } from 'react-icons/ai'
-import PrupleBadge from '@/assets/svgs/purpleBadge.svg'
 import GoldBadge from '@/assets/svgs/goldBadge.svg'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -12,26 +9,13 @@ import { RootState } from '@/store'
 import { createCampaignInterface } from '@/utilities/types/createCampaign'
 import ClientOnly from '@/utilities/helperFunctions'
 
-interface DataType {
-  id: string
-  name: string
-  opted: number
-  optedPercentage?: number
-  allocationPoints: string
-  allocationValue?: string
-  status: string
-  subscription: string
-}
 const CampaignTable = () => {
   const dispatch = useAppDispatch()
-  const [loading, setLoading] = useState<boolean>(false)
 
   const { allCampaigns } = useAppSelector((state: RootState) => state.campaign)
 
   useEffect(() => {
-    setLoading(true)
     dispatch(getAllCampaign())
-    setLoading(false)
   }, [])
 
   const router = useRouter()

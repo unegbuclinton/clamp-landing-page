@@ -15,7 +15,7 @@ export const triggerOptions: Array<{
   },
   {
     value: 'Location',
-    label: 'Make transaction in a specific location',
+    label: 'Transaction is in a specific location',
     operator: 'eq',
   },
 ]
@@ -25,11 +25,11 @@ export const earningTypeOptions: Array<{
   label: string
 }> = [
   {
-    value: 'Flat',
-    label: 'Flat',
+    value: 'Fixed',
+    label: 'Fixed',
   },
   {
-    value: 'recuring',
+    value: 'Recuring',
     label: 'Recurring',
   },
 ]

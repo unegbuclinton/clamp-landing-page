@@ -7,11 +7,9 @@ interface campaignStepOne {
   formData: {
     campaignName: string
     earningType: string
-    campaignTriggerValue: number
+    campaignTriggerValue: any
     campaignEarnings: number
     campaignRedeem: number
-    campaignStartDate: string
-    campaignEndDate: string
     campaignTrigger: string
     campaignReward: number
   }

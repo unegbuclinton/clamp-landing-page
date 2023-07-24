@@ -10,7 +10,6 @@ export const createRule = async (body: ruleInterface) => {
       url: `${baseURL}/rules`,
       data: body,
     })
-    console.log(response)
     return response.data
   } catch (error: any) {
     return error
