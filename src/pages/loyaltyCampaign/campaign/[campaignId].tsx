@@ -136,31 +136,31 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
               <p className='font-medium py-1.5'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
               {redemptionRules?.[0].assetConditions?.[0].operator === 'gte' && (
                 <p className='text-dim-grey'>
-                  Customer redeems points if {'>'} or ={' '}
+                  Customer redeems points if greater than or equals to{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'gt' && (
                 <p className='text-dim-grey'>
-                  Customer can redeem points if {'>'}{' '}
+                  Customer can redeem points if greater than{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'lt' && (
                 <p className='text-dim-grey'>
-                  Customer earns points if {'<'}{' '}
+                  Customer earns points if less than{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'lte' && (
                 <p className='text-dim-grey'>
-                  Customer earns points if {'<'} or ={' '}
+                  Customer earns points if less than or eqals to{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'eq' && (
                 <p className='text-dim-grey'>
-                  Customer earns points if ={' '}
+                  Customer earns points if equals to
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
