@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`${className} bg-white mx-4 p-4 rounded-lg ${
+        className={`${className} bg-white mx-4 px-[3.5rem] py-[2.5rem] rounded-lg ${
           height ? height : 'h-[90vh]'
         } max-h-[90vh] overflow-auto`}
       >

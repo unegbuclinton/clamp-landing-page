@@ -46,7 +46,7 @@ const GetAccessModalComponent: React.FC<getAccessProp> = ({
             <label className='dark:text-dark'>{label}</label>
             <input
               name={type}
-              className='border rounded-lg dark:text-dark outline-none focus:border-black duration-200 px-3 py-2 mt-1 text-base w-full '
+              className='border rounded-lg h-[2rem] dark:text-dark outline-none focus:border-black duration-200 mt-1 text-base w-full '
             />
           </div>
         ))}
