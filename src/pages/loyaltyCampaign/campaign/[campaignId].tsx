@@ -11,6 +11,7 @@ import { useAppSelector } from '@/utilities/hooks'
 import ClientOnly, {
   formatDateToCustomFormat,
 } from '@/utilities/helperFunctions'
+import { LeftOutlined } from '@ant-design/icons'
 const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificCampaign } = useAppSelector(
     (state: RootState) => state.campaign
@@ -64,7 +65,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
       <DashboardLayout>
         <div className='w-[85%]'>
           <span onClick={() => router.push('/loyaltyCampaign')}>
-            {/* <LeftOutlined color='#999999' className='cursor-pointer' /> */}
+            <LeftOutlined color='#999999' className='cursor-pointer' />
           </span>
           <div className='flex justify-between items-center mt-3'>
             <h1 className='py-4 font-bold text-xl'>{name}</h1>
