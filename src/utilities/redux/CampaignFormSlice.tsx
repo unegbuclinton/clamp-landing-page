@@ -27,7 +27,7 @@ const initialState = {
     campaignRedeem: 5,
     campaignTrigger: 'Select Trigger',
     campaignTriggerValue: '',
-    earningType: 'Earning type',
+    earningType: 'Fixed',
   },
   specificCampaign: {},
   allCampaigns: [{}],

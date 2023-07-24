@@ -117,7 +117,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               )}
             </Form.Item>
 
-            {ruleOperator.value === 'Price' && <span>Dollar</span>}
+            {ruleOperator.value === 'Price' && <span>Naira</span>}
             {ruleOperator.value === 'Location' && <span>Location</span>}
             {ruleOperator.value === 'Frequency' && <span>Times</span>}
           </div>
@@ -222,7 +222,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                   />
                 </Form.Item>
                 <p className='pt-1'>
-                  {redemptionType.id === 0 && 'Dollar'}
+                  {redemptionType.id === 0 && 'Naira'}
                   {redemptionType.id === 1 && '%'}
                 </p>
               </div>

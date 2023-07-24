@@ -26,13 +26,13 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const data = [
     {
       header: 'Sales attributed',
-      value: 'N24,559,394.97',
-      subText: '24 new customers in the last 7 days',
+      value: 'N0.00',
+      //   subText: '24 new customers in the last 7 days',
     },
     {
       header: 'Customer opted in',
-      value: '97',
-      subText: '12% of customers',
+      value: '0',
+      subText: '0% of customers',
     },
     {
       header: 'Points allocated',
@@ -41,8 +41,8 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     },
     {
       header: 'Claimed points',
-      value: '673',
-      subText: 'Claimed by 45 customers',
+      value: '0',
+      subText: 'Claimed by 0 customers',
     },
   ]
 
@@ -96,7 +96,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             <p className='py-4 text-xl font-normal'>Overview</p>
             <div className='mb-10'>
               <p className='font-medium mb-3 text-dim-grey'>TYPE</p>
-              <p className='flex font-medium text-xl items-center gap-3'>
+              <p className='flex font-medium items-center gap-3'>
                 <span>
                   <GoldBadge />
                 </span>
@@ -105,35 +105,35 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             </div>
             <div className='mb-10'>
               <p className='font-medium mb-3 text-dim-grey'>STATUS</p>
-              <p className='flex font-medium text-base items-center gap-3'>
+              <p className='flex font-medium items-center gap-3'>
                 {status?.toLocaleUpperCase()}
               </p>
             </div>
 
             <div>
               <p className='font-medium mb-3 text-dim-grey'>DURATION</p>
-              <p className='flex font-medium text-xl items-center gap-3'>
+              <p className='flex font-medium items-center gap-3'>
                 {`${formattedStartDate} - ${formattedEndDate}`}
               </p>
             </div>
             <Divider />
-            <p className='py-4 text-xl font-normal'>Preferences</p>
+            <p className='py-4 font-normal'>Preferences</p>
 
             <div className='py-6'>
               <p className='text-dim-grey'>CONDITION</p>
-              <p className='font-medium text-xl py-1.5'>TRANSACTION</p>
+              {/* <p className='font-medium py-1.5'>TRANSACTION</p> */}
               <p className='text-dim-grey'>
-                Customer earns points if `{'>'}` or = $1
+                Customer earns points if transaction {'>'} or = $1
               </p>
             </div>
 
             <div className='py-6'>
               <p className='text-dim-grey py-1.5'>EFFECT</p>
-              <p className='font-medium text-xl'>Customer earns 1 point</p>
+              <p className='font-medium'>Customer earns 1 point</p>
             </div>
             <div className='py-6'>
               <p className='text-dim-grey'>POINTS NEEDED FOR REDEMPTION</p>
-              <p className='font-medium text-xl py-1.5'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
+              <p className='font-medium py-1.5'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
               {redemptionRules?.[0].assetConditions?.[0].operator === 'gte' && (
                 <p className='text-dim-grey'>
                   Customer redeems points if {'>'} or ={' '}
@@ -142,7 +142,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'gt' && (
                 <p className='text-dim-grey'>
-                  Customer earns points if {'>'}{' '}
+                  Customer can redeem points if {'>'}{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}

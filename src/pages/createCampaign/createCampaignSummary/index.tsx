@@ -51,7 +51,7 @@ const CreateCampaignSummary = () => {
         <div className='py-4'>
           <p className='text-dim'>Reward amount</p>
           <p className='font-semibold'>{`${campaignReward} ${
-            redemptionType.type === 'Cashback' ? 'Dollars' : '%'
+            redemptionType.type === 'Cashback' ? 'Naira' : '%'
           }`}</p>
         </div>
       </InfoCard>
