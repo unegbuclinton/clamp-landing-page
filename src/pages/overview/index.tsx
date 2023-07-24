@@ -8,8 +8,6 @@ import ClientOnly from '@/utilities/helperFunctions'
 import { useAppDispatch } from '@/utilities/hooks'
 
 const Overview = () => {
-  const dispatch = useAppDispatch()
-
   return (
     <ClientOnly>
       <DashboardLayout>

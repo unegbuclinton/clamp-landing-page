@@ -4,7 +4,10 @@ import GoldBadge from '@/assets/svgs/goldBadge.svg'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/utilities/hooks'
-import { getAllCampaign } from '@/utilities/redux/CampaignFormSlice'
+import {
+  getAllCampaign,
+  getSpecificCampaign,
+} from '@/utilities/redux/CampaignFormSlice'
 import { RootState } from '@/store'
 import { createCampaignInterface } from '@/utilities/types/createCampaign'
 import ClientOnly from '@/utilities/helperFunctions'
@@ -49,15 +52,22 @@ const CampaignTable = () => {
 
   return (
     <ClientOnly>
-      <h2 className='mb-4 text-xl font-semibold'>Campaigns</h2>
-      <Table
-        onRow={(record) => ({
-          onClick: () => router.push(`/loyaltyCampaign/campaign/${record.id}`),
-        })}
-        columns={columns}
-        dataSource={allCampaigns}
-        className='max-w-[85%] pt-4'
-      />
+      <>
+        <h2 className='mb-4 text-xl font-semibold'>Campaigns</h2>
+        <Table
+          onRow={(record) => ({
+            onClick: () =>
+              dispatch(getSpecificCampaign(record.id)).then((data) => {
+                if (data.payload) {
+                  router.push(`/loyaltyCampaign/campaign/${record.id}`)
+                }
+              }),
+          })}
+          columns={columns}
+          dataSource={allCampaigns}
+          className='max-w-[85%] pt-4'
+        />
+      </>
     </ClientOnly>
   )
 }
