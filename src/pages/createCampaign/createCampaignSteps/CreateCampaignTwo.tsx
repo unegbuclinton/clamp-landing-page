@@ -1,71 +1,171 @@
 import PillButton from '@/components/atoms/pillButton'
 import InfoCard from '@/components/molecules/infoCard'
-import {
-  campaignExpiration,
-  campaignOptions,
-} from '@/utilities/data/campaignOption'
+import { campaignOptions } from '@/utilities/data/campaignOption'
+import type { DatePickerProps } from 'antd'
 import { Form, Input, Select } from 'antd'
 import React, { useState } from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { FormInstance } from 'antd/lib/form'
+import { DatePicker } from 'antd'
+import dayjs from 'dayjs'
+import {
+  earningTypeOptions,
+  triggerOptions,
+} from '@/utilities/data/triggerOptions'
 import { useDispatch } from 'react-redux'
-import { getRedemptiontype } from '@/utilities/redux/CampaignFormSlice'
+import {
+  getRedemptiontype,
+  getRuleOperator,
+  setCampaignEndDate,
+  setCampaignStartDate,
+} from '@/utilities/redux/CampaignFormSlice'
+import { RootState } from '@/store'
+import { useAppSelector } from '@/utilities/hooks'
 
 interface campaignStepTwo {
   form: FormInstance
   formData: {
     campaignName: string
-    campaignTrigger: number
+    campaignTriggerValue: any
     campaignEarnings: number
     campaignRedeem: number
+    campaignTrigger: string
     campaignReward: number
   }
+
+  handleEarningType: (x: string) => void
 }
 
-const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
+const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
+  handleEarningType,
+}) => {
   const { Option } = Select
-  const [rewardType, setRewardType] = useState<number>(0)
-  const [activeExpiry, setActiveExpiry] = useState<number>(0)
+  const { ruleOperator, redemptionType, campaignEndDate, campaignStartDate } =
+    useAppSelector((state: RootState) => state.campaign)
+
+  const startDateObject = dayjs(campaignStartDate)
+  const EndDateObject = dayjs(campaignEndDate)
+  const [selectedOption, setSelectedOption] = useState<string>('')
   const dispatch = useDispatch()
+  const handleChange = (value: any) => {
+    setSelectedOption(value)
+    const selectedOperator = triggerOptions.find(
+      (option) => option.value === value
+    )
+    if (selectedOperator) {
+      dispatch(
+        getRuleOperator({
+          operator: selectedOperator?.operator,
+          value: selectedOperator.value,
+        })
+      )
+    }
+  }
+
+  const handleStartDate: DatePickerProps['onChange'] = (date, dateString) => {
+    dispatch(setCampaignStartDate(dateString))
+  }
+
+  const handleEndDate: DatePickerProps['onChange'] = (date, dateString) => {
+    dispatch(setCampaignEndDate(dateString))
+  }
+
+  const handleTypeOfEarning = (value: string) => {
+    console.log(value)
+    handleEarningType(value)
+  }
   return (
     <div className='flex justify-center w-full '>
       <div>
         <p className='text-xs text-dim-grey mb-4'>Step 1 of 2</p>
-        <h1 className='text-lg font-semibold mb-5'>Set trigger & reward</h1>
+        <h1 className='text-lg font-semibold mb-5'>Set campaign rules </h1>
+        <InfoCard label='CONDITION' description={'If'}>
+          <Form.Item name='campaignTrigger'>
+            <Select
+              className='cursor-pointer'
+              style={{ width: '100%' }}
+              placeholder='Select condition'
+              onChange={handleChange}
+            >
+              {triggerOptions?.map((options, idx) => (
+                <Option key={idx} value={options.value}>
+                  {options.label}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
 
-        {/* Trigger */}
-
-        <InfoCard label='TRIGGER' description='Every time customer spends'>
-          <div className='flex items-center'>
+          <div className='flex items-center mt-2'>
             <Form.Item
               className='m-0'
-              name={'campaignTrigger'}
-              rules={[{ required: true, message: 'Add trigger point!' }]}
+              name='campaignTriggerValue'
+              rules={[{ required: true, message: '' }]}
             >
-              <Input
-                className='shadow-lg w-[48px] h-[32px] text-right mr-2'
-                placeholder='1'
-              />
+              {selectedOption === 'Location' && (
+                <Input
+                  type='text'
+                  className='shadow-lg w-[80px] h-[32px] text-right mr-2'
+                  placeholder='Location'
+                />
+              )}
+              {selectedOption !== 'Location' && (
+                <Input
+                  type='number'
+                  className='shadow-lg w-[60px] h-[32px] text-right mr-2'
+                  placeholder='1'
+                />
+              )}
             </Form.Item>
-            <span>Dollar</span>
+
+            {ruleOperator.value === 'Price' && <span>Dollar</span>}
+            {ruleOperator.value === 'Location' && <span>Location</span>}
+            {ruleOperator.value === 'Frequency' && <span>Times</span>}
           </div>
         </InfoCard>
 
-        {/* Effect */}
-        <InfoCard label='EFFECT' description='Customer earns'>
-          <div className='flex items-center'>
+        {/* Reward */}
+
+        <InfoCard label='REWARD' description='Customer earns'>
+          <div className='flex items-center mb-5'>
             <Form.Item
               className='m-0'
-              name={'campaignEarnings'}
-              rules={[{ required: true, message: 'Add customer earnings!' }]}
+              name='campaignEarnings'
+              rules={[{ required: true, message: '' }]}
             >
               <Input
-                className='shadow-lg w-[48px] h-[32px] text-right mr-2'
+                className='shadow-lg w-[60px] h-[32px] text-right mr-2'
                 placeholder='1'
               />
             </Form.Item>
             <span>Points</span>
           </div>
+          <Form.Item
+            labelCol={{ span: 24 }}
+            wrapperCol={{ span: 24 }}
+            label='Earning type'
+            className='font-bold text-sm'
+            name={'earningType'}
+          >
+            <Select
+              className='cursor-pointer'
+              style={{ width: '30%' }}
+              placeholder='Earning Type'
+              onChange={handleTypeOfEarning}
+            >
+              {selectedOption === 'Location' &&
+                [{ label: 'Fixed', value: 'Fixed' }]?.map((options, idx) => (
+                  <Option key={idx} value={options.value}>
+                    {options.label}
+                  </Option>
+                ))}
+              {selectedOption !== 'Location' &&
+                earningTypeOptions?.map((options, idx) => (
+                  <Option key={idx} value={options.value}>
+                    {options.label}
+                  </Option>
+                ))}
+            </Select>
+          </Form.Item>
         </InfoCard>
 
         {/* Redemption */}
@@ -77,11 +177,11 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
           <div className='flex items-center'>
             <Form.Item
               className='m-0'
-              rules={[{ required: true, message: 'Add points for redeeming!' }]}
-              name={'campaignRedeem'}
+              rules={[{ required: true, message: '' }]}
+              name='campaignRedeem'
             >
               <Input
-                className='shadow-lg w-[48px] h-[32px] text-right mr-2'
+                className='shadow-lg w-[60px] h-[32px] text-right mr-2'
                 placeholder='1'
               />
             </Form.Item>
@@ -93,75 +193,65 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = () => {
               {campaignOptions?.map(({ text, type }, idx) => (
                 <PillButton
                   onClick={() => {
-                    dispatch(getRedemptiontype(type))
-                    setRewardType(idx)
+                    dispatch(getRedemptiontype({ type: type, id: idx }))
                   }}
-                  outline={rewardType === idx ? false : true}
+                  outline={redemptionType.id === idx ? false : true}
                   text={text}
                   key={idx}
-                  icon={rewardType === idx ? <AiFillCheckCircle /> : ''}
+                  icon={redemptionType.id === idx ? <AiFillCheckCircle /> : ''}
                 />
               ))}
             </div>
           </div>
 
-          {rewardType === 0 || rewardType === 1 ? (
+          {redemptionType.id === 0 || redemptionType.id === 1 ? (
             <div>
               <p className='font-medium py-4'>
-                {rewardType === 0 && 'Cashback amount'}
-                {rewardType === 1 && 'Discount'}
+                {redemptionType.id === 0 && 'Cashback'}
+                {redemptionType.id === 1 && 'Discount'}
               </p>
 
               <div className='flex'>
                 <Form.Item
-                  rules={[{ required: true, message: 'Add cash back!' }]}
-                  name={'campaignReward'}
+                  rules={[{ required: true, message: '' }]}
+                  name='campaignReward'
                 >
                   <Input
-                    className='shadow-lg w-[48px] h-[32px] text-right mr-2'
+                    className='shadow-lg w-[60px] h-[32px] text-right mr-2'
                     placeholder='5'
                   />
                 </Form.Item>
                 <p className='pt-1'>
-                  {rewardType === 0 && 'Dollar'}
-                  {rewardType === 1 && '%'}
+                  {redemptionType.id === 0 && 'Dollar'}
+                  {redemptionType.id === 1 && '%'}
                 </p>
               </div>
             </div>
           ) : null}
-
-          {rewardType === 2 && (
-            <div>
-              <p className='font-medium py-4'>Perks</p>
-
-              <Form.Item name={'campaignPerks'}>
-                <Select
-                  className='cursor-pointer'
-                  style={{ width: 200 }}
-                  placeholder='Select Perk'
-                >
-                  <Option value='jack'>Perk1</Option>
-                  <Option value='lucy'>Perk2</Option>
-                  <Option value='tom'>Perk3</Option>
-                </Select>
-              </Form.Item>
-            </div>
-          )}
+          {/* 
           <p className='py-4 text-dim-grey'>
             Customer needs to spend at least $35 to earn this reward
-          </p>
+          </p> */}
         </InfoCard>
-        <InfoCard label='CAMPAIGN EXPIRATION' subText='Campaign expires in'>
+        <InfoCard label='CAMPAIGN DURATION'>
           <div className='flex gap-2'>
-            {campaignExpiration?.map(({ text }, idx) => (
-              <PillButton
-                onClick={() => setActiveExpiry(idx)}
-                outline={activeExpiry === idx ? false : true}
-                text={text}
-                key={idx}
-                icon={activeExpiry === idx ? <AiFillCheckCircle /> : ''}
+            <div className='flex-1'>
+              <p className='text-dim-grey'>Start Date</p>
+              <DatePicker
+                defaultValue={startDateObject}
+                onChange={handleStartDate}
+                className='w-full'
               />
-            ))}
+            </div>
+
+            <div className='flex-1'>
+              <p className='text-dim-grey'>End Date</p>
+              <DatePicker
+                defaultValue={EndDateObject}
+                onChange={handleEndDate}
+                className='w-full'
+              />
+            </div>
           </div>
         </InfoCard>
       </div>

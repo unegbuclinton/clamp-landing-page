@@ -1,6 +1,5 @@
 import ButtonComponent from '@/components/atoms/button'
 import emailjs from '@emailjs/browser'
-import Modal from '../Modal'
 
 interface getAccessProp {
   onClose: () => void

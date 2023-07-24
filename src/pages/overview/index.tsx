@@ -1,43 +1,41 @@
-import DashboardLayout from "@/components/layouts/dashboardLayout";
-import ActivityInfo from "@/components/molecules/ActivityInfo";
-import CampaignTable from "@/components/molecules/campaignTable";
-import InfoCard from "@/components/molecules/infoCard";
-import { activities } from "@/utilities/data/activitiesJson";
-import { AiOutlineRight } from "react-icons/ai";
+import DashboardLayout from '@/components/layouts/dashboardLayout'
+import ActivityInfo from '@/components/molecules/ActivityInfo'
+import LoyaltyAttribute from '@/components/molecules/LoyaltyAttributeAnalysis'
+import PointAnalysisCard from '@/components/molecules/PointAnalysisCard'
+import CampaignTable from '@/components/molecules/campaignTable'
+import { activities } from '@/utilities/data/activitiesJson'
+import ClientOnly from '@/utilities/helperFunctions'
+import { useAppDispatch } from '@/utilities/hooks'
 
 const Overview = () => {
   return (
-    <DashboardLayout>
-      <h1>Overview Page</h1>
-      <div className="flex gap-4">
-        <InfoCard outline>
-          <div className="pr-20">
-            <h1 className="mb-6 text-sm font-medium">Active campaigns</h1>
-            <p className="text-2xl font-medium">4</p>
-          </div>
-        </InfoCard>
-        <InfoCard outline>
-          <div className="pr-14">
-            <h1 className="mb-6 text-sm font-medium">
-              Total customers opted in
-            </h1>
-            <p className="text-2xl font-medium">
-              2,405 <sup className="battle-grey text-[10px] p-0">12%</sup>
-            </p>
-          </div>
-        </InfoCard>
-      </div>
-      <CampaignTable />
-      <div>
-        <h2 className="mb-4 text-xl font-semibold">Activities</h2>
-        <div className="rounded border border-light-grey p-6 w-[85%]">
-          {activities?.map(({ badge, time, title }, index) => (
-            <ActivityInfo key={index} title={title} badge={badge} time={time} />
-          ))}
+    <ClientOnly>
+      <DashboardLayout>
+        <div className='flex justify-between items-center'>
+          <h1 className='font-bold mb-[38px] text-2xl'>Overview Page</h1>
         </div>
-      </div>
-    </DashboardLayout>
-  );
-};
 
-export default Overview;
+        <div className='flex gap-4 w-[85%] mb-11 max-h-[450px]'>
+          <LoyaltyAttribute />
+          <PointAnalysisCard />
+        </div>
+        <CampaignTable />
+        <div>
+          <h2 className='mb-4 text-xl font-semibold'>Activities</h2>
+          <div className='rounded border border-light-grey p-6 w-[85%]'>
+            {activities?.map(({ badge, timestamp, title }, index) => (
+              <ActivityInfo
+                key={index}
+                title={title}
+                badge={badge}
+                time={timestamp}
+              />
+            ))}
+          </div>
+        </div>
+      </DashboardLayout>
+    </ClientOnly>
+  )
+}
+
+export default Overview

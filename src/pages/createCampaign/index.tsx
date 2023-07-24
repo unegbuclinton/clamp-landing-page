@@ -1,31 +1,55 @@
-import ButtonComponent from "@/components/atoms/button";
-import DashboardLayout from "@/components/layouts/dashboardLayout";
-import React, { useEffect, useState } from "react";
-import CreateCampaignTwo from "./createCampaignSteps/CreateCampaignTwo";
-import CreateCampaignOne from "./createCampaignSteps/CreateCampaignOne";
-import CreateCampaignSummary from "./createCampaignSummary";
-import { Form } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { useAppSelector } from "@/utilities/hooks";
-import { getCampaignData } from "@/utilities/redux/CampaignFormSlice";
+import ButtonComponent from '@/components/atoms/button'
+import DashboardLayout from '@/components/layouts/dashboardLayout'
+import React, { useEffect, useState } from 'react'
+import CreateCampaignTwo from './createCampaignSteps/CreateCampaignTwo'
+import CreateCampaignOne from './createCampaignSteps/CreateCampaignOne'
+import CreateCampaignSummary from './createCampaignSummary'
+import { Form } from 'antd'
+import { RootState } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/utilities/hooks'
+import {
+  clearState,
+  getCampaignData,
+  getSpecificCampaign,
+} from '@/utilities/redux/CampaignFormSlice'
+import { useRouter } from 'next/router'
+
+import {
+  createCampaignInterface,
+  ruleInterface,
+} from '@/utilities/types/createCampaign'
+import { createNewCampaign } from '@/api/campaign'
+import { createRule } from '@/api/rules'
+import { getSpecificRule } from '@/utilities/redux/RuleSlice'
 
 const CampaignForm = () => {
-  const { createCampaignData } = useAppSelector(
-    (state: RootState) => state.campign
-  );
-  const dispatch = useDispatch();
-  const [currentStep, setCurrentStep] = useState(0);
+  const router = useRouter()
+  const {
+    createCampaignData,
+    redemptionType,
+    ruleOperator,
+    campaignEndDate,
+    campaignStartDate,
+  } = useAppSelector((state: RootState) => state.campaign)
+  const dispatch = useAppDispatch()
+  const [currentStep, setCurrentStep] = useState<number>(0)
+
+  const [earningType, setEarningType] = useState<any>(null)
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
-    const savedFormValues = localStorage.getItem("formValues");
+    const savedFormValues = localStorage.getItem('formValues')
     if (savedFormValues) {
-      const parsedFormValues = JSON.parse(savedFormValues);
-      dispatch(getCampaignData(parsedFormValues));
+      const parsedFormValues = JSON.parse(savedFormValues)
+      dispatch(getCampaignData(parsedFormValues))
     }
-  }, []);
-  const [form] = Form.useForm();
+  }, [])
+  const [form] = Form.useForm()
+
+  const handleEarningType = (value: string) => {
+    setEarningType(value)
+  }
 
   const steps = [
     {
@@ -35,29 +59,102 @@ const CampaignForm = () => {
     },
     {
       component: (
-        <CreateCampaignTwo form={form} formData={createCampaignData} />
+        <CreateCampaignTwo
+          form={form}
+          formData={createCampaignData}
+          handleEarningType={handleEarningType}
+        />
       ),
     },
     {
       component: <CreateCampaignSummary />,
     },
-  ];
+  ]
 
   const handleStepForward = () => {
     form.validateFields().then((values) => {
-      const updatedFormData = { ...createCampaignData, ...values };
-      dispatch(getCampaignData(updatedFormData));
-      setCurrentStep((prev) => prev + 1);
-      localStorage.setItem("formValues", JSON.stringify(updatedFormData));
-    });
-  };
+      const updatedFormData = { ...createCampaignData, ...values }
+      dispatch(getCampaignData(updatedFormData))
+      setCurrentStep((prev) => prev + 1)
+      localStorage.setItem('formValues', JSON.stringify(updatedFormData))
+    })
+  }
   const handleStepBack = () => {
-    setCurrentStep((prev) => prev - 1);
-  };
-  const handleFinish = () => {
-    console.log(createCampaignData);
-  };
+    setCurrentStep((prev) => prev - 1)
+  }
 
+  const handleFinish = () => {
+    setLoading(true)
+    const id = String(Math.random())
+    const campaignData: createCampaignInterface = {
+      id: id,
+      name: createCampaignData.campaignName,
+      startDate: campaignStartDate,
+      endDate: campaignEndDate,
+      status: 'active',
+      ruleIds: [id],
+      redemptionRules: [
+        {
+          assetConditions: [
+            {
+              key: 'point',
+              operator: 'gte',
+              value: String(createCampaignData.campaignRedeem),
+            },
+          ],
+          customerConditions: [
+            {
+              key: 'membership',
+              operator: 'eq',
+              value: 'preminum',
+            },
+          ],
+          liquidationInstrument: redemptionType.type,
+          redeemableUntil: '2023-07-01',
+          redeemableFrom: '2023-12-31',
+        },
+      ],
+    }
+    const rulesData: ruleInterface = {
+      id: id,
+      assetId: 'ast-001',
+      assetQty: createCampaignData.campaignReward,
+      eventName: createCampaignData.campaignName,
+      conditions: [
+        {
+          key: createCampaignData.campaignTrigger,
+          operator: ruleOperator.operator,
+          value: String(createCampaignData.campaignTriggerValue),
+        },
+      ],
+      multiplier: {
+        key: createCampaignData.campaignTrigger,
+        multiple:
+          earningType === 'Fixed'
+            ? 0
+            : createCampaignData.campaignEarnings /
+              createCampaignData.campaignTriggerValue,
+      },
+    }
+
+    createRule(rulesData).then((data) => {
+      if (data.id) {
+        createNewCampaign(campaignData).then((data) => {
+          if (data.id) {
+            dispatch(getSpecificCampaign(data.id)).then((data) => {
+              if (data.payload.ruleIds) {
+                // dispatch(getSpecificRule(data.payload.ruleIds[0]))
+              }
+            })
+            setLoading(false)
+            localStorage.removeItem('formValues')
+            dispatch(clearState())
+            router.push(`/loyaltyCampaign/campaign/${data.id}`)
+          }
+        })
+      }
+    })
+  }
   return (
     <DashboardLayout>
       <Form
@@ -65,9 +162,9 @@ const CampaignForm = () => {
         form={form}
         onFinish={handleFinish}
       >
-        <div className=" flex justify-center mb-6">
-          <div className="relative max-w-[462px] ">
-            <h1 className="text-2xl font-semibold mb-8">
+        <div className=' flex justify-center mb-6'>
+          <div className='relative max-w-[462px] '>
+            <h1 className='text-2xl font-semibold mb-8'>
               Create Rewards Campaign
             </h1>
             {steps[currentStep].component}
@@ -75,35 +172,35 @@ const CampaignForm = () => {
               <div>
                 <ButtonComponent
                   onClick={handleStepForward}
-                  type="button"
-                  text="Continue"
-                  className=" w-full "
+                  type='button'
+                  text='Continue'
+                  className=' w-full '
                 />
               </div>
             )}
             {currentStep > 0 && (
-              <div className="flex gap-2">
+              <div className='flex gap-2'>
                 <ButtonComponent
                   onClick={handleStepBack}
-                  type="button"
-                  text="Back"
+                  type='button'
+                  text='Back'
                   outline
-                  className=" w-full "
+                  className=' w-full '
                 />
                 {currentStep < 2 && (
                   <ButtonComponent
                     onClick={handleStepForward}
-                    type="button"
-                    text="Continue"
-                    className=" w-full "
+                    type='button'
+                    text='Continue'
+                    className=' w-full '
                   />
                 )}
                 {currentStep === 2 && (
                   <ButtonComponent
-                    onClick={handleFinish}
-                    type="button"
-                    text="Submit"
-                    className=" w-full "
+                    type='submit'
+                    loading={loading}
+                    text='Submit'
+                    className=' w-full '
                   />
                 )}
               </div>
@@ -112,7 +209,7 @@ const CampaignForm = () => {
         </div>
       </Form>
     </DashboardLayout>
-  );
-};
+  )
+}
 
-export default CampaignForm;
+export default CampaignForm

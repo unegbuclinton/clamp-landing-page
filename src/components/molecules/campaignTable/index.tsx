@@ -1,44 +1,75 @@
-import { campaigns } from "@/utilities/data/campaignJson";
-import { AiOutlineMore, AiOutlineRight } from "react-icons/ai";
+import { ColumnsType } from 'antd/es/table'
+import { Table } from 'antd'
+import GoldBadge from '@/assets/svgs/goldBadge.svg'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '@/utilities/hooks'
+import {
+  getAllCampaign,
+  getSpecificCampaign,
+} from '@/utilities/redux/CampaignFormSlice'
+import { RootState } from '@/store'
+import { createCampaignInterface } from '@/utilities/types/createCampaign'
+import ClientOnly from '@/utilities/helperFunctions'
 
 const CampaignTable = () => {
-  return (
-    <div className="flex rounded-xl border border-light-grey flex-col w-[85%] mb-5">
-      <div className="flex justify-between border-light-grey  border-b font-bold">
-        <div className=" p-4">CAMPAIGN NAMES</div>
-        <div className=" p-4">OPTED IN</div>
-        <div className=" p-4">ALLOCATED POINTS</div>
-        <div className=" p-4">STATUS</div>
-        <div className=" p-4"></div>
-      </div>
-      {campaigns?.map(
-        ({ title, opt, value, customers, points, status }, index) => (
-          <div
-            key={index}
-            className="flex justify-between bg-white border-b border-light-grey"
-          >
-            <div className=" p-4 w-fit">{title}</div>
-            <div className=" p-4">
-              <p>{opt}</p>
-              <p className="text-sm text-battle-grey/60">{`${customers}% of customers`}</p>
-            </div>
-            <div className=" p-4">
-              <p> {points}</p>
-              <p className="text-sm text-battle-grey/60">{value}</p>
-            </div>
-            <div className=" p-4">{status ? "Active" : "PAUSED"}</div>
-            <div className=" p-4">
-              <AiOutlineMore />
-            </div>
-          </div>
-        )
-      )}
-      <div className="flex items-center w-full justify-center py-3">
-        <p className="text-center font-semibold text-base">See all campaigns</p>
-        <AiOutlineRight size={10} />
-      </div>
-    </div>
-  );
-};
+  const dispatch = useAppDispatch()
 
-export default CampaignTable;
+  const { allCampaigns } = useAppSelector((state: RootState) => state.campaign)
+
+  useEffect(() => {
+    dispatch(getAllCampaign())
+  }, [])
+
+  const router = useRouter()
+  const columns: ColumnsType<createCampaignInterface> = [
+    {
+      title: 'CAMPAIGN NAME',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text) => (
+        <p className='flex gap-3 items-center'>
+          <span>
+            <GoldBadge />
+          </span>
+          {text}
+        </p>
+      ),
+    },
+
+    {
+      title: 'ALLOCATED POINTS',
+      dataIndex: 'allocationPoints',
+      key: 'allocationPoints',
+      render: (text, record) => <p className='flex flex-col '>{text} </p>,
+    },
+    {
+      title: 'STATUS',
+      dataIndex: 'status',
+      key: 'status',
+    },
+  ]
+
+  return (
+    <ClientOnly>
+      <>
+        <h2 className='mb-4 text-xl font-semibold'>Campaigns</h2>
+        <Table
+          onRow={(record) => ({
+            onClick: () =>
+              dispatch(getSpecificCampaign(record.id)).then((data) => {
+                if (data.payload) {
+                  router.push(`/loyaltyCampaign/campaign/${record.id}`)
+                }
+              }),
+          })}
+          columns={columns}
+          dataSource={allCampaigns}
+          className='max-w-[85%] pt-4'
+        />
+      </>
+    </ClientOnly>
+  )
+}
+
+export default CampaignTable

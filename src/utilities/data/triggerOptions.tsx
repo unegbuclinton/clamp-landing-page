@@ -4,25 +4,32 @@ export const triggerOptions: Array<{
   operator: string
 }> = [
   {
-    value: 'Transaction is greater than or equal to a particular amount',
-    label: 'Transaction is greater than or equal to a particular amount',
+    value: 'Price',
+    label: 'Transaction is greater than or equal to value',
     operator: 'gte',
   },
   {
-    value:
-      'Frequency of transaction is equal to or gretaer than a particular number of time',
-    label:
-      'Frequency of transaction is equal to or gretaer than a particular number of time',
+    value: 'Frequency',
+    label: 'Transaction frequency is up to value',
     operator: 'gte',
   },
   {
-    value: 'Transaction in a specific location',
-    label: 'Transaction in a specific location',
+    value: 'Location',
+    label: 'Transaction is in a specific location',
     operator: 'eq',
   },
+]
+
+export const earningTypeOptions: Array<{
+  value: string
+  label: string
+}> = [
   {
-    value: 'Bet Price',
-    label: 'Bet price greater than value',
-    operator: 'gt',
+    value: 'Fixed',
+    label: 'Fixed',
+  },
+  {
+    value: 'Recuring',
+    label: 'Recurring',
   },
 ]
