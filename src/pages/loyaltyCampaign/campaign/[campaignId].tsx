@@ -36,8 +36,8 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     },
     {
       header: 'Points allocated',
-      value: '2000',
-      subText: 'N1.5M in value',
+      value: '0',
+      subText: '0.00 in value',
     },
     {
       header: 'Claimed points',
