@@ -1,4 +1,4 @@
-import { Button, Progress, Typography } from 'antd'
+import { Button, Progress } from 'antd'
 import React from 'react'
 import ProgressAnalysisData from '../PointAnalysisData'
 
