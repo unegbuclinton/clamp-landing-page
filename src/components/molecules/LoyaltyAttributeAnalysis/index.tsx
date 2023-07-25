@@ -16,7 +16,7 @@ const LoyaltyAttribute = () => {
             <ArrowUp />
           </sup>
         </p>
-        <p className='text-battle-grey text-sm'>{`${allCampaigns.length} campaigns, 5900 customer `}</p>
+        <p className='text-battle-grey text-sm'>{`${allCampaigns?.length} campaigns, 5900 customer `}</p>
       </div>
     </div>
   )

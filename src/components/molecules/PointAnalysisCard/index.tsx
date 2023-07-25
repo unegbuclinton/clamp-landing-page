@@ -1,4 +1,3 @@
-import ButtonComponent from '@/components/atoms/button'
 import { Button, Progress, Typography } from 'antd'
 import React from 'react'
 import ProgressAnalysisData from '../PointAnalysisData'

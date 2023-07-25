@@ -3,6 +3,7 @@ import { FaUserCircle } from 'react-icons/fa'
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'
 import Link from 'next/link'
 import { menu } from '@/utilities/data/sidebarItems'
+import Logo from '@/assets/svgs/logo.svg'
 
 const Navbar = () => {
   const [open, setOpen] = useState(false)
@@ -14,11 +15,9 @@ const Navbar = () => {
   const hideMenueBar = '-translate-x-[200%] duration-200'
   return (
     <div className='w-full py-1'>
-      <nav className=' border-gray-200 px-2 '>
+      <nav className=' border-gray-200 px-8'>
         <div className='flex flex-wrap items-center justify-between'>
-          <a href='#' className='font-semibold p-2 lg:ml-4 text-xl'>
-            Clamp
-          </a>
+          <Logo />
           <div className='flex md:order-2'>
             <div className='flex gap-2 items-center cursor-pointer'>
               <FaUserCircle size={28} />

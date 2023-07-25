@@ -178,6 +178,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
               )}
             </div>
           </div>
+          <Divider />
 
           <Button
             style={{ border: '1px solid #E6E6E6', fontWeight: 600 }}

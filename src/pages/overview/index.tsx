@@ -5,7 +5,6 @@ import PointAnalysisCard from '@/components/molecules/PointAnalysisCard'
 import CampaignTable from '@/components/molecules/campaignTable'
 import { activities } from '@/utilities/data/activitiesJson'
 import ClientOnly from '@/utilities/helperFunctions'
-import { useAppDispatch } from '@/utilities/hooks'
 
 const Overview = () => {
   return (

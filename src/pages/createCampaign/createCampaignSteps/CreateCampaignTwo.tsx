@@ -190,11 +190,12 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
           <div>
             <p className='font-medium py-4'>Reward</p>
             <div className='flex gap-2'>
-              {campaignOptions?.map(({ text, type }, idx) => (
+              {campaignOptions?.map(({ text, type, status }, idx) => (
                 <PillButton
                   onClick={() => {
                     dispatch(getRedemptiontype({ type: type, id: idx }))
                   }}
+                  disabled={status}
                   outline={redemptionType.id === idx ? false : true}
                   text={text}
                   key={idx}
@@ -228,6 +229,23 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               </div>
             </div>
           ) : null}
+          {redemptionType.id === 2 && (
+            <div>
+              <p className='font-medium py-4'>Perks</p>
+
+              <Form.Item name={'campaignPerks'}>
+                <Select
+                  className='cursor-pointer'
+                  style={{ width: 200 }}
+                  placeholder='Select Perk'
+                >
+                  <Option value='jack'>Perk1</Option>
+                  <Option value='lucy'>Perk2</Option>
+                  <Option value='tom'>Perk3</Option>
+                </Select>
+              </Form.Item>
+            </div>
+          )}
           {/* 
           <p className='py-4 text-dim-grey'>
             Customer needs to spend at least $35 to earn this reward

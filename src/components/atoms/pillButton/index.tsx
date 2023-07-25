@@ -6,6 +6,7 @@ const PillButton: React.FC<pillButtonProp> = ({
   icon,
   onClick,
   outline,
+  disabled,
   text,
 }) => {
   // Variants
@@ -14,8 +15,9 @@ const PillButton: React.FC<pillButtonProp> = ({
     <Button
       className={`${
         outline ? outlineVariant : 'bg-black  text-white'
-      } flex items-center hover:bg-black/30 gap-[11px] py-2 px-3`}
+      } flex items-center gap-[11px] py-2 px-3`}
       type='primary'
+      disabled={disabled}
       icon={icon}
       onClick={onClick}
       shape='round'

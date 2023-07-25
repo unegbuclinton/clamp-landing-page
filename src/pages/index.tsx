@@ -27,7 +27,7 @@ export default function Home() {
       <LandingNavbar buttonClick={() => setAccessModal(true)} />
       <div className='w-full lg:max-w-[75%] my-0 mx-auto pb-4 pt-36'>
         <div className='w-full flex flex-col lg:flex-row items-center gap-10 lg:h-[600px]'>
-          <div className='w-full px-10 lg:w-1/2'>
+          <div className='w-full pr-10 lg:w-1/2'>
             <h2 className='text-[48px] font-bold '>Retain your customers</h2>
             <p className='text-xl text-dark mt-5'>
               Increase customer loyalty with{' '}

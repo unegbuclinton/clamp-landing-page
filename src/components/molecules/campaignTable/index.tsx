@@ -47,6 +47,9 @@ const CampaignTable = () => {
       title: 'STATUS',
       dataIndex: 'status',
       key: 'status',
+      render: (text, _) => (
+        <p className='flex flex-col '>{text.toLocaleUpperCase()} </p>
+      ),
     },
   ]
 

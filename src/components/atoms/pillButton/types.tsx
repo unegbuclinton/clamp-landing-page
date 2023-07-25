@@ -4,5 +4,6 @@ export interface pillButtonProp {
   icon?: ReactNode
   outline?: boolean
   onClick?: () => void
+  disabled?: boolean
   text: string
 }

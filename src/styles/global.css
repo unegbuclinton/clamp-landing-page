@@ -9,7 +9,18 @@
 }
 
 body,
-html {
+html,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+label,
+table,
+a,
+h6,
+span {
   font-family: 'Inter', sans-serif;
   /* overflow: hidden; */
 }
@@ -43,4 +54,18 @@ html {
 .custom-input input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.button-override:where(
+    .css-dev-only-do-not-override-yp8pcc
+  ).ant-btn-default:not(:disabled):hover {
+  border-color: #000;
+  color: #fff;
+}
+
+.outline-button-override:where(
+    .css-dev-only-do-not-override-yp8pcc
+  ).ant-btn-default:not(:disabled):hover {
+  border-color: #000;
+  color: #000;
 }
