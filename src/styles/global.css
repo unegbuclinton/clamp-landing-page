@@ -59,13 +59,13 @@ span {
 .button-override:where(
     .css-dev-only-do-not-override-yp8pcc
   ).ant-btn-default:not(:disabled):hover {
-  border-color: #000;
+  border-color: #000 !important;
   color: #fff;
 }
 
 .outline-button-override:where(
     .css-dev-only-do-not-override-yp8pcc
   ).ant-btn-default:not(:disabled):hover {
-  border-color: #000;
-  color: #000;
+  border-color: #000 !important;
+  color: #000 !important;
 }
