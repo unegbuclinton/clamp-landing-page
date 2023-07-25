@@ -29,6 +29,7 @@ interface campaignStepTwo {
     campaignTriggerValue: any
     campaignEarnings: number
     campaignRedeem: number
+    cashbackOption: string
     campaignTrigger: string
     campaignReward: number
   }
@@ -71,7 +72,6 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   }
 
   const handleTypeOfEarning = (value: string) => {
-    console.log(value)
     handleEarningType(value)
   }
   return (
@@ -212,7 +212,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                 {redemptionType.id === 1 && 'Discount'}
               </p>
 
-              <div className='flex'>
+              <div className='flex items-start'>
                 <Form.Item
                   rules={[{ required: true, message: '' }]}
                   name='campaignReward'
@@ -222,13 +222,30 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                     placeholder='5'
                   />
                 </Form.Item>
-                <p className='pt-1'>
-                  {redemptionType.id === 0 && 'Naira'}
-                  {redemptionType.id === 1 && '%'}
-                </p>
+                {redemptionType.id === 0 && (
+                  <Form.Item style={{ width: '100%' }} name={'cashbackOption'}>
+                    <Select
+                      className='cursor-pointer'
+                      style={{ width: '30%' }}
+                      placeholder='Options'
+                      // onChange={handleTypeOfEarning}
+                    >
+                      {[
+                        { label: 'Naira', value: 'Naira' },
+                        { label: 'Percentage', value: 'Percentage' },
+                      ]?.map((options, idx) => (
+                        <Option key={idx} value={options.value}>
+                          {options.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                )}
+                {redemptionType.id === 1 && <p className='pt-1'>%</p>}
               </div>
             </div>
           ) : null}
+
           {redemptionType.id === 2 && (
             <div>
               <p className='font-medium py-4'>Perks</p>

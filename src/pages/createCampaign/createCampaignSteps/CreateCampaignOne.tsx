@@ -11,6 +11,7 @@ interface campaignStepOne {
     campaignEarnings: number
     campaignRedeem: number
     campaignTrigger: string
+    cashbackOption: string
     campaignReward: number
   }
 }

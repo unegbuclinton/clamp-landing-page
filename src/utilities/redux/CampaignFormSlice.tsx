@@ -9,6 +9,7 @@ interface campaignState {
     campaignEarnings: number
     campaignRedeem: number
     campaignTrigger: string
+    cashbackOption: string
     campaignReward: number
     earningType: string
   }
@@ -27,6 +28,7 @@ const initialState = {
     campaignRedeem: 5,
     campaignTrigger: 'Select Trigger',
     campaignTriggerValue: '',
+    cashbackOption: 'Naira',
     earningType: 'Fixed',
   },
   specificCampaign: {},
