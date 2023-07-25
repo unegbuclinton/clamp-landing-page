@@ -63,12 +63,12 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   return (
     <ClientOnly>
       <DashboardLayout>
-        <div className='w-[85%]'>
+        <div className='w-[60%]'>
           <span onClick={() => router.push('/loyaltyCampaign')}>
             <LeftOutlined color='#999999' className='cursor-pointer' />
           </span>
           <div className='flex justify-between items-center mt-3'>
-            <h1 className='py-4 font-bold text-xl'>{name}</h1>
+            <h1 className='py-4 font-bold text-2xl'>{name}</h1>
             <Dropdown className='cursor-pointer' menu={{ items }}>
               <a onClick={(e) => e.preventDefault()}>
                 <CiCircleMore size={20} fill='#999999' />
@@ -80,22 +80,22 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             {data?.map(({ header, value, subText }, idx) => (
               <div key={idx} className='w-full border p-4 rounded-xl'>
                 <h3 className='mb-6'>{header}</h3>
-                <p className='flex items-center text-2xl font-bold'>
+                <p className='flex items-center text-xl font-semibold'>
                   {value}
                   <sup>
                     <ArrowUp />
                   </sup>
                 </p>
-                <p className='text-dim-grey pt-1'>{subText}</p>
+                <p className='text-dim-grey text-sm pt-1'>{subText}</p>
               </div>
             ))}
           </div>
           <Divider className='mt-14 pb-6' />
 
           <div>
-            <p className='py-4 text-xl font-normal'>Overview</p>
+            <p className='py-4 text-base font-normal'>Overview</p>
             <div className='mb-10'>
-              <p className='font-medium mb-3 text-dim-grey'>TYPE</p>
+              <p className='font-medium mb-3 text-dim-grey text-[10px]'>TYPE</p>
               <p className='flex font-medium items-center gap-3'>
                 <span>
                   <GoldBadge />
@@ -104,36 +104,48 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
               </p>
             </div>
             <div className='mb-10'>
-              <p className='font-medium mb-3 text-dim-grey'>STATUS</p>
-              <p className='flex font-medium items-center gap-3'>
+              <p className='font-medium mb-3 text-[10px] text-dim-grey'>
+                STATUS
+              </p>
+              <p className='flex font-medium text-sm items-center gap-3'>
                 {status?.toLocaleUpperCase()}
               </p>
             </div>
 
             <div>
-              <p className='font-medium mb-3 text-dim-grey'>DURATION</p>
-              <p className='flex font-medium items-center gap-3'>
+              <p className='font-medium mb-3 text-[10px] text-dim-grey'>
+                DURATION
+              </p>
+              <p className='flex font-medium text-sm items-center gap-3'>
                 {`${formattedStartDate} - ${formattedEndDate}`}
               </p>
             </div>
             <Divider />
-            <p className='py-4 font-normal'>Preferences</p>
+            <p className='py-4 text-base font-normal'>Preferences</p>
 
             <div className='py-6'>
-              <p className='text-dim-grey'>CONDITION</p>
-              {/* <p className='font-medium py-1.5'>TRANSACTION</p> */}
-              <p className='text-dim-grey'>
+              <p className='text-dim-grey text-[10px]'>CONDITION</p>
+              <p className='text-dim-grey text-sm'>
                 Customer earns points if transaction {'>'} or = $1
               </p>
             </div>
 
             <div className='py-6'>
-              <p className='text-dim-grey py-1.5'>EFFECT</p>
-              <p className='font-medium'>Customer earns 1 point</p>
+              <p className='text-dim-grey py-1.5 text-[10px]'>EFFECT</p>
+              <p className='font-semibold  text-sm'>Customer earns 1 point</p>
+            </div>
+
+            <div className='py-6'>
+              <p className='text-dim-grey py-1.5 text-[10px]'>REDEMPTION</p>
+              <p className='font-semibold text-sm'>
+                {redemptionRules?.[0].liquidationInstrument.toLocaleUpperCase()}
+              </p>
             </div>
             <div className='py-6'>
-              <p className='text-dim-grey'>POINTS NEEDED FOR REDEMPTION</p>
-              <p className='font-medium py-1.5'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
+              <p className='text-dim-grey text-[10px]'>
+                POINTS NEEDED FOR REDEMPTION
+              </p>
+              <p className='font-semibold py-1.5 text-sm'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
               {redemptionRules?.[0].assetConditions?.[0].operator === 'gte' && (
                 <p className='text-dim-grey'>
                   Customer redeems points if greater than or equals to{' '}
@@ -141,25 +153,25 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'gt' && (
-                <p className='text-dim-grey'>
+                <p className='text-dim-grey text-sm'>
                   Customer can redeem points if greater than{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'lt' && (
-                <p className='text-dim-grey'>
+                <p className='text-dim-grey text-sm'>
                   Customer earns points if less than{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'lte' && (
-                <p className='text-dim-grey'>
+                <p className='text-dim-grey text-sm'>
                   Customer earns points if less than or eqals to{' '}
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
               )}
               {redemptionRules?.[0].assetConditions?.[0].operator === 'eq' && (
-                <p className='text-dim-grey'>
+                <p className='text-dim-grey text-sm'>
                   Customer earns points if equals to
                   {redemptionRules?.[0].assetConditions?.[0].value}
                 </p>
