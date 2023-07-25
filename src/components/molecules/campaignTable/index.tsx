@@ -58,7 +58,7 @@ const CampaignTable = () => {
       <>
         <h2 className='mb-4 text-xl font-semibold'>Campaigns</h2>
         <Table
-          style={{ fontFamily: 'Inter' }}
+          style={{ fontFamily: 'Inter', cursor: 'pointer' }}
           onRow={(record) => ({
             onClick: () =>
               dispatch(getSpecificCampaign(record.id)).then((data) => {
