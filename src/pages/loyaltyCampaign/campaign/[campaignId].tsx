@@ -14,9 +14,6 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
 const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificCampaign } = useAppSelector(
     (state: RootState) => state.campaign
@@ -24,18 +21,8 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificRule } = useAppSelector((state: RootState) => state.rule)
   const { name, startDate, endDate, status, redemptionRules } = specificCampaign
 
-  const getUserTimeZoneOffset = () => {
-    return new Date().getTimezoneOffset()
-  }
-
-  // Function to convert the UTC date to the user's local time zone
-  const convertToLocalTimeZone = (utcDate: any) => {
-    return dayjs.utc(utcDate).utcOffset(getUserTimeZoneOffset()).local()
-  }
-  const localStartDate = convertToLocalTimeZone(startDate)
-  const localEndDate = convertToLocalTimeZone(endDate)
-  const formattedStartDate = dayjs(localStartDate).format('DD/MM/YYYY')
-  const formattedEndDate = dayjs(localEndDate).format('DD/MM/YYYY')
+  const formattedStartDate = dayjs(startDate).utc().format('DD/MM/YYYY')
+  const formattedEndDate = dayjs(endDate).utc().format('DD/MM/YYYY')
 
   const router = useRouter()
 
