@@ -24,8 +24,16 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificRule } = useAppSelector((state: RootState) => state.rule)
   const { name, startDate, endDate, status, redemptionRules } = specificCampaign
 
-  const localStartDate = dayjs.utc(startDate).local()
-  const localEndDate = dayjs.utc(endDate).local()
+  const getUserTimeZoneOffset = () => {
+    return new Date().getTimezoneOffset()
+  }
+
+  // Function to convert the UTC date to the user's local time zone
+  const convertToLocalTimeZone = (utcDate: any) => {
+    return dayjs.utc(utcDate).utcOffset(getUserTimeZoneOffset()).local()
+  }
+  const localStartDate = convertToLocalTimeZone(startDate)
+  const localEndDate = convertToLocalTimeZone(endDate)
   const formattedStartDate = dayjs(localStartDate).format('DD/MM/YYYY')
   const formattedEndDate = dayjs(localEndDate).format('DD/MM/YYYY')
 
