@@ -12,6 +12,7 @@ import ClientOnly, {
   formatDateToCustomFormat,
 } from '@/utilities/helperFunctions'
 import { LeftOutlined } from '@ant-design/icons'
+import dayjs from 'dayjs'
 
 const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificCampaign } = useAppSelector(
@@ -20,8 +21,8 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificRule } = useAppSelector((state: RootState) => state.rule)
   const { name, startDate, endDate, status, redemptionRules } = specificCampaign
 
-  const formattedStartDate = formatDateToCustomFormat(startDate, 'DD/MM/YYYY')
-  const formattedEndDate = formatDateToCustomFormat(endDate, 'DD/MM/YYYY')
+  const formattedStartDate = dayjs(startDate).format('DD/MM/YYYY')
+  const formattedEndDate = dayjs(endDate).format('DD/MM/YYYY')
 
   const router = useRouter()
 
