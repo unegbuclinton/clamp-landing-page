@@ -69,7 +69,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
           <span onClick={() => router.push('/loyaltyCampaign')}>
             <LeftOutlined color='#999999' className='cursor-pointer' />
           </span>
-          <div className='flex justify-between items-center mt-3'>
+          <div className='flex justify-between items-center'>
             <h1 className='py-4 font-bold text-2xl'>{name}</h1>
             <Dropdown className='cursor-pointer' menu={{ items }}>
               <a onClick={(e) => e.preventDefault()}>
@@ -81,7 +81,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
           <div className='grid grid-cols-2 gap-[11px]'>
             {data?.map(({ header, value, subText }, idx) => (
               <div key={idx} className='w-full border p-4 rounded-xl'>
-                <h3 className='mb-6'>{header}</h3>
+                <h3>{header}</h3>
                 <p className='flex items-center text-xl font-semibold'>
                   {value}
                   <sup>
@@ -92,7 +92,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
               </div>
             ))}
           </div>
-          <Divider className='mt-14 pb-6' />
+          <Divider className='mt-14' />
 
           <div>
             <p className='py-4 text-base font-normal'>Overview</p>

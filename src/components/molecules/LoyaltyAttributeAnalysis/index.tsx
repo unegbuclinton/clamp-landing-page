@@ -11,7 +11,7 @@ const LoyaltyAttribute = () => {
       <AreaChart />
       <div className='pl-2'>
         <p className='flex items-center text-2xl'>
-          N0.00
+          N7,200,000
           <sup>
             <ArrowUp />
           </sup>

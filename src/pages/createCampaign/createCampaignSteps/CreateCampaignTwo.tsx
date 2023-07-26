@@ -104,14 +104,14 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               {selectedOption === 'Location' && (
                 <Input
                   type='text'
-                  className='shadow-lg w-[80px] h-[32px] text-right mr-2'
+                  className='shadow-lg w-[100px] h-[32px] text-right mr-2'
                   placeholder='Location'
                 />
               )}
               {selectedOption !== 'Location' && (
                 <Input
                   type='number'
-                  className='shadow-lg w-[60px] h-[32px] text-right mr-2'
+                  className='shadow-lg w-[100px] h-[32px] text-right mr-2'
                   placeholder='1'
                 />
               )}
