@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react'
+import { useAppDispatch } from '../hooks'
+import { getAllRules, getSpecificRule } from '../redux/RuleSlice'
+import { getRules } from '@/api/rules'
+import { useDispatch } from 'react-redux'
 
 export default function ClientOnly({
   children,
@@ -48,3 +52,9 @@ export function formatDateToCustomFormat<T extends string>(
 
   return format.replace('DD', day).replace('MM', month).replace('YYYY', year)
 }
+
+// export const filterRule = async () => {
+//   const rules = await getRules()
+//   const specificRule = rules.filter((rule: any) => rule.id === 'r10')
+//   dispatch(getSpecificRule(specificRule))
+// }

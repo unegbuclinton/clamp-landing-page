@@ -11,6 +11,8 @@ import {
 import { RootState } from '@/store'
 import { createCampaignInterface } from '@/utilities/types/createCampaign'
 import ClientOnly from '@/utilities/helperFunctions'
+import { getRules } from '@/api/rules'
+import { getSpecificRule } from '@/utilities/redux/RuleSlice'
 
 const CampaignTable = () => {
   const dispatch = useAppDispatch()
@@ -63,7 +65,15 @@ const CampaignTable = () => {
             onClick: () =>
               dispatch(getSpecificCampaign(record.id)).then((data) => {
                 if (data.payload) {
-                  router.push(`/loyaltyCampaign/campaign/${record.id}`)
+                  const id = data.payload.ruleIds?.[0]
+                  getRules().then((data) => {
+                    const specificRule = data.find((element: any) => {
+                      return element.id === id
+                    })
+
+                    dispatch(getSpecificRule(specificRule))
+                    router.push(`/loyaltyCampaign/campaign/${record.id}`)
+                  })
                 }
               }),
           })}

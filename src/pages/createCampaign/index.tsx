@@ -19,7 +19,7 @@ import {
   ruleInterface,
 } from '@/utilities/types/createCampaign'
 import { createNewCampaign } from '@/api/campaign'
-import { createRule } from '@/api/rules'
+import { createRule, getRules } from '@/api/rules'
 import { getSpecificRule } from '@/utilities/redux/RuleSlice'
 
 const CampaignForm = () => {
@@ -36,6 +36,7 @@ const CampaignForm = () => {
 
   const [earningType, setEarningType] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
+  const [ruleId, setRuleId] = useState<string>('')
 
   useEffect(() => {
     // Check if there are saved form values in localStorage
@@ -51,6 +52,7 @@ const CampaignForm = () => {
     setEarningType(value)
   }
 
+  console.log(ruleId)
   const steps = [
     {
       component: (
@@ -86,39 +88,11 @@ const CampaignForm = () => {
   const handleFinish = () => {
     setLoading(true)
     const id = String(Math.random())
-    const campaignData: createCampaignInterface = {
-      id: id,
-      name: createCampaignData.campaignName,
-      startDate: campaignStartDate,
-      endDate: campaignEndDate,
-      status: 'active',
-      ruleIds: [id],
-      redemptionRules: [
-        {
-          assetConditions: [
-            {
-              key: 'point',
-              operator: 'gte',
-              value: String(createCampaignData.campaignRedeem),
-            },
-          ],
-          customerConditions: [
-            {
-              key: 'membership',
-              operator: 'eq',
-              value: 'preminum',
-            },
-          ],
-          liquidationInstrument: redemptionType.type,
-          redeemableUntil: '2023-07-01',
-          redeemableFrom: '2023-12-31',
-        },
-      ],
-    }
+
     const rulesData: ruleInterface = {
       id: id,
       assetId: 'ast-001',
-      assetQty: createCampaignData.campaignReward,
+      assetQty: createCampaignData.campaignEarnings,
       eventName: createCampaignData.campaignName,
       conditions: [
         {
@@ -139,6 +113,45 @@ const CampaignForm = () => {
 
     createRule(rulesData).then((data) => {
       if (data.id) {
+        const ruleId = data.id
+        getRules().then((data) => {
+          const rules: Array<ruleInterface> = data
+          if (rules) {
+            const lastIndex = rules.length - 1
+            const specificRule = rules[lastIndex]
+            console.log(specificRule)
+            dispatch(getSpecificRule(specificRule))
+          }
+        })
+        const campaignData: createCampaignInterface = {
+          id: id,
+          name: createCampaignData.campaignName,
+          startDate: campaignStartDate,
+          endDate: campaignEndDate,
+          status: 'active',
+          ruleIds: [ruleId],
+          redemptionRules: [
+            {
+              assetConditions: [
+                {
+                  key: 'point',
+                  operator: 'gte',
+                  value: String(createCampaignData.campaignRedeem),
+                },
+              ],
+              customerConditions: [
+                {
+                  key: 'membership',
+                  operator: 'eq',
+                  value: 'preminum',
+                },
+              ],
+              liquidationInstrument: redemptionType.type,
+              redeemableUntil: '2023-07-01',
+              redeemableFrom: '2023-12-31',
+            },
+          ],
+        }
         createNewCampaign(campaignData).then((data) => {
           if (data.id) {
             dispatch(getSpecificCampaign(data.id)).then((data) => {

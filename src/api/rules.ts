@@ -16,6 +16,19 @@ export const createRule = async (body: ruleInterface) => {
   }
 }
 
+export const getRules = async () => {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: `${baseURL}/rules`,
+    })
+
+    return response.data
+  } catch (error: any) {
+    return error
+  }
+}
+
 export const getSingleRule = async (id: string) => {
   try {
     const response = await axios({

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ArrowUp from '@/assets/svgs/arrow-up.svg'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 import { Divider, Button, Dropdown } from 'antd'
@@ -12,6 +12,7 @@ import ClientOnly, {
   formatDateToCustomFormat,
 } from '@/utilities/helperFunctions'
 import { LeftOutlined } from '@ant-design/icons'
+
 const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificCampaign } = useAppSelector(
     (state: RootState) => state.campaign
@@ -23,6 +24,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const formattedEndDate = formatDateToCustomFormat(endDate, 'DD/MM/YYYY')
 
   const router = useRouter()
+
   const data = [
     {
       header: 'Sales attributed',
@@ -125,14 +127,31 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
 
             <div className='py-6'>
               <p className='text-dim-grey text-[10px]'>CONDITION</p>
-              <p className='text-dim-grey text-sm'>
-                Customer earns points if transaction {'>'} or = $1
-              </p>
+              {specificRule?.conditions?.[0]?.operator === 'gt' && (
+                <p className='text-dim-grey text-sm'>
+                  {`Customer earns points if transaction greater than ${specificRule?.conditions?.[0].value}`}
+                </p>
+              )}
+              {specificRule?.conditions?.[0]?.operator === 'gte' && (
+                <p className='text-dim-grey text-sm'>
+                  {`Customer earns points if transaction greater than or equals ${specificRule?.conditions?.[0].value}`}
+                </p>
+              )}
+              {specificRule?.conditions?.[0]?.operator === 'lt' && (
+                <p className='text-dim-grey text-sm'>
+                  {`Customer earns points if transaction less than ${specificRule?.conditions?.[0].value}`}
+                </p>
+              )}
+              {specificRule?.conditions?.[0]?.operator === 'lte' && (
+                <p className='text-dim-grey text-sm'>
+                  {`Customer earns points if transaction less than or equals ${specificRule?.conditions?.[0].value}`}
+                </p>
+              )}
             </div>
 
             <div className='py-6'>
               <p className='text-dim-grey py-1.5 text-[10px]'>EFFECT</p>
-              <p className='font-semibold  text-sm'>Customer earns 1 point</p>
+              <p className='font-semibold  text-sm'>{`Customer earns ${specificRule?.assetQty} point`}</p>
             </div>
 
             <div className='py-6'>
