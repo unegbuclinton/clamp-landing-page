@@ -19,7 +19,7 @@ const PointAnalysisCard = () => {
           />
           <div className='text-sm'>
             <p className='font-medium text-dim-grey mb-1'>USED</p>
-            <p style={{ font: 'medium', marginBottom: '1.5' }}>28</p>
+            <p style={{ font: 'medium', marginBottom: '1.5' }}>25</p>
             <p className='font-thin text-battle-grey mb-1'>N451,936</p>
 
             <p className='font-medium text-dim-grey mb-1'>REDEEMED</p>
