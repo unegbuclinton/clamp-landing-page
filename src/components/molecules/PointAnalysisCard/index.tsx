@@ -5,6 +5,7 @@ import ProgressAnalysisData from '../PointAnalysisData'
 const PointAnalysisCard = () => {
   return (
     <div className='w-full border p-4 rounded-xl'>
+      <p className='pb-4'>Balance</p>
       <div className='flex flex-col'>
         <div className='flex gap-[47px]'>
           <Progress

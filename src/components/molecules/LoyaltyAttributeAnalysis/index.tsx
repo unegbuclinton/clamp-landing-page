@@ -8,6 +8,7 @@ const LoyaltyAttribute = () => {
   const { allCampaigns } = useAppSelector((state: RootState) => state.campaign)
   return (
     <div className='w-full border p-4 rounded-xl'>
+      <p className='pb-4'>Loyalty attributed sales</p>
       <AreaChart />
       <div className='pl-2'>
         <p className='flex items-center text-2xl'>
