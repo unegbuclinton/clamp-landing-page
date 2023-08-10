@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { createCampaignInterface } from '../types/createCampaign'
-import { getCampaigns, getSingleCampaign } from '@/api/campaign'
+import {
+  endCampaign,
+  getCampaigns,
+  getSingleCampaign,
+  pauseCampaign,
+} from '@/api/campaign'
 
 interface campaignState {
   createCampaignData: {
@@ -19,6 +24,7 @@ interface campaignState {
   ruleOperator: { operator: string; value: string }
   campaignStartDate: string
   campaignEndDate: string
+  isLoading: boolean
 }
 const initialState = {
   createCampaignData: {
@@ -31,6 +37,7 @@ const initialState = {
     cashbackOption: 'Naira',
     earningType: 'Fixed',
   },
+  isLoading: false,
   specificCampaign: {},
   allCampaigns: [{}],
   redemptionType: { type: 'Cashback', id: 0 },
@@ -46,6 +53,16 @@ export const getAllCampaign = createAsyncThunk(
 export const getSpecificCampaign = createAsyncThunk(
   'campaign/getSingleCampaign',
   getSingleCampaign
+)
+
+export const pauseSpecificCampaign = createAsyncThunk(
+  'campaign/pauseSpecificCampaign',
+  pauseCampaign
+)
+
+export const endSpecificCampaign = createAsyncThunk(
+  'campaign/endSpecificCampaign',
+  endCampaign
 )
 export const campaignSlice = createSlice({
   name: 'campaign',
@@ -78,6 +95,12 @@ export const campaignSlice = createSlice({
     })
     builder.addCase(getAllCampaign.fulfilled, (state, action) => {
       state.allCampaigns = action.payload
+    })
+    builder.addCase(pauseSpecificCampaign.fulfilled, (state) => {
+      state.isLoading = false
+    })
+    builder.addCase(endSpecificCampaign.fulfilled, (state) => {
+      state.isLoading = false
     })
   },
 })

@@ -43,6 +43,32 @@ export const getSingleCampaign = async (id: string) => {
   }
 }
 
+export const pauseCampaign = async (id: string) => {
+  try {
+    const response = await axios({
+      method: 'put',
+      url: `${baseURL}/campaigns/${id}`,
+    })
+    // console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error
+  }
+}
+
+export const endCampaign = async (id: string) => {
+  try {
+    const response = await axios({
+      method: 'del',
+      url: `${baseURL}/campaigns/${id}`,
+    })
+    // console.log(response)
+    return response.data
+  } catch (error: any) {
+    return error
+  }
+}
+
 export const createTrigger = async (body: triggerInterface) => {
   try {
     const response = await axios({

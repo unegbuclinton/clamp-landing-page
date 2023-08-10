@@ -7,11 +7,16 @@ import { CiCircleMore } from 'react-icons/ci'
 import type { MenuProps } from 'antd'
 import { useRouter } from 'next/router'
 import { RootState } from '@/store'
-import { useAppSelector } from '@/utilities/hooks'
+import { useAppDispatch, useAppSelector } from '@/utilities/hooks'
 import ClientOnly from '@/utilities/helperFunctions'
 import { LeftOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
+import {
+  endSpecificCampaign,
+  pauseSpecificCampaign,
+} from '@/utilities/redux/CampaignFormSlice'
+import Link from 'next/link'
 
 dayjs.extend(utc)
 
@@ -19,13 +24,16 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const { specificCampaign } = useAppSelector(
     (state: RootState) => state.campaign
   )
+
   const { specificRule } = useAppSelector((state: RootState) => state.rule)
-  const { name, startDate, endDate, status, redemptionRules } = specificCampaign
+  const { name, startDate, endDate, status, redemptionRules, id } =
+    specificCampaign
 
   const formattedStartDate = dayjs(startDate).utc().format('DD/MM/YYYY')
   const formattedEndDate = dayjs(endDate).utc().format('DD/MM/YYYY')
 
   const router = useRouter()
+  const dispatch = useAppDispatch()
 
   const data = [
     {
@@ -54,14 +62,18 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     {
       key: '1',
       label: 'Pause campaign',
+      onClick: () => dispatch(pauseSpecificCampaign(id)),
     },
     {
       key: '2',
       label: 'End campaign',
+      onClick: () => dispatch(endSpecificCampaign(id)),
     },
     {
       key: '3',
-      label: 'Edit',
+      label: (
+        <Link href={`/createCampaign?mode=edit&campaignId=${id}`}>Edit</Link>
+      ),
     },
   ]
   return (
@@ -221,6 +233,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             style={{ border: '1px solid #E6E6E6', fontWeight: 600 }}
             type='text'
             danger
+            onClick={() => dispatch(endSpecificCampaign(id))}
           >
             End Campaign
           </Button>

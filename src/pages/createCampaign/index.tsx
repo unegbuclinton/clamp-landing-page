@@ -13,7 +13,6 @@ import {
   getSpecificCampaign,
 } from '@/utilities/redux/CampaignFormSlice'
 import { useRouter } from 'next/router'
-
 import {
   createCampaignInterface,
   ruleInterface,
@@ -24,6 +23,8 @@ import { getSpecificRule } from '@/utilities/redux/RuleSlice'
 
 const CampaignForm = () => {
   const router = useRouter()
+  const { mode, campaignId } = router.query
+
   const {
     createCampaignData,
     redemptionType,
@@ -33,7 +34,6 @@ const CampaignForm = () => {
   } = useAppSelector((state: RootState) => state.campaign)
   const dispatch = useAppDispatch()
   const [currentStep, setCurrentStep] = useState<number>(0)
-
   const [earningType, setEarningType] = useState<any>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [ruleId, setRuleId] = useState<string>('')
@@ -52,7 +52,6 @@ const CampaignForm = () => {
     setEarningType(value)
   }
 
-  console.log(ruleId)
   const steps = [
     {
       component: (
