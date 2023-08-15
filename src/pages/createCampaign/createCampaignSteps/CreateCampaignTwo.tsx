@@ -25,7 +25,6 @@ import { useAppSelector } from '@/utilities/hooks'
 interface campaignStepTwo {
   form: FormInstance
   formData: {
-    campaignName: string
     campaignTriggerValue: any
     campaignEarnings: number
     campaignRedeem: number
@@ -74,6 +73,8 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const handleTypeOfEarning = (value: string) => {
     handleEarningType(value)
   }
+
+  console.log(ruleOperator.value)
   return (
     <div className='flex justify-center w-full '>
       <div>

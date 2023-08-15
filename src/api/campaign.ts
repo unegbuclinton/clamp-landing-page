@@ -12,8 +12,8 @@ export const createNewCampaign = async (body: createCampaignInterface) => {
       url: `${baseURL}/campaigns`,
       data: body,
     })
-
-    return response.data
+    const createdCampaign = await getSingleCampaign(response.data.id)
+    return createdCampaign
   } catch (error: any) {
     return error
   }
@@ -64,6 +64,26 @@ export const endCampaign = async (id: string) => {
     })
     // console.log(response)
     return response.data
+  } catch (error: any) {
+    return error
+  }
+}
+
+export const updateCampaign = async ({
+  body,
+  id,
+}: {
+  body: createCampaignInterface
+  id: string
+}) => {
+  try {
+    const response = await axios({
+      method: 'post',
+      url: `${baseURL}/campaigns${id}`,
+      data: body,
+    })
+    const createdCampaign = await getSingleCampaign(response.data.id)
+    return createdCampaign
   } catch (error: any) {
     return error
   }

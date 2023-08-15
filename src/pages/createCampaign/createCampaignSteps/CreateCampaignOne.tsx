@@ -6,13 +6,6 @@ interface campaignStepOne {
   form: FormInstance
   formData: {
     campaignName: string
-    earningType: string
-    campaignTriggerValue: any
-    campaignEarnings: number
-    campaignRedeem: number
-    campaignTrigger: string
-    cashbackOption: string
-    campaignReward: number
   }
 }
 const CreateCampaignOne: React.FC<campaignStepOne> = () => {

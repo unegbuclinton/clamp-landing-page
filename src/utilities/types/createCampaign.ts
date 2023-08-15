@@ -40,10 +40,10 @@ export interface triggerInterface {
 }
 
 export interface ruleInterface {
-  id: string
   assetId: string
   assetQty: number
   eventName: string
+  id: string
   conditions: Condition[]
   multiplier: Multiplier
 }

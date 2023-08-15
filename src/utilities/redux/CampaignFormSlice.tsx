@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { createCampaignInterface } from '../types/createCampaign'
 import {
+  createNewCampaign,
   endCampaign,
   getCampaigns,
   getSingleCampaign,
   pauseCampaign,
+  updateCampaign,
 } from '@/api/campaign'
 
 interface campaignState {
@@ -50,6 +52,11 @@ export const getAllCampaign = createAsyncThunk(
   'campaign/getAllCampaign',
   getCampaigns
 )
+export const createCampaign = createAsyncThunk(
+  'campaign/createCampaign',
+  createNewCampaign
+)
+
 export const getSpecificCampaign = createAsyncThunk(
   'campaign/getSingleCampaign',
   getSingleCampaign
@@ -63,6 +70,10 @@ export const pauseSpecificCampaign = createAsyncThunk(
 export const endSpecificCampaign = createAsyncThunk(
   'campaign/endSpecificCampaign',
   endCampaign
+)
+export const updateSpecificCampaign = createAsyncThunk(
+  'campaign/updateSpecificCampaign',
+  updateCampaign
 )
 export const campaignSlice = createSlice({
   name: 'campaign',
@@ -101,6 +112,15 @@ export const campaignSlice = createSlice({
     })
     builder.addCase(endSpecificCampaign.fulfilled, (state) => {
       state.isLoading = false
+    })
+    builder.addCase(updateSpecificCampaign.fulfilled, (state, action) => {
+      state.specificCampaign = action.payload
+      state.isLoading = false
+    })
+
+    builder.addCase(createCampaign.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.specificCampaign = action.payload
     })
   },
 })
