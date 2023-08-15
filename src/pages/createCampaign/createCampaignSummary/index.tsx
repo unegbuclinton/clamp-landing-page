@@ -2,6 +2,7 @@ import React from 'react'
 import InfoCard from '@/components/molecules/infoCard'
 import { useAppSelector } from '@/utilities/hooks'
 import { RootState } from '@/store'
+import dayjs from 'dayjs'
 const CreateCampaignSummary = () => {
   const {
     createCampaignData,
@@ -18,6 +19,17 @@ const CreateCampaignSummary = () => {
     campaignReward,
     earningType,
   } = createCampaignData
+
+  // const options = {
+  //   year: 'numeric',
+  //   month: '2-digit',
+  //   day: '2-digit',
+  // }
+  // console.log(
+  //   console.log(
+  //     new Intl.DateTimeFormat('en', options).format(campaignEndDate.$d)
+  //   )
+  // )
   return (
     <div>
       <p className='text-xs text-dim-grey mb-4'>Step 2 of 2</p>
@@ -55,7 +67,7 @@ const CreateCampaignSummary = () => {
           }`}</p>
         </div>
       </InfoCard>
-      <InfoCard outline>
+      {/* <InfoCard outline>
         <div className='flex items-center gap-5'>
           <div className='py-4'>
             <p className='text-dim'>Start Date:</p>
@@ -67,7 +79,7 @@ const CreateCampaignSummary = () => {
             <p className='font-bold'>{campaignEndDate}</p>
           </div>
         </div>
-      </InfoCard>
+      </InfoCard> */}
     </div>
   )
 }
