@@ -2,7 +2,7 @@ import PillButton from '@/components/atoms/pillButton'
 import InfoCard from '@/components/molecules/infoCard'
 import { campaignOptions } from '@/utilities/data/campaignOption'
 import type { DatePickerProps } from 'antd'
-import { Form, Input, Select } from 'antd'
+import { Form, Input, InputNumber, Select } from 'antd'
 import React, { useState } from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { FormInstance } from 'antd/lib/form'
@@ -46,7 +46,13 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const startDateObject = dayjs(campaignStartDate)
   const EndDateObject = dayjs(campaignEndDate)
   const [selectedOption, setSelectedOption] = useState<string>('')
+  const [rewardValue, setRewardValue] = useState<any>(0)
   const dispatch = useDispatch()
+
+  const handleEarningChange = (value: number | null) => {
+    setRewardValue(value)
+  }
+
   const handleChange = (value: any) => {
     setSelectedOption(value)
     const selectedOperator = triggerOptions.find(
@@ -74,7 +80,6 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     handleEarningType(value)
   }
 
-  console.log(ruleOperator.value)
   return (
     <div className='flex justify-center w-full '>
       <div>
@@ -110,8 +115,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                 />
               )}
               {selectedOption !== 'Location' && (
-                <Input
-                  type='number'
+                <InputNumber
                   className='shadow-lg w-[100px] h-[32px] text-right mr-2'
                   placeholder='1'
                 />
@@ -133,9 +137,10 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               name='campaignEarnings'
               rules={[{ required: true, message: '' }]}
             >
-              <Input
+              <InputNumber
                 className='shadow-lg w-[60px] h-[32px] text-right mr-2'
                 placeholder='1'
+                onChange={handleEarningChange}
               />
             </Form.Item>
             <span>Points</span>
@@ -181,7 +186,9 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               rules={[{ required: true, message: '' }]}
               name='campaignRedeem'
             >
-              <Input
+              <InputNumber
+                min={rewardValue}
+                type='number'
                 className='shadow-lg w-[60px] h-[32px] text-right mr-2'
                 placeholder='1'
               />
@@ -218,7 +225,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                   rules={[{ required: true, message: '' }]}
                   name='campaignReward'
                 >
-                  <Input
+                  <InputNumber
                     className='shadow-lg w-[60px] h-[32px] text-right mr-2'
                     placeholder='5'
                   />
@@ -229,7 +236,6 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                       className='cursor-pointer'
                       style={{ width: '30%' }}
                       placeholder='Options'
-                      // onChange={handleTypeOfEarning}
                     >
                       {[
                         { label: 'Naira', value: 'Naira' },
