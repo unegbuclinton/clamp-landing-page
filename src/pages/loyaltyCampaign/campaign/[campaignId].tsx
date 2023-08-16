@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ArrowUp from '@/assets/svgs/arrow-up.svg'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 import { Divider, Button, Dropdown } from 'antd'
@@ -17,6 +17,11 @@ import {
   pauseSpecificCampaign,
 } from '@/utilities/redux/CampaignFormSlice'
 import Link from 'next/link'
+import {
+  data,
+  generateConditionText,
+  generateRedemptionConditionText,
+} from '@/utilities/campaignData'
 
 dayjs.extend(utc)
 
@@ -31,32 +36,15 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
 
   const formattedStartDate = dayjs(startDate).utc().format('DD/MM/YYYY')
   const formattedEndDate = dayjs(endDate).utc().format('DD/MM/YYYY')
-
+  const [redemptiontextText, setRedemptionText] = useState<string>('')
+  const condition = specificRule?.conditions?.[0]
+  const redemptionCondition = redemptionRules?.[0].assetConditions?.[0]
+  const [conditionInfo, setConditionInfo] = useState<{
+    header: string
+    description: string
+  }>({ header: '', description: '' })
   const router = useRouter()
   const dispatch = useAppDispatch()
-
-  const data = [
-    {
-      header: 'Sales attributed',
-      value: 'N0.00',
-      //   subText: '24 new customers in the last 7 days',
-    },
-    {
-      header: 'Customer opted in',
-      value: '0',
-      subText: '0% of customers',
-    },
-    {
-      header: 'Points allocated',
-      value: '0',
-      subText: '0.00 in value',
-    },
-    {
-      header: 'Claimed points',
-      value: '0',
-      subText: 'Claimed by 0 customers',
-    },
-  ]
 
   const items: MenuProps['items'] = [
     {
@@ -76,6 +64,34 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
       ),
     },
   ]
+
+  // conditions
+
+  useEffect(() => {
+    if (condition) {
+      const {
+        operator: conditionOperator,
+        value: conditionValue,
+        key,
+      } = condition
+      const { header, description } = generateConditionText(
+        conditionOperator,
+        conditionValue,
+        key
+      )
+      setConditionInfo({ header, description })
+    }
+  }, [condition])
+
+  // Redemption
+  useEffect(() => {
+    if (redemptionCondition) {
+      const { operator, value } = redemptionCondition
+      const conditionText = generateRedemptionConditionText(operator, value)
+      setRedemptionText(conditionText)
+    }
+  }, [redemptionCondition])
+
   return (
     <ClientOnly>
       <DashboardLayout>
@@ -142,38 +158,14 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             <div className='py-6'>
               <p className='text-dim-grey text-[10px]'>CONDITION</p>
 
-              {specificRule?.conditions?.[0]?.operator === 'gt' && (
-                <>
-                  <p className='font-semibold  text-sm'>{`Transaction greater than ${specificRule?.conditions?.[0].value} `}</p>
-                  <p className='text-dim-grey text-sm'>
-                    {`Customer earns points if transaction greater than ${specificRule?.conditions?.[0].value}`}
-                  </p>
-                </>
-              )}
-              {specificRule?.conditions?.[0]?.operator === 'gte' && (
+              {conditionInfo && (
                 <>
                   {' '}
-                  <p className='font-semibold  text-sm'>{`Transaction greater than or equals ${specificRule?.conditions?.[0].value} `}</p>
-                  <p className='text-dim-grey text-sm'>
-                    {`Customer earns points if transaction greater than or equals ${specificRule?.conditions?.[0].value}`}
-                  </p>
-                </>
-              )}
-              {specificRule?.conditions?.[0]?.operator === 'lt' && (
-                <>
-                  <p className='font-semibold  text-sm'>{`Transaction less than  ${specificRule?.conditions?.[0].value} `}</p>
-                  <p className='text-dim-grey text-sm'>
-                    {`Customer earns points if transaction less than ${specificRule?.conditions?.[0].value}`}
-                  </p>
-                </>
-              )}
-              {specificRule?.conditions?.[0]?.operator === 'lte' && (
-                <>
-                  <p className='text-dim-grey text-sm'>
-                    {`Customer earns points if transaction less than or equals ${specificRule?.conditions?.[0].value}`}
+                  <p className='font-semibold text-sm'>
+                    {conditionInfo.header}
                   </p>
                   <p className='text-dim-grey text-sm'>
-                    {`Customer earns points if transaction less than or equals ${specificRule?.conditions?.[0].value}`}
+                    {conditionInfo.description}
                   </p>
                 </>
               )}
@@ -195,36 +187,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
                 POINTS NEEDED FOR REDEMPTION
               </p>
               <p className='font-semibold py-1.5 text-sm'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
-              {redemptionRules?.[0].assetConditions?.[0].operator === 'gte' && (
-                <p className='text-dim-grey text-xs'>
-                  Customer redeems points if greater than or equals to{' '}
-                  {redemptionRules?.[0].assetConditions?.[0].value}
-                </p>
-              )}
-              {redemptionRules?.[0].assetConditions?.[0].operator === 'gt' && (
-                <p className='text-dim-grey text-xs'>
-                  Customer can redeem points if greater than{' '}
-                  {redemptionRules?.[0].assetConditions?.[0].value}
-                </p>
-              )}
-              {redemptionRules?.[0].assetConditions?.[0].operator === 'lt' && (
-                <p className='text-dim-grey text-xs'>
-                  Customer earns points if less than{' '}
-                  {redemptionRules?.[0].assetConditions?.[0].value}
-                </p>
-              )}
-              {redemptionRules?.[0].assetConditions?.[0].operator === 'lte' && (
-                <p className='text-dim-grey text-xs'>
-                  Customer earns points if less than or eqals to{' '}
-                  {redemptionRules?.[0].assetConditions?.[0].value}
-                </p>
-              )}
-              {redemptionRules?.[0].assetConditions?.[0].operator === 'eq' && (
-                <p className='text-dim-grey text-xs'>
-                  Customer earns points if equals to
-                  {redemptionRules?.[0].assetConditions?.[0].value}
-                </p>
-              )}
+              <p className='text-dim-grey text-xs'>{redemptiontextText}</p>
             </div>
           </div>
           <Divider />
