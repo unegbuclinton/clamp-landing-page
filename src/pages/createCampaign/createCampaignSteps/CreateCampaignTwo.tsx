@@ -183,7 +183,12 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
           <div className='flex items-center'>
             <Form.Item
               className='m-0'
-              rules={[{ required: true, message: '' }]}
+              rules={[
+                {
+                  required: true,
+                  message: 'Value should be greater than reward point',
+                },
+              ]}
               name='campaignRedeem'
             >
               <InputNumber
