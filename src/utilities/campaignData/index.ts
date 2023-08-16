@@ -24,8 +24,8 @@ export function generateConditionText(
         }
       } else {
         return {
-          header: `Transaction less than or equals ${conditionValue}`,
-          description: `Customer earns points if transaction less than or equals ${conditionValue}`,
+          header: `Transaction greater than or equals ${conditionValue}`,
+          description: `Customer earns points if transaction greater than or equals ${conditionValue}`,
         }
       }
     case 'lt':

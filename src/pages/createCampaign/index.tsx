@@ -27,7 +27,6 @@ import {
   getSpecificRule,
   updateSpecificRule,
 } from '@/utilities/redux/RuleSlice'
-import dayjs from 'dayjs'
 
 const CampaignForm = () => {
   const router = useRouter()
@@ -69,16 +68,19 @@ const CampaignForm = () => {
   }, [mode])
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setDataFetching(false)
-    }, 2000)
+    if (mode === 'edit') {
+      const timeoutId = setTimeout(() => {
+        setDataFetching(false)
+      }, 1000)
 
-    return () => {
-      clearTimeout(timeoutId)
+      return () => {
+        clearTimeout(timeoutId)
+      }
     }
   }, [])
 
   useEffect(() => {
+    setDataFetching(false)
     // Check if there are saved form values in localStorage
     const savedFormValues = localStorage.getItem('formValues')
     if (savedFormValues) {
