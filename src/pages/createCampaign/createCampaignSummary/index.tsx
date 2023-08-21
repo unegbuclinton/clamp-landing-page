@@ -20,16 +20,6 @@ const CreateCampaignSummary = () => {
     earningType,
   } = createCampaignData
 
-  // const options = {
-  //   year: 'numeric',
-  //   month: '2-digit',
-  //   day: '2-digit',
-  // }
-  // console.log(
-  //   console.log(
-  //     new Intl.DateTimeFormat('en', options).format(campaignEndDate.$d)
-  //   )
-  // )
   return (
     <div>
       <p className='text-xs text-dim-grey mb-4'>Step 2 of 2</p>
@@ -67,19 +57,23 @@ const CreateCampaignSummary = () => {
           }`}</p>
         </div>
       </InfoCard>
-      {/* <InfoCard outline>
+      <InfoCard description={'Campaign duration'} outline>
         <div className='flex items-center gap-5'>
           <div className='py-4'>
             <p className='text-dim'>Start Date:</p>
-            <p className='font-bold'>{campaignStartDate}</p>
+            <p className='font-bold'>
+              {dayjs(campaignStartDate).format('DD-MM-YYYY')}
+            </p>
           </div>
           -
           <div className='py-4'>
             <p className='text-dim'>End Date:</p>
-            <p className='font-bold'>{campaignEndDate}</p>
+            <p className='font-bold'>
+              {dayjs(campaignEndDate).format('DD-MM-YYYY')}
+            </p>
           </div>
         </div>
-      </InfoCard> */}
+      </InfoCard>
     </div>
   )
 }

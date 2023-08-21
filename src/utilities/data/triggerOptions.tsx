@@ -2,6 +2,7 @@ export const triggerOptions: Array<{
   value: string
   label: string
   operator: string
+  disabled?: boolean
 }> = [
   {
     value: 'Price',
@@ -17,6 +18,24 @@ export const triggerOptions: Array<{
     value: 'Location',
     label: 'Transaction is in a specific location',
     operator: 'eq',
+  },
+  {
+    value: 'Deposit',
+    label: 'Deposit is greater than or equal to value',
+    operator: 'gte',
+    disabled: true,
+  },
+  {
+    value: 'Investment',
+    label: 'Investment is greater than or equal to value',
+    operator: 'gte',
+    disabled: true,
+  },
+  {
+    value: 'Insurance',
+    label: 'Buy insurance',
+    operator: 'eq',
+    disabled: true,
   },
 ]
 

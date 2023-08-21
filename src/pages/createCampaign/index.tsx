@@ -27,6 +27,7 @@ import {
   getSpecificRule,
   updateSpecificRule,
 } from '@/utilities/redux/RuleSlice'
+import LoadingStateComponent from '@/components/molecules/LoadingState'
 
 const CampaignForm = () => {
   const router = useRouter()
@@ -219,7 +220,7 @@ const CampaignForm = () => {
   }
 
   if (dataFetching) {
-    return <div>Loading...</div>
+    return <LoadingStateComponent />
   }
 
   return (

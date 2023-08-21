@@ -24,6 +24,9 @@ span {
   font-family: 'Inter', sans-serif;
   /* overflow: hidden; */
 }
+html {
+  scroll-snap-type: y mandatory;
+}
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -68,4 +71,55 @@ span {
   ).ant-btn-default:not(:disabled):hover {
   border-color: #000;
   color: #000;
+}
+
+.section {
+  height: 100vh;
+  scroll-snap-align: start;
+  font-size: 2rem;
+  color: black;
+  /* padding: 0 112px; */
+  padding-top: 68px;
+}
+
+.section-wrrapper {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px); /* Move the element down initially */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(
+      0
+    ); /* Bring the element back to its original position */
+  }
+}
+
+.animate-fadeInFromBottom {
+  animation: fadeInFromBottom 0.3s ease-in-out;
+}
+
+#load {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

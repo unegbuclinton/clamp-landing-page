@@ -88,7 +88,8 @@ export default function Home() {
         </div>
       </div>
       <Footer onClick={() => setAccessModal(true)} />
-      {/* modal */}
+
+      {/* modal  */}
       <Modal
         header='Talk to us'
         isShown={accessModal}
