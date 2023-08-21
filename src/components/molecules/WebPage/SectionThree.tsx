@@ -4,7 +4,7 @@ const SectionThree = () => {
   return (
     <div className='section pl-[112px] flex flex-col justify-center gap-10 border-r border-light-grey/90'>
       <h2 className='text-[40px] max-w-[450px]'>
-        HOW DOES IT WORK? WELL, IT'S AS EASY AS
+        HOW DOES IT WORK? WELL, IT&apos;S AS EASY AS
         <br />
         <span className='font-bold'>TRIGGER.</span>
         <br />

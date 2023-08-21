@@ -7,7 +7,7 @@ const SectionOne = () => {
         <span className='font-bold'>RETAIN</span> YOUR <br /> CUSTOMERS
       </h1>
       <div className='text-dim-grey text-2xl max-w-[470px]'>
-        Increase customer loyalty with Clamp's API-driven loyalty software,
+        Increase customer loyalty with Clamp&apos;s API-driven loyalty software,
         delivering personalized offers for repeat purchases.
       </div>
 
