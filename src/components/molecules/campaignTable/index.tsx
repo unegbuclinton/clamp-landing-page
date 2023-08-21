@@ -23,7 +23,7 @@ const CampaignTable = () => {
     dispatch(getAllCampaign())
   }, [])
 
-  const reversedCampaign = [...allCampaigns]?.reverse()
+  // const reversedCampaign = [...allCampaigns]?.reverse()
 
   const router = useRouter()
   const columns: ColumnsType<createCampaignInterface> = [
@@ -80,7 +80,7 @@ const CampaignTable = () => {
               }),
           })}
           columns={columns}
-          dataSource={reversedCampaign}
+          dataSource={allCampaigns}
           className='max-w-[85%] pt-4'
         />
       </>

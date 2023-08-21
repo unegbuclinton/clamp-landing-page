@@ -80,6 +80,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     handleEarningType(value)
   }
 
+  // console.log(dayjs(campaignEndDate))
   return (
     <div className='flex justify-center w-full '>
       <div>
@@ -94,7 +95,11 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               onChange={handleChange}
             >
               {triggerOptions?.map((options, idx) => (
-                <Option key={idx} value={options.value}>
+                <Option
+                  key={idx}
+                  value={options.value}
+                  disabled={options.disabled}
+                >
                   {options.label}
                 </Option>
               ))}
@@ -180,7 +185,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
           label='REDEMPTION'
           description='Points needed to redeemed reward'
         >
-          <div className='flex items-center'>
+          <div className='relative flex items-center'>
             <Form.Item
               className='m-0'
               rules={[
@@ -198,7 +203,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                 placeholder='1'
               />
             </Form.Item>
-            <span>Points</span>
+            <span className='absolute left-[65px] bottom-[25px]'>Points</span>
           </div>
           <div>
             <p className='font-medium py-4'>Reward</p>
@@ -287,6 +292,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               <DatePicker
                 defaultValue={startDateObject}
                 onChange={handleStartDate}
+                // format='DD-MM-YYYY'
                 className='w-full'
               />
             </div>
@@ -296,6 +302,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               <DatePicker
                 defaultValue={EndDateObject}
                 onChange={handleEndDate}
+                // format='DD-MM-YYYY'
                 className='w-full'
               />
             </div>
