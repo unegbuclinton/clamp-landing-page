@@ -185,7 +185,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
           label='REDEMPTION'
           description='Points needed to redeemed reward'
         >
-          <div className='relative flex items-center'>
+          <div className='flex items-center'>
             <Form.Item
               className='m-0'
               rules={[
@@ -203,7 +203,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                 placeholder='1'
               />
             </Form.Item>
-            <span className='absolute left-[65px] bottom-[25px]'>Points</span>
+            <span className=''>Points</span>
           </div>
           <div>
             <p className='font-medium py-4'>Reward</p>
