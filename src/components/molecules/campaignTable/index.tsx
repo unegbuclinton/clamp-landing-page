@@ -2,7 +2,7 @@ import { ColumnsType } from 'antd/es/table'
 import { Table } from 'antd'
 import GoldBadge from '@/assets/svgs/goldBadge.svg'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/utilities/hooks'
 import {
   getAllCampaign,
