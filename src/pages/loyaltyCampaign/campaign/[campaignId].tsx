@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import ArrowUp from '@/assets/svgs/arrow-up.svg'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
-import { Divider, Button, Dropdown } from 'antd'
+import { Divider, Button, Dropdown, message } from 'antd'
 import GoldBadge from '@/assets/svgs/goldBadge.svg'
 import { CiCircleMore } from 'react-icons/ci'
 import type { MenuProps } from 'antd'
@@ -13,6 +13,7 @@ import { LeftOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import {
+  continueSpecificCampaign,
   endSpecificCampaign,
   pauseSpecificCampaign,
 } from '@/utilities/redux/CampaignFormSlice'
@@ -46,16 +47,21 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const router = useRouter()
   const dispatch = useAppDispatch()
 
+  const onClickFunction =
+    status === 'active'
+      ? () => dispatch(pauseSpecificCampaign(id))
+      : () => message.info('Updating')
+  // : () => dispatch(continueSpecificCampaign(id))
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: 'Pause campaign',
-      onClick: () => dispatch(pauseSpecificCampaign(id)),
+      label: `${status === 'active' ? 'Pause campaign' : 'Continue campaign'}`,
+      onClick: onClickFunction,
     },
     {
       key: '2',
       label: 'End campaign',
-      onClick: () => dispatch(endSpecificCampaign(id)),
+      onClick: onClickFunction,
     },
     {
       key: '3',
@@ -196,9 +202,9 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             style={{ border: '1px solid #E6E6E6', fontWeight: 600 }}
             type='text'
             danger
-            onClick={() => dispatch(endSpecificCampaign(id))}
+            onClick={onClickFunction}
           >
-            End Campaign
+            {status === 'active' ? 'End campaign' : 'Resume campaign'}
           </Button>
         </div>
       </DashboardLayout>

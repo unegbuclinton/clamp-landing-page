@@ -104,6 +104,7 @@ const CampaignForm = () => {
     {
       component: (
         <CreateCampaignTwo
+          initialRewardValue={String(specificRule?.assetQty)}
           form={form}
           formData={createCampaignData}
           handleEarningType={handleEarningType}

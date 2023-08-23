@@ -25,6 +25,7 @@ export const getCampaigns = async () => {
       method: 'get',
       url: `${baseURL}/campaigns`,
     })
+    console.log(response.data)
     return response.data
   } catch (error: any) {
     return error
@@ -46,24 +47,37 @@ export const getSingleCampaign = async (id: string) => {
 export const pauseCampaign = async (id: string) => {
   try {
     const response = await axios({
-      method: 'put',
-      url: `${baseURL}/campaigns/${id}`,
+      method: 'post',
+      url: `${baseURL}/campaigns/${id}/pause`,
     })
-    // console.log(response)
-    return response.data
+    const specificCampaign = await getSingleCampaign(response.data.id)
+    return specificCampaign
   } catch (error: any) {
     return error
   }
 }
 
+export const resumeCampaign = async (id: string) => {
+  try {
+    const response = await axios({
+      method: 'post',
+      url: `${baseURL}/campaigns/${id}/resume`,
+    })
+
+    const specificCampaign = await getSingleCampaign(response.data.id)
+    return specificCampaign
+  } catch (error: any) {
+    return error
+  }
+}
 export const endCampaign = async (id: string) => {
   try {
     const response = await axios({
-      method: 'del',
-      url: `${baseURL}/campaigns/${id}`,
+      method: 'post',
+      url: `${baseURL}/campaigns/${id}/stop`,
     })
-    // console.log(response)
-    return response.data
+    const specificCampaign = await getSingleCampaign(response.data.id)
+    return specificCampaign
   } catch (error: any) {
     return error
   }
