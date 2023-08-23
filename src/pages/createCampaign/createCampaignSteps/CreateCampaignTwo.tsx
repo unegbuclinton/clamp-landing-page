@@ -32,12 +32,13 @@ interface campaignStepTwo {
     campaignTrigger: string
     campaignReward: number
   }
-
+  initialRewardValue: string
   handleEarningType: (x: string) => void
 }
 
 const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   handleEarningType,
+  initialRewardValue,
 }) => {
   const { Option } = Select
   const { ruleOperator, redemptionType, campaignEndDate, campaignStartDate } =
@@ -46,7 +47,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const startDateObject = dayjs(campaignStartDate)
   const EndDateObject = dayjs(campaignEndDate)
   const [selectedOption, setSelectedOption] = useState<string>('')
-  const [rewardValue, setRewardValue] = useState<any>(0)
+  const [rewardValue, setRewardValue] = useState<any>(initialRewardValue)
   const dispatch = useDispatch()
 
   const handleEarningChange = (value: number | null) => {
