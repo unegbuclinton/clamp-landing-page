@@ -3,6 +3,7 @@ import {
   createCampaignInterface,
   triggerInterface,
 } from '@/utilities/types/createCampaign'
+import { message } from 'antd'
 import axios from 'axios'
 const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
 export const createNewCampaign = async (body: createCampaignInterface) => {
@@ -51,6 +52,7 @@ export const pauseCampaign = async (id: string) => {
       url: `${baseURL}/campaigns/${id}/pause`,
     })
     const specificCampaign = await getSingleCampaign(response.data.id)
+    message.info('Campaign Paused')
     return specificCampaign
   } catch (error: any) {
     return error
@@ -65,6 +67,7 @@ export const resumeCampaign = async (id: string) => {
     })
 
     const specificCampaign = await getSingleCampaign(response.data.id)
+    message.info('Campaign Resumed')
     return specificCampaign
   } catch (error: any) {
     return error
@@ -77,6 +80,7 @@ export const endCampaign = async (id: string) => {
       url: `${baseURL}/campaigns/${id}/stop`,
     })
     const specificCampaign = await getSingleCampaign(response.data.id)
+    message.info('Campaign Ended')
     return specificCampaign
   } catch (error: any) {
     return error
