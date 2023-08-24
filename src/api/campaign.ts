@@ -26,7 +26,6 @@ export const getCampaigns = async () => {
       method: 'get',
       url: `${baseURL}/campaigns`,
     })
-    console.log(response.data)
     return response.data
   } catch (error: any) {
     return error

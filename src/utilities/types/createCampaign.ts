@@ -6,8 +6,14 @@ export interface createCampaignInterface {
   ruleIds: string[]
   status: string
   redemptionRules: RedemptionRule[]
+  adminEvents?: AdminEvent[]
 }
 
+interface AdminEvent {
+  eventName: string
+  createdAt: string
+  userId: string
+}
 interface RedemptionRule {
   assetConditions: AssetCondition[]
   customerConditions: CustomerCondition[]
