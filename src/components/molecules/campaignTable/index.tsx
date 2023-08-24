@@ -51,8 +51,15 @@ const CampaignTable = () => {
       title: 'STATUS',
       dataIndex: 'status',
       key: 'status',
-      render: (text, _) => (
-        <p className='flex flex-col '>{text?.toLocaleUpperCase()} </p>
+      render: (text, record) => (
+        <p className='flex flex-col '>
+          {(record.adminEvents &&
+            record.adminEvents[record.adminEvents.length - 1].eventName !==
+              'stop-campaign') ||
+          !record.adminEvents
+            ? text?.toLocaleUpperCase()
+            : 'ENDED'}
+        </p>
       ),
     },
   ]

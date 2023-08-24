@@ -60,6 +60,9 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
       key: '1',
       label: `${status === 'active' ? 'Pause campaign' : 'Continue campaign'}`,
       onClick: onClickFunction,
+      disabled:
+        adminEvent &&
+        adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
     },
     {
       key: '2',
@@ -74,6 +77,9 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
       label: (
         <Link href={`/createCampaign?mode=edit&campaignId=${id}`}>Edit</Link>
       ),
+      disabled:
+        adminEvent &&
+        adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
     },
   ]
 
