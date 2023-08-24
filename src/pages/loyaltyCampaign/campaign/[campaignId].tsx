@@ -152,7 +152,14 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
                 STATUS
               </p>
               <p className='flex font-medium text-sm items-center gap-3'>
-                {status?.toLocaleUpperCase()}
+                {(adminEvent &&
+                  adminEvent[adminEvent.length - 1].eventName !==
+                    'stop-campaign') ||
+                !adminEvent ? (
+                  <> {status?.toLocaleUpperCase()}</>
+                ) : (
+                  <> ENDED</>
+                )}
               </p>
             </div>
 
