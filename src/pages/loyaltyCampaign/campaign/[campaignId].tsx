@@ -40,12 +40,15 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const [redemptiontextText, setRedemptionText] = useState<string>('')
   const condition = specificRule?.conditions?.[0]
   const redemptionCondition = redemptionRules?.[0].assetConditions?.[0]
+
   const [conditionInfo, setConditionInfo] = useState<{
     header: string
     description: string
   }>({ header: '', description: '' })
   const router = useRouter()
   const dispatch = useAppDispatch()
+
+  const adminEvent = specificCampaign.adminEvents
 
   const onClickFunction =
     status === 'active'
@@ -61,7 +64,10 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     {
       key: '2',
       label: 'End campaign',
-      onClick: onClickFunction,
+      onClick: () => dispatch(endSpecificCampaign(id)),
+      disabled:
+        adminEvent &&
+        adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
     },
     {
       key: '3',
@@ -198,14 +204,18 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
           </div>
           <Divider />
 
-          <Button
-            style={{ border: '1px solid #E6E6E6', fontWeight: 600 }}
-            type='text'
-            danger
-            onClick={onClickFunction}
-          >
-            {status === 'active' ? 'End campaign' : 'Resume campaign'}
-          </Button>
+          {(adminEvent &&
+            adminEvent[adminEvent.length - 1].eventName !== 'stop-campaign') ||
+          !adminEvent ? (
+            <Button
+              style={{ border: '1px solid #E6E6E6', fontWeight: 600 }}
+              type='text'
+              danger
+              onClick={() => dispatch(endSpecificCampaign(id))}
+            >
+              {status === 'active' ? 'End campaign' : 'Resume campaign'}
+            </Button>
+          ) : null}
         </div>
       </DashboardLayout>
     </ClientOnly>
