@@ -53,8 +53,8 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const onClickFunction =
     status === 'active'
       ? () => dispatch(pauseSpecificCampaign(id))
-      : () => message.info('Updating')
-  // : () => dispatch(continueSpecificCampaign(id))
+      : () => dispatch(continueSpecificCampaign(id))
+
   const items: MenuProps['items'] = [
     {
       key: '1',
@@ -224,7 +224,11 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
               style={{ border: '1px solid #E6E6E6', fontWeight: 600 }}
               type='text'
               danger
-              onClick={() => dispatch(endSpecificCampaign(id))}
+              onClick={
+                status === 'active'
+                  ? () => dispatch(endSpecificCampaign(id))
+                  : () => dispatch(continueSpecificCampaign(id))
+              }
             >
               {status === 'active' ? 'End campaign' : 'Resume campaign'}
             </Button>
