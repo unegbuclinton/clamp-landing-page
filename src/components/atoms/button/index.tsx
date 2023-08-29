@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "antd";
-import { ButtonProps } from "./types";
+import React from 'react'
+import { Button } from 'antd'
+import { ButtonProps } from './types'
 
 const ButtonComponent: React.FC<ButtonProps> = ({
   outline,
@@ -9,22 +9,26 @@ const ButtonComponent: React.FC<ButtonProps> = ({
   height,
   type,
   className,
+  loading,
   onClick,
 }) => {
   return (
     <Button
       htmlType={type}
       disabled={disabled}
+      loading={loading}
       onClick={onClick}
-      className={`${className} rounded-[8px] hover:scale-90 duration-200 px-7 ${
-        height ? height : "h-[43px]"
-      } text-sm bg-black  ${
-        outline ? "bg-white text-black" : "bg-black text-white"
-      }`}
+      className={`${className} rounded-[8px] px-7 ${
+        height ? height : 'h-[43px]'
+      } text-sm ${
+        outline
+          ? ' outline-button-override bg-white text-black hover:text-black'
+          : 'bg-black text-white'
+      } button-override`}
     >
       {text}
     </Button>
-  );
-};
+  )
+}
 
-export default ButtonComponent;
+export default ButtonComponent

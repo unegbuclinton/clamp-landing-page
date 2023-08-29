@@ -1,42 +1,147 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createCampaignInterface } from '../types/createCampaign'
+import {
+  createNewCampaign,
+  endCampaign,
+  getCampaigns,
+  getSingleCampaign,
+  pauseCampaign,
+  resumeCampaign,
+  updateCampaign,
+} from '@/api/campaign'
 
 interface campaignState {
   createCampaignData: {
-    campaignName: string;
-    campaignTrigger: number;
-    campaignEarnings: number;
-    campaignRedeem: number;
-    campaignReward: number;
-  };
-  redemptionType: string;
+    campaignName: string
+    campaignTriggerValue: any
+    campaignEarnings: number
+    campaignRedeem: number
+    campaignTrigger: string
+    cashbackOption: string
+    campaignReward: number
+    earningType: string
+  }
+  redemptionType: { type: string; id: number }
+  specificCampaign: createCampaignInterface
+  allCampaigns: Array<createCampaignInterface>
+  ruleOperator: { operator: string; value: string }
+  campaignStartDate: string
+  campaignEndDate: string
+  isLoading: boolean
 }
 const initialState = {
   createCampaignData: {
-    campaignName: "",
+    campaignName: '',
     campaignReward: 5,
-    campaignEarnings: 1,
-    campaignRedeem: 1,
-    campaignTrigger: 1,
+    campaignEarnings: 2,
+    campaignRedeem: 5,
+    campaignTrigger: 'Select Trigger',
+    campaignTriggerValue: '',
+    cashbackOption: 'Naira',
+    earningType: 'Fixed',
   },
-  redemptionType: "Cashback",
-} as campaignState;
+  isLoading: false,
+  specificCampaign: {},
+  allCampaigns: [{}],
+  redemptionType: { type: 'Cashback', id: 0 },
+  ruleOperator: {},
+  campaignStartDate: new Date().toISOString().split('T')[0],
+  campaignEndDate: new Date().toISOString().split('T')[0],
+} as campaignState
 
+export const getAllCampaign = createAsyncThunk(
+  'campaign/getAllCampaign',
+  getCampaigns
+)
+export const createCampaign = createAsyncThunk(
+  'campaign/createCampaign',
+  createNewCampaign
+)
+
+export const getSpecificCampaign = createAsyncThunk(
+  'campaign/getSingleCampaign',
+  getSingleCampaign
+)
+
+export const pauseSpecificCampaign = createAsyncThunk(
+  'campaign/pauseSpecificCampaign',
+  pauseCampaign
+)
+
+export const endSpecificCampaign = createAsyncThunk(
+  'campaign/endSpecificCampaign',
+  endCampaign
+)
+
+export const continueSpecificCampaign = createAsyncThunk(
+  'campaign/continueSpecificCampaign',
+  resumeCampaign
+)
+export const updateSpecificCampaign = createAsyncThunk(
+  'campaign/updateSpecificCampaign',
+  updateCampaign
+)
 export const campaignSlice = createSlice({
-  name: "campaign",
+  name: 'campaign',
   initialState,
   reducers: {
+    clearState: (state) => {
+      state.createCampaignData = initialState.createCampaignData
+      state.campaignEndDate = initialState.campaignEndDate
+      state.campaignStartDate = initialState.campaignStartDate
+    },
     getCampaignData: (state, action) => {
-      state.createCampaignData = action.payload;
+      state.createCampaignData = action.payload
     },
     getRedemptiontype: (state, action) => {
-      state.redemptionType = action.payload;
+      state.redemptionType = action.payload
+    },
+    getRuleOperator: (state, action) => {
+      state.ruleOperator = action.payload
+    },
+    setCampaignStartDate: (state, action) => {
+      state.campaignStartDate = action.payload
+    },
+    setCampaignEndDate: (state, action) => {
+      state.campaignEndDate = action.payload
     },
   },
   extraReducers: (builder) => {
-    // builder.addCase(getAllProperties.fulfilled, (state, action) => {
-    //   state.buyProperties = action.payload;
-    // });
+    builder.addCase(getSpecificCampaign.fulfilled, (state, action) => {
+      state.specificCampaign = action.payload
+    })
+    builder.addCase(getAllCampaign.fulfilled, (state, action) => {
+      state.allCampaigns = action.payload
+    })
+    builder.addCase(pauseSpecificCampaign.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.specificCampaign = action.payload
+    })
+    builder.addCase(continueSpecificCampaign.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.specificCampaign = action.payload
+    })
+    builder.addCase(endSpecificCampaign.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.specificCampaign = action.payload
+    })
+    builder.addCase(updateSpecificCampaign.fulfilled, (state, action) => {
+      state.specificCampaign = action.payload
+      state.isLoading = false
+    })
+
+    builder.addCase(createCampaign.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.specificCampaign = action.payload
+    })
   },
-});
-export const { getCampaignData, getRedemptiontype } = campaignSlice.actions;
-export default campaignSlice.reducer;
+})
+export const {
+  getCampaignData,
+  setCampaignStartDate,
+  setCampaignEndDate,
+  getRedemptiontype,
+  getRuleOperator,
+  clearState,
+} = campaignSlice.actions
+export default campaignSlice.reducer

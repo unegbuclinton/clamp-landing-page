@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,9 +9,23 @@
 }
 
 body,
-html {
-  font-family: "Inter", sans-serif;
+html,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+label,
+table,
+a,
+h6,
+span {
+  font-family: 'Inter', sans-serif;
   /* overflow: hidden; */
+}
+html {
+  scroll-snap-type: y mandatory;
 }
 ::-webkit-scrollbar {
   width: 5px;
@@ -37,4 +51,75 @@ html {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #2b323d;
+}
+
+.custom-input input[type='number']::-webkit-inner-spin-button,
+.custom-input input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.button-override:where(
+    .css-dev-only-do-not-override-yp8pcc
+  ).ant-btn-default:not(:disabled):hover {
+  border-color: #000 !important;
+  color: #fff;
+}
+
+.outline-button-override:where(
+    .css-dev-only-do-not-override-yp8pcc
+  ).ant-btn-default:not(:disabled):hover {
+  border-color: #000;
+  color: #000;
+}
+
+.section {
+  height: 100vh;
+  scroll-snap-align: start;
+  font-size: 2rem;
+  color: black;
+  /* padding: 0 112px; */
+  padding-top: 68px;
+}
+
+.section-wrrapper {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px); /* Move the element down initially */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(
+      0
+    ); /* Bring the element back to its original position */
+  }
+}
+
+.animate-fadeInFromBottom {
+  animation: fadeInFromBottom 0.3s ease-in-out;
+}
+
+#load {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
