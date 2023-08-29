@@ -3,7 +3,7 @@ import InfoCard from '@/components/molecules/infoCard'
 import { campaignOptions } from '@/utilities/data/campaignOption'
 import type { DatePickerProps } from 'antd'
 import { Form, Input, InputNumber, Select } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { FormInstance } from 'antd/lib/form'
 import { DatePicker } from 'antd'
@@ -48,6 +48,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const EndDateObject = dayjs(campaignEndDate)
   const [selectedOption, setSelectedOption] = useState<string>('')
   const [rewardValue, setRewardValue] = useState<any>(initialRewardValue)
+  const [errorMessage, setErrorMessage] = useState<boolean>(false)
   const dispatch = useDispatch()
 
   const handleEarningChange = (value: number | null) => {
@@ -81,7 +82,14 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     handleEarningType(value)
   }
 
-  // console.log(dayjs(campaignEndDate))
+  const handleRedemption = (value: number | null) => {
+    if (value && value >= rewardValue) {
+      setErrorMessage(false)
+    } else {
+      setErrorMessage(true)
+    }
+  }
+
   return (
     <div className='flex justify-center w-full '>
       <div>
@@ -192,7 +200,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
               rules={[
                 {
                   required: true,
-                  message: 'Value should be greater than reward point',
+                  message: '',
                 },
               ]}
               name='campaignRedeem'
@@ -202,10 +210,16 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                 type='number'
                 className='shadow-lg w-[60px] h-[32px] text-right mr-2'
                 placeholder='1'
+                onChange={handleRedemption}
               />
             </Form.Item>
             <span className=''>Points</span>
           </div>
+          {errorMessage && (
+            <p className='text-red-700'>
+              Value should be greater than reward point
+            </p>
+          )}
           <div>
             <p className='font-medium py-4'>Reward</p>
             <div className='flex gap-2'>
