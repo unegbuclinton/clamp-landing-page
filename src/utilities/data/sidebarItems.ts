@@ -6,4 +6,5 @@ export const menu: Array<{
   { title: 'Campaigns', to: '/loyaltyCampaign' },
   { title: 'Customers', to: '/customers' },
   { title: 'Settings', to: '/settings' },
+  { title: 'Test Panel', to: '/testpanel' },
 ]
