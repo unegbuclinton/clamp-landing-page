@@ -1,4 +1,5 @@
 import NameLogo from '@/components/molecules/NameLogo/NameLogo'
+import { getFirstLetter } from '@/utilities/helperFunctions'
 import { Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import React from 'react'
@@ -76,9 +77,16 @@ const LeaderBoard = () => {
       points: '100',
     },
   ]
+  const label = getFirstLetter(data[0].participant)
   return (
     <div className='p-5'>
       <h1 className='text-2xl font-semibold'>Leader board</h1>
+
+      <div>
+        <div className='w-[150px] h-[150px] rounded-full border mx-auto flex justify-center items-center text-2xl font-bold'>
+          {label}
+        </div>
+      </div>
       <h2 className='text-xl'>Week 1</h2>
       <Table columns={columns} dataSource={data} className='max-w-[85%] pt-4' />
     </div>
