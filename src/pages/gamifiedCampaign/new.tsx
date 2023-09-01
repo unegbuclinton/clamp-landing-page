@@ -60,7 +60,7 @@ async function createUnderlyingCampaign(
     name: payload.campaignName,
     startDate: new Date().toISOString(), // add 90 days by default
     endDate: new Date(Date.now() + 90 * 24 * 60 * 60000).toISOString(),
-    ruleIds: [ruleId],
+    ruleIds: [ruleId, inGameRuleId],
     status: 'draft',
     redemptionRules: [],
   })
@@ -75,7 +75,7 @@ const NewGamifiedCampaign = () => {
     console.log('Received values:', form.getFieldsValue())
     const { id: campaignId } = await createUnderlyingCampaign(values)
     console.log({ campaignId })
-    router.push(`/gamifiedCampaign/${campaignId}`)
+    router.push(`/loyaltyCampaign/campaign/${campaignId}`)
   }
 
   const winningCriteria: Record<string, string> = {
