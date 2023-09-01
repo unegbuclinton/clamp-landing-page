@@ -76,6 +76,7 @@ const NewGamifiedCampaign = () => {
               />
             </Form.Item>
           </InfoCard>
+          <ButtonComponent type="submit" text="Create gamified campaign"  />
         </Form>
       </div>
     </DashboardLayout>
