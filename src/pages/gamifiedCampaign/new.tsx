@@ -1,3 +1,15 @@
+// gamification campaign flow
+// -> import customer data
+// -> create gamified campaign [campaign type that has leaderboard and winners]
+// -> set reward frequency [award x {asset} every y {time period} to top z users]
+// -> create underlying campaign that receives a trigger from the gamified campaign with position and user id.
+//    the rule for the campaign is that it should award the user with the reward if property position is less than or equal to z
+
+// -> when a trigger is sent the trigger service checks for leaderboardId and userId in the trigger payload and then sends the transaction data to the
+// gamification service which then updates the leaderboard
+
+// -> every interval of y, the gamification service sends a trigger to the campaign service with payload {leaderboardId, userId, position} for the top z users
+
 import React from 'react'
 import { ruleInterface } from '@/utilities/types/createCampaign'
 import { useRouter } from 'next/router'
@@ -30,8 +42,18 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
       },
     ],
   }
+  const inGameRule: ruleInterface = {
+    id: '',
+    assetId: 'cash--naira',
+    assetQty: 0,
+    eventName: 'pos_transaction',
+    conditions: [],
+    scoreKey: 'transaction_amount',
+
+  }
   const { id: ruleId } = await createNewRule(rule)
-  console.log({ ruleId })
+  const { id: inGameRuleId } = await createNewRule(inGameRule)
+  console.log({ ruleId, inGameRuleId })
   return await createNewCampaign({
     id: '',
     name: payload.campaignName,

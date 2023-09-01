@@ -52,6 +52,7 @@ export interface ruleInterface {
   id: string
   conditions: Condition[]
   multiplier?: Multiplier
+  scoreKey?: string
 }
 
 interface Condition {
