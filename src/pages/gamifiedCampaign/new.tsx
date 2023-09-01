@@ -49,7 +49,6 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
     eventName: 'pos_transaction',
     conditions: [],
     scoreKey: 'transaction_amount',
-
   }
   const { id: ruleId } = await createNewRule(rule)
   const { id: inGameRuleId } = await createNewRule(inGameRule)
@@ -74,7 +73,7 @@ const NewGamifiedCampaign = () => {
     console.log('Received values:', form.getFieldsValue())
     const { id: campaignId } = await createUnderlyingCampaign(values)
     console.log({ campaignId })
-    router.push(`/gamifiedCampaign/${campaignId}`)
+    router.push(`/loyaltyCampaign/campaign/${campaignId}`)
   }
 
   const winningCriteria: Record<string, string> = {
