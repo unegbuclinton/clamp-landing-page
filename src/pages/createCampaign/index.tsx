@@ -221,7 +221,7 @@ const CampaignForm = () => {
               {`${campaignId ? 'Edit Reward Campaign' : 'Create Rewards Campaign'}`}
             </h1>
             <p className="text-xs  text-gray-500">
-              <Link href="/gamifiedCampaign" className="underline">
+              <Link href="/gamifiedCampaign/new" className="underline">
                 Click here{' '}
               </Link>
               to create gamified campaign if your campaign has winner(s) and/or recurring rounds.
