@@ -58,7 +58,7 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
     name: payload.campaignName,
     startDate: new Date().toISOString(), // add 90 days by default
     endDate: new Date(Date.now() + 90 * 24 * 60 * 60000).toISOString(),
-    ruleIds: [ruleId],
+    ruleIds: [ruleId, inGameRuleId],
     status: 'draft',
     redemptionRules: [],
   })
