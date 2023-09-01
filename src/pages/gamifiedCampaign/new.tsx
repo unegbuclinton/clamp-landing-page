@@ -43,16 +43,34 @@ const NewGamifiedCampaign = () => {
               </Select>
             </Form.Item>
           </InfoCard>
-          <InfoCard label="REWARD" description="Customer earns">
+          <InfoCard label="WINNERS" description="After each round">
             <Form.Item
               className="m-0"
               name="campaignEarnings"
               rules={[{ required: true, message: '' }]}
             >
-              <span className="align-text-top text-lg">&#8358; </span>
-              <InputNumber
-                className="shadow-lg w-60 h-[32px] text-right mr-2"
-                placeholder="1"
+              <Input
+                className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-10 mr-4"
+                placeholder="10"
+                step={1}
+                min={1}
+                type="number"
+                onChange={handleEarningChange}
+              />{' '}
+              <span> winner(s) will be selected</span>
+            </Form.Item>
+          </InfoCard>
+          <InfoCard label="REWARD" description="Each winner earns">
+            <Form.Item
+              className="m-0"
+              name="campaignEarnings"
+              rules={[{ required: true, message: '' }]}
+            >
+              <span>&#8358; </span>
+              <Input
+                className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-60"
+                placeholder="100.00"
+                type="number"
                 onChange={handleEarningChange}
               />
             </Form.Item>
