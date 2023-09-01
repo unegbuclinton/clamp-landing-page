@@ -220,12 +220,14 @@ const CampaignForm = () => {
             <h1 className="text-2xl font-semibold mb-2">
               {`${campaignId ? 'Edit Reward Campaign' : 'Create Rewards Campaign'}`}
             </h1>
-            <p className="text-xs  text-gray-500">
-              <Link href="/gamifiedCampaign/new" className="underline">
-                Click here{' '}
-              </Link>
-              to create gamified campaign if your campaign has winner(s) and/or recurring rounds.
-            </p>
+            {currentStep === 0 ? (
+              <p className="text-xs  text-gray-500">
+                <Link href="/gamifiedCampaign/new" className="underline">
+                  Click here{' '}
+                </Link>
+                to create gamified campaign if your campaign has winner(s) and/or recurring rounds.
+              </p>
+            ) : null}
             {steps[currentStep].component}
             {currentStep <= 0 && (
               <div>
