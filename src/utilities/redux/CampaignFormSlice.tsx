@@ -7,6 +7,7 @@ import {
   getSingleCampaign,
   pauseCampaign,
   resumeCampaign,
+  startCampaign,
   updateCampaign,
 } from '@/api/campaign'
 
@@ -68,6 +69,11 @@ export const pauseSpecificCampaign = createAsyncThunk(
   pauseCampaign
 )
 
+export const startSpecificCampaign = createAsyncThunk(
+  'campaign/startSpecificCampaign',
+  startCampaign
+)
+
 export const endSpecificCampaign = createAsyncThunk(
   'campaign/endSpecificCampaign',
   endCampaign
@@ -118,6 +124,10 @@ export const campaignSlice = createSlice({
       state.specificCampaign = action.payload
     })
     builder.addCase(continueSpecificCampaign.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.specificCampaign = action.payload
+    })
+    builder.addCase(startSpecificCampaign.fulfilled, (state, action) => {
       state.isLoading = false
       state.specificCampaign = action.payload
     })

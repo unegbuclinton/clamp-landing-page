@@ -57,6 +57,20 @@ export const pauseCampaign = async (id: string) => {
   }
 }
 
+export const startCampaign = async (id: string) => {
+  try {
+    const response = await axios({
+      method: 'post',
+      url: `${baseURL}/campaigns/${id}/start`,
+    })
+    const specificCampaign = await getSingleCampaign(response.data.id)
+    message.info('Campaign started')
+    return specificCampaign
+  } catch (error: any) {
+    return error
+  }
+}
+
 export const resumeCampaign = async (id: string) => {
   try {
     const response = await axios({

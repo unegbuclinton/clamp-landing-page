@@ -2,8 +2,8 @@ import { ruleInterface } from '@/utilities/types/createCampaign'
 import { message } from 'antd'
 import axios from 'axios'
 
-// const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
-const baseURL = 'http://localhost:8080/clamp-api/core'
+const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
+// const baseURL = 'http://localhost:8080/clamp-api/core'
 
 export const createNewRule = async (body: ruleInterface) => {
   try {
@@ -30,7 +30,13 @@ export const getRules = async () => {
     return error
   }
 }
-export const updateRule = async ({ body, id }: { body: ruleInterface; id: string }) => {
+export const updateRule = async ({
+  body,
+  id,
+}: {
+  body: ruleInterface
+  id: string
+}) => {
   message.info('Will be updated soon')
   // try {
   //   const response = await axios({
