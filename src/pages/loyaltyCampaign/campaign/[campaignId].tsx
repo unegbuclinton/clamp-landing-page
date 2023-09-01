@@ -27,19 +27,16 @@ import {
 dayjs.extend(utc)
 
 const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
-  const { specificCampaign } = useAppSelector(
-    (state: RootState) => state.campaign
-  )
+  const { specificCampaign } = useAppSelector((state: RootState) => state.campaign)
 
   const { specificRule } = useAppSelector((state: RootState) => state.rule)
-  const { name, startDate, endDate, status, redemptionRules, id } =
-    specificCampaign
+  const { name, startDate, endDate, status, redemptionRules, id } = specificCampaign
 
   const formattedStartDate = dayjs(startDate).utc().format('DD/MM/YYYY')
   const formattedEndDate = dayjs(endDate).utc().format('DD/MM/YYYY')
   const [redemptiontextText, setRedemptionText] = useState<string>('')
   const condition = specificRule?.conditions?.[0]
-  const redemptionCondition = redemptionRules?.[0].assetConditions?.[0]
+  const redemptionCondition = redemptionRules?.[0]?.assetConditions?.[0]
 
   const [conditionInfo, setConditionInfo] = useState<{
     header: string
@@ -60,26 +57,18 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
       key: '1',
       label: `${status === 'active' ? 'Pause campaign' : 'Continue campaign'}`,
       onClick: onClickFunction,
-      disabled:
-        adminEvent &&
-        adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
+      disabled: adminEvent && adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
     },
     {
       key: '2',
       label: 'End campaign',
       onClick: () => dispatch(endSpecificCampaign(id)),
-      disabled:
-        adminEvent &&
-        adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
+      disabled: adminEvent && adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
     },
     {
       key: '3',
-      label: (
-        <Link href={`/createCampaign?mode=edit&campaignId=${id}`}>Edit</Link>
-      ),
-      disabled:
-        adminEvent &&
-        adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
+      label: <Link href={`/createCampaign?mode=edit&campaignId=${id}`}>Edit</Link>,
+      disabled: adminEvent && adminEvent[adminEvent.length - 1].eventName === 'stop-campaign',
     },
   ]
 
@@ -87,16 +76,8 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
 
   useEffect(() => {
     if (condition) {
-      const {
-        operator: conditionOperator,
-        value: conditionValue,
-        key,
-      } = condition
-      const { header, description } = generateConditionText(
-        conditionOperator,
-        conditionValue,
-        key
-      )
+      const { operator: conditionOperator, value: conditionValue, key } = condition
+      const { header, description } = generateConditionText(conditionOperator, conditionValue, key)
       setConditionInfo({ header, description })
     }
   }, [condition])
@@ -113,54 +94,50 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   return (
     <ClientOnly>
       <DashboardLayout>
-        <div className='w-[60%]'>
+        <div className="w-[60%]">
           <span onClick={() => router.push('/loyaltyCampaign')}>
-            <LeftOutlined color='#999999' className='cursor-pointer' />
+            <LeftOutlined color="#999999" className="cursor-pointer" />
           </span>
-          <div className='flex justify-between items-center'>
-            <h1 className='py-4 font-bold text-2xl'>{name}</h1>
-            <Dropdown className='cursor-pointer' menu={{ items }}>
+          <div className="flex justify-between items-center">
+            <h1 className="py-4 font-bold text-2xl">{name}</h1>
+            <Dropdown className="cursor-pointer" menu={{ items }}>
               <a onClick={(e) => e.preventDefault()}>
-                <CiCircleMore size={20} fill='#999999' />
+                <CiCircleMore size={20} fill="#999999" />
               </a>
             </Dropdown>
           </div>
-          <h2 className='py-4'>Key Metrics</h2>
-          <div className='grid grid-cols-2 gap-[11px]'>
+          <h2 className="py-4">Key Metrics</h2>
+          <div className="grid grid-cols-2 gap-[11px]">
             {data?.map(({ header, value, subText }, idx) => (
-              <div key={idx} className='w-full border p-4 rounded-xl'>
+              <div key={idx} className="w-full border p-4 rounded-xl">
                 <h3>{header}</h3>
-                <p className='flex items-center text-xl font-semibold'>
+                <p className="flex items-center text-xl font-semibold">
                   {value}
                   <sup>
                     <ArrowUp />
                   </sup>
                 </p>
-                <p className='text-dim-grey text-sm pt-1'>{subText}</p>
+                <p className="text-dim-grey text-sm pt-1">{subText}</p>
               </div>
             ))}
           </div>
-          <Divider className='mt-14' />
+          <Divider className="mt-14" />
 
           <div>
-            <p className='py-4 text-base font-normal'>Overview</p>
-            <div className='mb-10'>
-              <p className='font-medium mb-3 text-dim-grey text-[10px]'>TYPE</p>
-              <p className='flex font-medium items-center gap-3'>
+            <p className="py-4 text-base font-normal">Overview</p>
+            <div className="mb-10">
+              <p className="font-medium mb-3 text-dim-grey text-[10px]">TYPE</p>
+              <p className="flex font-medium items-center gap-3">
                 <span>
                   <GoldBadge />
                 </span>
                 Points
               </p>
             </div>
-            <div className='mb-10'>
-              <p className='font-medium mb-3 text-[10px] text-dim-grey'>
-                STATUS
-              </p>
-              <p className='flex font-medium text-sm items-center gap-3'>
-                {(adminEvent &&
-                  adminEvent[adminEvent.length - 1].eventName !==
-                    'stop-campaign') ||
+            <div className="mb-10">
+              <p className="font-medium mb-3 text-[10px] text-dim-grey">STATUS</p>
+              <p className="flex font-medium text-sm items-center gap-3">
+                {(adminEvent && adminEvent[adminEvent.length - 1].eventName !== 'stop-campaign') ||
                 !adminEvent ? (
                   <> {status?.toLocaleUpperCase()}</>
                 ) : (
@@ -170,59 +147,50 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             </div>
 
             <div>
-              <p className='font-medium mb-3 text-[10px] text-dim-grey'>
-                DURATION
-              </p>
-              <p className='flex font-medium text-sm items-center gap-3'>
+              <p className="font-medium mb-3 text-[10px] text-dim-grey">DURATION</p>
+              <p className="flex font-medium text-sm items-center gap-3">
                 {`${formattedStartDate} - ${formattedEndDate}`}
               </p>
             </div>
             <Divider />
-            <p className='py-4 text-base font-normal'>Preferences</p>
+            <p className="py-4 text-base font-normal">Preferences</p>
 
-            <div className='py-6'>
-              <p className='text-dim-grey text-[10px]'>CONDITION</p>
+            <div className="py-6">
+              <p className="text-dim-grey text-[10px]">CONDITION</p>
 
               {conditionInfo && (
                 <>
                   {' '}
-                  <p className='font-semibold text-sm'>
-                    {conditionInfo.header}
-                  </p>
-                  <p className='text-dim-grey text-sm'>
-                    {conditionInfo.description}
-                  </p>
+                  <p className="font-semibold text-sm">{conditionInfo.header}</p>
+                  <p className="text-dim-grey text-sm">{conditionInfo.description}</p>
                 </>
               )}
             </div>
 
-            <div className='py-6'>
-              <p className='text-dim-grey py-1.5 text-[10px]'>EFFECT</p>
-              <p className='font-semibold  text-sm'>{`Customer earns ${specificRule?.assetQty} point`}</p>
+            <div className="py-6">
+              <p className="text-dim-grey py-1.5 text-[10px]">EFFECT</p>
+              <p className="font-semibold  text-sm">{`Customer earns ${specificRule?.assetQty} point`}</p>
             </div>
 
-            <div className='py-6'>
-              <p className='text-dim-grey py-1.5 text-[10px]'>REDEMPTION</p>
-              <p className='font-semibold text-sm'>
-                {redemptionRules?.[0].liquidationInstrument.toLocaleUpperCase()}
+            <div className="py-6">
+              <p className="text-dim-grey py-1.5 text-[10px]">REDEMPTION</p>
+              <p className="font-semibold text-sm">
+                {redemptionRules?.[0]?.liquidationInstrument.toLocaleUpperCase()}
               </p>
             </div>
-            <div className='py-6'>
-              <p className='text-dim-grey text-[10px]'>
-                POINTS NEEDED FOR REDEMPTION
-              </p>
-              <p className='font-semibold py-1.5 text-sm'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
-              <p className='text-dim-grey text-xs'>{redemptiontextText}</p>
+            <div className="py-6">
+              <p className="text-dim-grey text-[10px]">POINTS NEEDED FOR REDEMPTION</p>
+              <p className="font-semibold py-1.5 text-sm">{`${redemptionRules?.[0]?.assetConditions?.[0].value} POINTS`}</p>
+              <p className="text-dim-grey text-xs">{redemptiontextText}</p>
             </div>
           </div>
           <Divider />
 
-          {(adminEvent &&
-            adminEvent[adminEvent.length - 1].eventName !== 'stop-campaign') ||
+          {(adminEvent && adminEvent[adminEvent.length - 1].eventName !== 'stop-campaign') ||
           !adminEvent ? (
             <Button
               style={{ border: '1px solid #E6E6E6', fontWeight: 600 }}
-              type='text'
+              type="text"
               danger
               onClick={
                 status === 'active'

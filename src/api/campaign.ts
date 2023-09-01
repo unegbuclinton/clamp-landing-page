@@ -13,8 +13,7 @@ export const createNewCampaign = async (body: createCampaignInterface) => {
       url: `${baseURL}/campaigns`,
       data: body,
     })
-    const createdCampaign = await getSingleCampaign(response.data.id)
-    return createdCampaign
+    return response.data
   } catch (error: any) {
     return error
   }
