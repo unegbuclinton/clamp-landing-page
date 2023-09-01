@@ -11,6 +11,7 @@ const NewGamifiedCampaign = () => {
   const [selectedOption, setSelectedOption] = React.useState('day')
   const handleFreqChange = (value: any) => {}
   const handleEarningChange = (value: any) => {}
+  const handleWinnersChange = (value: any) => {}
   return (
     <DashboardLayout>
       <div className="flex flex-col justify-center w-full">
@@ -55,7 +56,7 @@ const NewGamifiedCampaign = () => {
                 step={1}
                 min={1}
                 type="number"
-                onChange={handleEarningChange}
+                onChange={handleWinnersChange}
               />{' '}
               <span> winner(s) will be selected</span>
             </Form.Item>
