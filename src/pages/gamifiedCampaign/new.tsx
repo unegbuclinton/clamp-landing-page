@@ -21,6 +21,17 @@ const NewGamifiedCampaign = () => {
     console.log(values)
   }
 
+  const winningCriteria: Record<string, string> = {
+    h_spend: 'Highest spend',
+    h_trxn_vol: 'Highest transaction volume',
+    h_trxn_amt: 'Highest transaction amount',
+    h_growth_trxn_vol: 'Highest transaction volume growth',
+    h_growth_trxn_vol_p: 'Highest transaction volume growth %',
+    h_growth_trxn_amt: 'Highest transaction amount growth',
+    h_growth_trxn_amt_p: 'Highest transaction amount growth %',
+    l_cancel_rate: 'Lowest cancellation rate',
+  }
+
   return (
     <DashboardLayout>
       <div className="flex flex-col justify-center w-full">
@@ -47,7 +58,7 @@ const NewGamifiedCampaign = () => {
                 style={{ width: '100%' }}
                 placeholder="Set frequency"
               >
-                {['day', 'week', 'month']?.map((value) => (
+                {['day', 'week', 'month'].map((value) => (
                   <Option key={value} value={value}>
                     {value}
                   </Option>
@@ -81,8 +92,28 @@ const NewGamifiedCampaign = () => {
               <InputNumber
                 className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-60"
                 placeholder="100.00"
+                name='rewardAmount'
                 // onChange={handleEarningChange}
               />
+            </Form.Item>
+          </InfoCard>
+          <InfoCard label="HOW TO WIN" description="Winners are determined by">
+            <Form.Item
+              className="m-0"
+              name="winningCriteria"
+              // rules={[{ required: true, message: 'Enter prize money amount' }]}
+            >
+              <Select
+                className="cursor-pointer"
+                style={{ width: '100%' }}
+                placeholder="Select winning criteria"
+              >
+                {Object.keys(winningCriteria).map((k) => (
+                  <Option key={k} value={k}>
+                    {winningCriteria[k]}
+                  </Option>
+                ))}
+              </Select>
             </Form.Item>
           </InfoCard>
           <ButtonComponent type="submit" text="Create gamified campaign" />
