@@ -12,7 +12,7 @@ const Sidebar = () => {
           <div className='px-3 py-4 overflow-y-auto rounded dark:bg-gray-800'>
             <SideBarItems />
             <ButtonComponent
-              onClick={() => router.push('/createCampaign')}
+              onClick={() => router.push('/campaignSelection')}
               text='Create Campaign'
               type='button'
               className='mt-10'
