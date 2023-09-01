@@ -17,7 +17,7 @@ const TriggerTestTransaction = () => {
   })
 
   // Update initial values after each submission
-  const onFinish = (values) => {
+  const onFinish = (values: Record<string, string>) => {
     console.log('Received values:', values)
     setInitialValues({
       customerId: uuidv4(),

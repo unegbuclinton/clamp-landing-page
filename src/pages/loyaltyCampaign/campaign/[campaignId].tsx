@@ -72,12 +72,14 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     },
   ]
 
-  // conditions
-
   useEffect(() => {
     if (condition) {
       const { operator: conditionOperator, value: conditionValue, key } = condition
-      const { header, description } = generateConditionText(conditionOperator, conditionValue, key)
+      const { header, description } = generateConditionText(
+        conditionOperator,
+        String(conditionValue),
+        key
+      )
       setConditionInfo({ header, description })
     }
   }, [condition])
