@@ -23,7 +23,7 @@ export interface IGameService {
   nextRound(gameId: string): Promise<IRound>
   initNewGame(campaignId: string, winnerQuota: number): Promise<IGame>
   startGame(campaignId: string): Promise<IGame>
-  endGame(id: string): Prxomise<boolean>
+  endGame(id: string): Promise<boolean>
   getAllGames(): Promise<IGame[]>
   getGameById(id: string): Promise<IGame | null>
 }
