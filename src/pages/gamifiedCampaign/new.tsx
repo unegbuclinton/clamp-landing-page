@@ -29,11 +29,8 @@ interface NewGamifiedCampaignFormValues {
   rewardAmount: number
   winningCriteria: string
 }
-export type GameStatus = 'pending' | 'started' | 'paused' | 'stopped'
 
-async function createUnderlyingCampaign(
-  payload: NewGamifiedCampaignFormValues
-) {
+async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) {
   const rule: ruleInterface = {
     id: '',
     assetId: 'cash--naira',
@@ -63,7 +60,7 @@ async function createUnderlyingCampaign(
     name: payload.campaignName,
     startDate: new Date().toISOString(), // add 90 days by default
     endDate: new Date(Date.now() + 90 * 24 * 60 * 60000).toISOString(),
-    ruleIds: [ruleId, inGameRuleId],
+    ruleIds: [inGameRuleId, ruleId],
     status: 'draft',
     redemptionRules: [],
   })
@@ -72,7 +69,8 @@ async function createUnderlyingCampaign(
 async function initiliazeGame(
   campaignId: string,
   numOfWinners: number,
-  _roundsDuration: string
+  _roundsDuration: string,
+  winningCriteria: string
 ) {
   let roundsDuration = 1000 * 60 * 60 * 24 * 7 // 'week'
   if (_roundsDuration === 'day') {
@@ -85,6 +83,7 @@ async function initiliazeGame(
     roundsDuration,
     numOfWinners,
     numOfRounds: 10, // get this from the campaign form later
+    winningCriteriaCode: winningCriteria,
   }
   return await initNewGame(newGameDraft)
 }
@@ -98,22 +97,13 @@ const NewGamifiedCampaign = () => {
     const newGame = await initiliazeGame(
       campaignId,
       values.numOfWinners,
-      values.roundsDuration
+      values.roundsDuration,
+      values.winningCriteria
     )
     console.log({ campaignId }, 'gameId: ', newGame.id)
     router.push(`/loyaltyCampaign/campaign/${campaignId}`)
   }
 
-  const winningCriteria: Record<string, string> = {
-    h_spend: 'Highest spend',
-    h_trxn_vol: 'Highest transaction volume',
-    h_trxn_amt: 'Highest transaction amount',
-    h_growth_trxn_vol: 'Highest transaction volume growth',
-    h_growth_trxn_vol_p: 'Highest transaction volume growth %',
-    h_growth_trxn_amt: 'Highest transaction amount growth',
-    h_growth_trxn_amt_p: 'Highest transaction amount growth %',
-    l_cancel_rate: 'Lowest cancellation rate',
-  }
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0]
@@ -128,13 +118,10 @@ const NewGamifiedCampaign = () => {
     const formData = new FormData()
     formData.append('csvFile', file)
 
-    fetch(
-      'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core/customerAccounts/upload',
-      {
-        method: 'POST',
-        body: formData,
-      }
-    )
+    fetch('https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core/customerAccounts/upload', {
+      method: 'POST',
+      body: formData,
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
@@ -146,16 +133,14 @@ const NewGamifiedCampaign = () => {
 
   return (
     <DashboardLayout>
-      <div className=' flex justify-center mb-6'>
-        <div className='relative max-w-[462px] '>
-          <div className='flex flex-col justify-center w-full'>
-            <h3 className='text-xl font-bold w-full text-gray-700  mb-8'>
-              Gamified Campaign
-            </h3>
+      <div className=" flex justify-center mb-6">
+        <div className="relative max-w-[462px] ">
+          <div className="flex flex-col justify-center w-full">
+            <h3 className="text-xl font-bold w-full text-gray-700  mb-8">Gamified Campaign</h3>
             <Form form={form} onFinish={handleSubmit} noValidate>
-              <InfoCard description='Campaign name'>
+              <InfoCard description="Campaign name">
                 <Form.Item
-                  name='campaignName'
+                  name="campaignName"
                   rules={[
                     {
                       required: true,
@@ -164,22 +149,20 @@ const NewGamifiedCampaign = () => {
                   ]}
                 >
                   <Input
-                    className='bg-transparent border-none shadow-none p-0 focus:border focus:border-black'
-                    placeholder='E.g. Weekly top buyers'
+                    className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black"
+                    placeholder="E.g. Weekly top buyers"
                   />
                 </Form.Item>
               </InfoCard>
-              <InfoCard label='FREQUENCY' description={'Award prize(s) every'}>
+              <InfoCard label="FREQUENCY" description={'Award prize(s) every'}>
                 <Form.Item
-                  name='roundsDuration'
-                  rules={[
-                    { required: true, message: 'Please select frequency.' },
-                  ]}
+                  name="roundsDuration"
+                  rules={[{ required: true, message: 'Please select frequency.' }]}
                 >
                   <Select
-                    className='cursor-pointer'
+                    className="cursor-pointer"
                     style={{ width: '100%' }}
-                    placeholder='Set frequency'
+                    placeholder="Set frequency"
                   >
                     {['day', 'week', 'month'].map((value) => (
                       <Option key={value} value={value}>
@@ -189,11 +172,11 @@ const NewGamifiedCampaign = () => {
                   </Select>
                 </Form.Item>
               </InfoCard>
-              <InfoCard label='WINNERS' description='After each round'>
-                <div className='flex items-center'>
+              <InfoCard label="WINNERS" description="After each round">
+                <div className="flex items-center">
                   <Form.Item
-                    className='m-0'
-                    name='numOfWinners'
+                    className="m-0"
+                    name="numOfWinners"
                     rules={[
                       {
                         required: true,
@@ -202,8 +185,8 @@ const NewGamifiedCampaign = () => {
                     ]}
                   >
                     <InputNumber
-                      className='bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-14 mr-1'
-                      placeholder='10'
+                      className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-14 mr-1"
+                      placeholder="10"
                       step={1}
                       min={1}
                       max={10}
@@ -212,40 +195,33 @@ const NewGamifiedCampaign = () => {
                   <span> {'winner(s) will be selected'}</span>
                 </div>
               </InfoCard>
-              <InfoCard label='REWARD' description='Each winner earns'>
-                <div className='flex'>
-                  <span className='align-top leading-8 mr-1'>&#8358; </span>
+              <InfoCard label="REWARD" description="Each winner earns">
+                <div className="flex">
+                  <span className="align-top leading-8 mr-1">&#8358; </span>
                   <Form.Item
-                    className='m-0'
-                    name='rewardAmount'
-                    rules={[
-                      { required: true, message: 'Enter prize money amount' },
-                    ]}
+                    className="m-0"
+                    name="rewardAmount"
+                    rules={[{ required: true, message: 'Enter prize money amount' }]}
                   >
                     <InputNumber
-                      className='bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-60'
-                      placeholder='100.00'
+                      className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-60"
+                      placeholder="100.00"
                       step={0.01}
                       min={0.01}
                     />
                   </Form.Item>
                 </div>
               </InfoCard>
-              <InfoCard
-                label='HOW TO WIN'
-                description='Winners are determined by'
-              >
+              <InfoCard label="HOW TO WIN" description="Winners are determined by">
                 <Form.Item
-                  className='m-0'
-                  name='winningCriteria'
-                  rules={[
-                    { required: true, message: 'Select winning criteria' },
-                  ]}
+                  className="m-0"
+                  name="winningCriteria"
+                  rules={[{ required: true, message: 'Select winning criteria' }]}
                 >
                   <Select
-                    className='cursor-pointer'
+                    className="cursor-pointer"
                     style={{ width: '100%' }}
-                    placeholder='Select winning criteria'
+                    placeholder="Select winning criteria"
                   >
                     {Object.keys(winningCriteria).map((k) => (
                       <Option key={k} value={k}>
@@ -255,37 +231,34 @@ const NewGamifiedCampaign = () => {
                   </Select>
                 </Form.Item>
               </InfoCard>
-              <InfoCard
-                label='ENROLL CUSTOMERS'
-                description={'Upload list of customers'}
-              >
-                <div className='flex gap-3 mt-2'>
+              <InfoCard label="ENROLL CUSTOMERS" description={'Upload list of customers'}>
+                <div className="flex gap-3 mt-2">
                   <div>
-                    <label className='bg-transparent border-2 hover:bg-white/90 border-black text-black font-normal py-2 px-4 rounded cursor-pointer'>
+                    <label className="bg-transparent border-2 hover:bg-white/90 border-black text-black font-normal py-2 px-4 rounded cursor-pointer">
                       <input
-                        type='file'
-                        accept='.csv'
+                        type="file"
+                        accept=".csv"
                         onChange={handleFileChange}
-                        className='file-input'
+                        className="file-input"
                       />
                       Choose CSV File
                     </label>
                   </div>
                   <div>
-                    <label className='bg-dim-grey text-white font-normal pointer-events-none py-2 border-2 px-4 rounded cursor-pointer'>
+                    <label className="bg-dim-grey text-white font-normal pointer-events-none py-2 border-2 px-4 rounded cursor-pointer">
                       <input
-                        type='file'
-                        accept='.csv'
+                        type="file"
+                        accept=".csv"
                         disabled
                         onChange={handleFileChange}
-                        className='file-input'
+                        className="file-input"
                       />
                       Connect via API
                     </label>
                   </div>
                 </div>
               </InfoCard>
-              <ButtonComponent type='submit' text='Create gamified campaign' />
+              <ButtonComponent type="submit" text="Create gamified campaign" />
             </Form>
           </div>
         </div>

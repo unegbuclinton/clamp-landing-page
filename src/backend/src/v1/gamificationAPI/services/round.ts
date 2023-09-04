@@ -20,7 +20,6 @@ export class RoundService implements IRoundService {
     }
     const newRound: IRound = {
       id: `${gameId}--${newRoundIndex}`,
-      winnerIds: [],
       status: 'started' as GameStatus,
       gameId,
       campaignId: game.campaignId,

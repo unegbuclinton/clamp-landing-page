@@ -1,8 +1,18 @@
 import { ILeaderboard, ILeaderboardService, ILeaderboardEntry } from '../interfaces/ILeaderboard'
 import { Leaderboard } from '../models/Leaderboard'
 import { ScoreService } from './score'
-import { GameService } from './game'
 import { RoundService } from './round'
+
+export const winningCriteria: Record<string, string> = {
+  h_spend: 'Highest spend',
+  h_trxn_vol: 'Highest transaction volume',
+  h_trxn_amt: 'Highest transaction amount',
+  h_growth_trxn_vol: 'Highest transaction volume growth',
+  h_growth_trxn_vol_p: 'Highest transaction volume growth %',
+  h_growth_trxn_amt: 'Highest transaction amount growth',
+  h_growth_trxn_amt_p: 'Highest transaction amount growth %',
+  l_cancel_rate: 'Lowest cancellation rate',
+}
 
 export class LeaderboardService implements ILeaderboardService {
   private scoreService: ScoreService
@@ -12,9 +22,9 @@ export class LeaderboardService implements ILeaderboardService {
     this.roundService = new RoundService()
   }
 
-  async getTopParticipants(topN: number): Promise<ILeaderboardEntry[]> {
-    // This is a simplistic implementation. In a real-world scenario, we'd have to aggregate scores and rank users.
-    return []
+  async getTopParticipants(topN: number, roundId: string): Promise<ILeaderboardEntry[]> {
+    const leaderboard = await this.getLeaderboard(roundId)
+    return leaderboard.entries.slice(0, topN)
   }
 
   async getParticipantRank(userId: string, roundId: string): Promise<number> {
@@ -39,13 +49,19 @@ export class LeaderboardService implements ILeaderboardService {
           userId: score.userId,
           rank: 0,
           score: score.points,
-          prevRoundScore: 0,
-          percentChange: 0,
-          absoluteChange: 0,
+          stats: { prevRoundScore: 0, percentChange: 0, absoluteChange: 0 },
         })
       }
     }
 
     return true
+  }
+
+  async getLeaderboard(roundId: string): Promise<ILeaderboard> {
+    const leaderboard = await Leaderboard.findOne({ roundId })
+    if (!leaderboard) {
+      throw new Error('Leaderboard not found')
+    }
+    return leaderboard
   }
 }

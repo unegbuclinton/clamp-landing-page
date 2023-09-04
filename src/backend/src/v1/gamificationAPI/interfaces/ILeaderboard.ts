@@ -1,5 +1,5 @@
 export interface ILeaderboardService {
-  getTopParticipants(topN: number): Promise<ILeaderboardEntry[]>
+  getTopParticipants(topN: number, roundId: string): Promise<ILeaderboardEntry[]>
   getParticipantRank(userId: string, roundId: string): Promise<number>
   updateRankings(roundId: string): Promise<boolean>
 }
@@ -14,7 +14,5 @@ export interface ILeaderboardEntry {
   userId: string
   rank: number
   score: number
-  prevRoundScore: number
-  percentChange: number
-  absoluteChange: number
+  stats: { prevRoundScore: number; percentChange: number; absoluteChange: number }
 }

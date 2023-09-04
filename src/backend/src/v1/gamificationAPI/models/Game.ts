@@ -13,6 +13,7 @@ const GameSchema = new mongoose.Schema<IGame>(
     roundsDuration: { type: Number, required: true },
     numOfRounds: { type: Number, required: true },
     numOfWinners: { type: Number, required: true },
+    winningCriteriaCode: { type: String, required: true },
   },
   {
     timestamps: true,

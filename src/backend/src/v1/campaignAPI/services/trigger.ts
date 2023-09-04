@@ -6,8 +6,12 @@ import { CustomerAccount, ICustomerAsset } from '../models/CustomerAccount'
 import { Rule, IRule } from '../models/Rule'
 import { checkCondition } from '../../../lib/conditions'
 import { GameService } from '@/v1/gamificationAPI/services/game'
+import { LeaderboardService } from '@/v1/gamificationAPI/services/leaderboard'
+import { ScoreService } from '@/v1/gamificationAPI/services/score'
 
 const gameService = new GameService()
+const leaderboardService = new LeaderboardService()
+const scoreService = new ScoreService()
 
 const getAllTriggers = async (): Promise<ITrigger[]> => {
   return Trigger.find().exec()
@@ -82,8 +86,16 @@ const createTrigger = async (
         const { gameId } = campaign
         if (gameId) {
           const game = await gameService.getGameById(gameId)
-          const lbId  = game.currentLeaderboardId
-          
+          if (!game) {
+            console.log('game not found')
+            continue
+          }
+          if (game.status !== 'started') {
+            console.log('game not started')
+            continue
+          }
+          const lb = await leaderboardService.getLeaderboard(game.currentRoundId)
+          const
         }
       }
 

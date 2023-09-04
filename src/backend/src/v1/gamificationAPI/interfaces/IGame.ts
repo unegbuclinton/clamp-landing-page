@@ -6,6 +6,7 @@ export interface IDraftGame {
   roundsDuration: number // in ms
   numOfRounds: number
   numOfWinners: number
+  winningCriteriaCode: string
 }
 
 export interface IGame extends IDraftGame {

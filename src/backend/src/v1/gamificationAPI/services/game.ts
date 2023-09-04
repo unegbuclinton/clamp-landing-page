@@ -77,4 +77,14 @@ export class GameService implements IGameService {
     await game.save()
     return game
   }
+
+  async processPlayerAction({
+    playerId,
+    gameId,
+    action,
+  }: {
+    playerId: string
+    gameId: string
+    action: string
+  }) {}
 }
