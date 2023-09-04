@@ -68,7 +68,7 @@ const createTrigger = async (
           const earnedAsset: ICustomerAsset = {
             assetId,
             qty: assetQty,
-            expiryDate: new Date(Date.now() + 5 * 365 * 24 * 60 * 60 * 1000),
+            expiryDate: new Date(Date.now() + 5 * 365 * 24 * 60 * 60 * 1000), // 5 years. @todo: move all these magic numbers to config for default values
           }
           console.log('checking for multiplier')
           if (multiplier) {
@@ -85,6 +85,8 @@ const createTrigger = async (
 
         const { gameId } = campaign
         if (gameId) {
+          console.log('campaign has game id: ', gameId)
+          console.log('engaging game service to process player action')
           const game = await gameService.getGameById(gameId)
           if (!game) {
             console.log('game not found')

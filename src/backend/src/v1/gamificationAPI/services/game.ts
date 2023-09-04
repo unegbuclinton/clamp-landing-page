@@ -1,5 +1,4 @@
 import { IDraftGame, IGame, IGameService } from '../interfaces/IGame'
-import { ILeaderboardEntry, LbStatKey } from '../interfaces/ILeaderboard'
 import { RoundService } from './round'
 import { LeaderboardService } from './leaderboard'
 import { ScoreService } from './score'
@@ -124,5 +123,17 @@ export class GameService implements IGameService {
     const scoreVal = payload[scoreKey] || 0
     await this.scoreService.addScore(playerId, Number(scoreVal), game.currentRoundId)
     await this.leaderboardService.updateRankings(game, statKey)
+  }
+
+  async updateGameStatuses(): Promise<boolean> {
+    const games = await this.getAllGames()
+    for (const game of games) {
+      // @todo: check for campaign end date and all that other stuff
+      if (game.status !== 'started') return
+      if (game.nextRoundStartsAt.getTime() <= Date.now()) {
+        await this.nextRound(game.id)
+      }
+    }
+    return true
   }
 }

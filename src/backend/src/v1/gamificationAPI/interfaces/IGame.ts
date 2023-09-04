@@ -29,4 +29,5 @@ export interface IGameService {
   endGame(id: string): Promise<boolean>
   getAllGames(): Promise<IGame[]>
   getGameById(id: string): Promise<IGame | null>
+  updateGameStatuses(): Promise<boolean>
 }

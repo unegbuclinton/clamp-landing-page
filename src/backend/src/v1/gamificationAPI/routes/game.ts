@@ -7,6 +7,7 @@ import {
   nextRound,
   startGame,
   initNewGame,
+  updateGameStatuses,
 } from '../controllers/game'
 
 const router = express.Router()
@@ -18,5 +19,6 @@ router.post('/', initNewGame)
 router.put('/:id/start', startGame)
 router.put('/:id/end', endGame)
 router.put('/:id/rounds/end', endRound)
+router.post('/periodic-update', updateGameStatuses)
 
 export default router

@@ -58,3 +58,12 @@ export const getAllGames = async (req: Request, res: Response): Promise<void> =>
     res.status(500).send(error.message)
   }
 }
+
+export const updateGameStatuses = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const updated = await gameService.updateGameStatuses()
+    res.json({ updated })
+  } catch (error: any) {
+    res.status(500).send(error.message)
+  }
+}

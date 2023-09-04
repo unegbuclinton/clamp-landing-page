@@ -5,6 +5,7 @@ import { ReqId } from 'express-pino-logger'
 import expressPino from 'express-pino-logger'
 import campaignAPIRoutes from './v1/campaignAPI/routes'
 import insightsAPIRoutes from './v1/insightsAPI/routes/insights'
+import gamificationAPIRoutes from './v1/gamificationAPI/routes'
 // import redemptionAPIRoutes from './v1/redemptionAPI/routes'
 import { v4 as uuidv4 } from 'uuid'
 import cors from 'cors'
@@ -31,16 +32,18 @@ server.use(express.json())
 server.use(expressLogger)
 
 // Configure API routes
-server.use('/clamp-api/core', campaignAPIRoutes)
-server.use('/clamp-api/insights', insightsAPIRoutes)
 // server.use('/clamp-api/redemption', redemptionAPIRoutes)
 
-// Serve static files
+// Campaign API
+server.use('/clamp-api/core', campaignAPIRoutes)
 server.use('/docs', express.static(path.resolve(__dirname, 'public/docs.html')))
 server.use(
   '/core-api/spec',
   express.static(path.resolve(__dirname, 'v1/campaignAPI/api-spec/swagger.yaml'))
 )
+
+// Insights API
+server.use('/clamp-api/insights', insightsAPIRoutes)
 server.use(
   '/insights-api/docs',
   express.static(path.resolve(__dirname, 'public/insights-api-docs.html'))
@@ -48,6 +51,17 @@ server.use(
 server.use(
   '/insights-api/spec',
   express.static(path.resolve(__dirname, 'v1/insightsAPI/api-spec.yaml'))
+)
+
+// Gamification API
+server.use('/clamp-api/gamification', gamificationAPIRoutes)
+server.use(
+  '/gamification-api/docs',
+  express.static(path.resolve(__dirname, 'public/gamification-api-docs.html'))
+)
+server.use(
+  '/gamification-api/spec',
+  express.static(path.resolve(__dirname, 'v1/gamificationAPI/api-spec.yaml'))
 )
 
 server.get('/health', (req: Request, res: Response) => {
