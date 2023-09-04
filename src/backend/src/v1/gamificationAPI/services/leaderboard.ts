@@ -23,11 +23,6 @@ export class LeaderboardService implements ILeaderboardService {
     return leaderboard.entries.slice(0, topN)
   }
 
-  async getParticipantRank(userId: string, roundId: string): Promise<number> {
-    // Again, this is a simplistic mock. In a real-world scenario, we'd query the leaderboard and find the rank.
-    return 1
-  }
-
   async updateRankings(game: IGame, statKey: string): Promise<boolean> {
     const { currentRoundId } = game
     const currentRound = await this.roundService.getRoundById(currentRoundId)

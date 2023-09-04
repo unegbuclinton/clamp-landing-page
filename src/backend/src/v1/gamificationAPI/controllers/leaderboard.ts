@@ -15,21 +15,10 @@ export const getTopParticipants = async (req: Request, res: Response): Promise<v
   }
 }
 
-export const getParticipantRank = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { userId, roundId } = req.params
-    const rank = await leaderboardService.getParticipantRank(userId, roundId)
-    res.json({ rank })
-  } catch (error: any) {
-    console.log(error)
-    res.status(500).send('Something went wrong.')
-  }
-}
-
 export const updateRankings = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { roundId } = req.body
-    const success = await leaderboardService.updateRankings(roundId)
+    const { game, statKey } = req.body
+    const success = await leaderboardService.updateRankings(game, statKey)
     if (success) {
       res.json({ message: 'Score recorded successfully.' })
     } else {

@@ -1,8 +1,7 @@
-import { IGame } from "./IGame"
+import { IGame } from './IGame'
 
 export interface ILeaderboardService {
   getTopParticipants(topN: number, roundId: string): Promise<ILeaderboardEntry[]>
-  getParticipantRank(userId: string, roundId: string): Promise<number>
   updateRankings(game: IGame, statKey: LbStatKey): Promise<boolean>
 }
 
