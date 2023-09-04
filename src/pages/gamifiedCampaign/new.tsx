@@ -18,9 +18,9 @@ import ButtonComponent from '@/components/atoms/button'
 import InfoCard from '@/components/molecules/infoCard'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 const { Option } = Select
-import { createNewCampaign } from '@/api/campaign'
-import { createNewRule } from '@/api/rules'
-import { createNewGame } from '@/api/game'
+import { createNewCampaign } from '@/httpClient/campaign'
+import { createNewRule } from '@/httpClient/rules'
+import { initNewGame } from '@/httpClient/game'
 import { IDraftGame } from '@/backend/src/v1/gamificationAPI/interfaces/IGame'
 interface NewGamifiedCampaignFormValues {
   campaignName: string
@@ -67,12 +67,12 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
   })
 }
 
-async function initNewGame(campaignId: string, numOfWinners: number, _roundsDuration: string) {
-  let roundsDuration = 60 * 60 * 24 * 7 // 'week'
+async function initiliazeGame(campaignId: string, numOfWinners: number, _roundsDuration: string) {
+  let roundsDuration = 1000 * 60 * 60 * 24 * 7 // 'week'
   if (_roundsDuration === 'day') {
-    roundsDuration = 60 * 60 * 24
+    roundsDuration = 1000 * 60 * 60 * 24
   } else if (_roundsDuration === 'month') {
-    roundsDuration = 60 * 60 * 24 * 30
+    roundsDuration = 1000 * 60 * 60 * 24 * 30
   }
   const newGameDraft: IDraftGame = {
     campaignId,
@@ -80,7 +80,7 @@ async function initNewGame(campaignId: string, numOfWinners: number, _roundsDura
     numOfWinners,
     numOfRounds: 10, // get this from the campaign form later
   }
-  return await createNewGame(newGameDraft)
+  return await initNewGame(newGameDraft)
 }
 
 const NewGamifiedCampaign = () => {
@@ -89,7 +89,7 @@ const NewGamifiedCampaign = () => {
 
   const handleSubmit = async (values: NewGamifiedCampaignFormValues) => {
     const { campaignId } = await createUnderlyingCampaign(values)
-    const newGame = await initNewGame(campaignId, values.numOfWinners, values.roundsDuration)
+    const newGame = await initiliazeGame(campaignId, values.numOfWinners, values.roundsDuration)
     console.log({ campaignId }, 'gameId: ', newGame.id)
     router.push(`/loyaltyCampaign/campaign/${campaignId}`)
   }
