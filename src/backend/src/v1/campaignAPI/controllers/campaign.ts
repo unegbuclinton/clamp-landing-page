@@ -93,7 +93,7 @@ export const resumeCampaign = async (req: Request, res: Response) => {
     } else {
       res.status(404).json({ msg: 'Campaign not found' })
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send(error.message)
   }
 }
@@ -107,7 +107,7 @@ export const startCampaign = async (req: Request, res: Response) => {
     } else {
       res.status(404).json({ msg: 'Campaign not found' })
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send(error.message)
   }
 }
@@ -123,7 +123,7 @@ export const enrollCustomer = async (req: Request, res: Response) => {
       console.log('Customer or campaign not found\n\n\n\n')
       res.status(404).json({ msg: 'Campaign or customer not found' })
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send(error.message)
   }
 }
@@ -136,7 +136,7 @@ export const enrollCustomersByImportId = async (req: Request, res: Response) => 
       campaignId
     )
     res.json({ enrolledCount })
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send(error.message)
   }
 }

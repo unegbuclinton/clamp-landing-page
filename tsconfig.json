@@ -1,4 +1,5 @@
 {
+  "extends": "./src/backend/tsconfig.json",
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -19,9 +20,10 @@
       "@/*": ["./src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
-      "@utilities/*": ["src/utilities"]
+      "@utilities/*": ["src/utilities"],
+      "@campaignAPIModels/*": ["./src/backend/src/v1/campaignAPI/models/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/backend"]
 }

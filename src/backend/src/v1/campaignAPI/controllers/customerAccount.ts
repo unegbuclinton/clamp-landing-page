@@ -58,7 +58,14 @@ export const importCustomerAccountsFromFile = async (
   req: express.Request,
   res: express.Response
 ) => {
-  const filePath = path.join(__dirname, req.file.path)
+  const fPath = req.file?.path
+  if (!fPath) {
+    return res.status(400).json({
+      msg: 'File missing',
+    })
+  }
+  const filePath = path.join(__dirname, fPath)
+
   try {
     const importOperationId = await CustomerAccountService.importCustomerAccountsFromFile(filePath)
     if (importOperationId) {

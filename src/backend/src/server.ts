@@ -1,5 +1,7 @@
+import { IncomingMessage, ServerResponse } from 'http'
 import express, { Request, Response } from 'express'
 import pino from 'pino'
+import { ReqId } from 'express-pino-logger'
 import expressPino from 'express-pino-logger'
 import campaignAPIRoutes from './v1/campaignAPI/routes'
 import insightsAPIRoutes from './v1/insightsAPI/routes/insights'
@@ -14,9 +16,7 @@ const PORT = process.env.PORT || 8080
 const logger = pino({ level: process.env.LOG_LEVEL || 'trace' })
 const expressLogger = expressPino({
   logger,
-  wrapSerializers: true,
-  genReqId: () => 'clamp-api-req---' + uuidv4(),
-  msgPrefix: '\n::::: Clamp API :::::\n',
+  genReqId: (req: IncomingMessage): ReqId => 'clamp-api-req---' + uuidv4(),
 })
 
 const server = express()
