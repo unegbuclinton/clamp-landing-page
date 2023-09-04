@@ -15,7 +15,7 @@ export interface ICampaignDraft {
     userId: string
     createdAt: Date
   }[]
-  leaderBoardIds?: string[]
+  gameId?: string
 }
 
 export interface ICampaign extends ICampaignDraft, Document {
@@ -60,7 +60,7 @@ const CampaignSchema = new Schema<ICampaign>(
     status: { type: String, enum: ['draft', 'active', 'inactive'], required: true },
     redemptionRules: [RedemptionConfigSchema],
     adminEvents: { eventName: String, userId: String, createdAt: Date, payload: Object },
-    leaderBoardIds: { type: [String], required: false },
+    gameId: { type: String, required: false },
   },
   {
     versionKey: false,
