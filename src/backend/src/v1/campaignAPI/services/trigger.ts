@@ -94,8 +94,11 @@ const createTrigger = async (
             console.log('game not started')
             continue
           }
-          const lb = await leaderboardService.getLeaderboard(game.currentRoundId)
-          const
+          await gameService.processPlayerAction({
+            playerId: customerAccount.id,
+            gameId: game.id,
+            payload: triggerData.payload,
+          })
         }
       }
 

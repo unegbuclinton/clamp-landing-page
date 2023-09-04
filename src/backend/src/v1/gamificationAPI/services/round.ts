@@ -53,6 +53,10 @@ export class RoundService implements IRoundService {
   async getRoundById(id: string): Promise<IRound | null> {
     return await Round.findOne({ id })
   }
+
+  async getRoundByIndex(gameId: string, index: number): Promise<IRound | null> {
+    return await Round.findOne({ gameId, index })
+  }
 }
 
 export default new RoundService()

@@ -4,6 +4,7 @@ export interface IRoundService {
   end(id: string): Promise<boolean>
   fetchGameRounds(gameId: string): Promise<IRound[]>
   getRoundById(id: string): Promise<IRound | null>
+  getRoundByIndex(gameId: string, index: number): Promise<IRound | null>
 }
 
 export interface IRound {

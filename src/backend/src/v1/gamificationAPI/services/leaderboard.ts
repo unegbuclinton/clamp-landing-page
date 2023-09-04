@@ -3,17 +3,6 @@ import { Leaderboard } from '../models/Leaderboard'
 import { ScoreService } from './score'
 import { RoundService } from './round'
 
-export const winningCriteria: Record<string, string> = {
-  h_spend: 'Highest spend',
-  h_trxn_vol: 'Highest transaction volume',
-  h_trxn_amt: 'Highest transaction amount',
-  h_growth_trxn_vol: 'Highest transaction volume growth',
-  h_growth_trxn_vol_p: 'Highest transaction volume growth %',
-  h_growth_trxn_amt: 'Highest transaction amount growth',
-  h_growth_trxn_amt_p: 'Highest transaction amount growth %',
-  l_cancel_rate: 'Lowest cancellation rate',
-}
-
 export class LeaderboardService implements ILeaderboardService {
   private scoreService: ScoreService
   private roundService: RoundService

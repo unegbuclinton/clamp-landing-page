@@ -1,13 +1,27 @@
 import { IDraftGame, IGame, IGameService } from '../interfaces/IGame'
 import { RoundService } from './round'
+import { LeaderboardService } from './leaderboard'
 import { IRound } from '../interfaces/IRound'
 import { Game } from '../models/Game'
 import { v4 as uuidv4 } from 'uuid'
 
+export const winningCriteria: Record<string, string> = {
+  h_spend: 'Highest spend',
+  h_trxn_vol: 'Highest transaction volume',
+  h_trxn_amt: 'Highest transaction amount',
+  h_growth_trxn_vol: 'Highest transaction volume growth',
+  h_growth_trxn_vol_p: 'Highest transaction volume growth %',
+  h_growth_trxn_amt: 'Highest transaction amount growth',
+  h_growth_trxn_amt_p: 'Highest transaction amount growth %',
+  l_cancel_rate: 'Lowest cancellation rate',
+}
+
 export class GameService implements IGameService {
   private roundService: RoundService
+  private leaderboardService: LeaderboardService
   constructor() {
     this.roundService = new RoundService()
+    this.leaderboardService = new LeaderboardService()
   }
 
   async fetchCurrentRound(gameId: string): Promise<IRound | null> {
@@ -81,10 +95,52 @@ export class GameService implements IGameService {
   async processPlayerAction({
     playerId,
     gameId,
-    action,
+    payload,
   }: {
     playerId: string
     gameId: string
-    action: string
-  }) {}
+    payload: Record<string, any>
+  }) {
+    // scenario 1: player action is a trigger because the
+    const game = await this.getGameById(gameId)
+    if (!game) throw new Error('GameNotFound')
+    if (game.status !== 'started') throw new Error('GameNotStarted')
+    const currentRound = await this.fetchCurrentRound(gameId)
+    if (!currentRound) throw new Error('RoundNotFound')
+    const { winningCriteriaCode } = game
+    switch (winningCriteriaCode) {
+      case 'h_spend':
+        break
+      case 'h_trxn_vol':
+        break
+      case 'h_trxn_amt':
+        break
+      case 'h_growth_trxn_vol':
+        break
+      case 'h_growth_trxn_vol_p':
+        break
+      case 'h_growth_trxn_amt':
+        // here we want to check if the player has the highest growth in transaction amount compared to the previous round
+        // to achieve this, we need to get the player's transaction amount in the previous round
+        // and compare it to the current round
+        
+        const currentRound = await this.fetchCurrentRound(gameId)
+        if (!currentRound) throw new Error('RoundNotFound')
+        const currRoundIndex = currentRound.index
+      const prevRound = await this.roundService.getRoundByIndex(gameId, currRoundIndex - 1)
+      const prevRoundLeaderboard = this.leaderboardService.getLeaderboard(prevRound.id)
+      const leaderBoard
+
+        break
+      case 'h_growth_trxn_amt_p':
+        break
+      case 'l_cancel_rate':
+        break
+      default:
+        break
+
+    }
+
+    //
+  }
 }
