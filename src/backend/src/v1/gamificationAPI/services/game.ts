@@ -1,5 +1,5 @@
 import { IDraftGame, IGame, IGameService } from '../interfaces/IGame'
-import { ILeaderboardEntry } from '../interfaces/ILeaderboard'
+import { ILeaderboardEntry, LbStatKey } from '../interfaces/ILeaderboard'
 import { RoundService } from './round'
 import { LeaderboardService } from './leaderboard'
 import { ScoreService } from './score'
@@ -16,6 +16,17 @@ export const winningCriteria: Record<string, string> = {
   h_growth_trxn_amt: 'Highest transaction amount growth',
   h_growth_trxn_amt_p: 'Highest transaction amount growth %',
   l_cancel_rate: 'Lowest cancellation rate',
+}
+
+export const winningEvalConfig: Record<string, { scoreKey: string; statKey: string }> = {
+  h_spend: { scoreKey: 'trxn_amt', statKey: 'trxn_amt' },
+  h_trxn_vol: { scoreKey: 'trxn_vol', statKey: 'trxn_vol' },
+  h_trxn_amt: { scoreKey: 'trxn_amt', statKey: 'trxn_amt' },
+  h_growth_trxn_vol: { scoreKey: 'trxn_vol', statKey: 'trxn_vol' },
+  h_growth_trxn_vol_p: { scoreKey: 'trxn_vol', statKey: 'trxn_vol' },
+  h_growth_trxn_amt: { scoreKey: 'trxn_amt', statKey: 'absoluteChange' },
+  h_growth_trxn_amt_p: { scoreKey: 'trxn_amt', statKey: 'percentChange' },
+  l_cancel_rate: { scoreKey: 'cancel_rate', statKey: 'cancel_rate' },
 }
 
 export class GameService implements IGameService {
@@ -108,73 +119,10 @@ export class GameService implements IGameService {
     const game = await this.getGameById(gameId)
     if (!game) throw new Error('GameNotFound')
     if (game.status !== 'started') throw new Error('GameNotStarted')
-    const currentRound = await this.fetchCurrentRound(gameId)
-    if (!currentRound) throw new Error('RoundNotFound')
-    const scoreVal = payload['trxn_amt']
-    await this.scoreService.addScore(playerId, Number(scoreVal), currentRound.id)
-    const roundScores = await this.scoreService.getRoundScores(currentRound.id)
-    const playerScores: Record<string, number> = {}
-    for (const score of roundScores) {
-      if (!playerScores[score.userId]) {
-        playerScores[score.userId] = 0
-      }
-      playerScores[score.userId] += score.points
-    }
-    const prevLbByUserId: Record<string, ILeaderboardEntry> = {}
-    if (currentRound.index > 0) {
-      const prevRound = await this.roundService.getRoundByIndex(gameId, currentRound.index - 1)
-      const prevRoundLeaderboard = await this.leaderboardService.getLeaderboard(prevRound.id)
-      for (const entry of prevRoundLeaderboard.entries) {
-        prevLbByUserId[entry.userId] = entry
-      }
-    }
-    const lbEntries = Object.entries(playerScores).map(([userId, score], index) => {
-      const prevRoundEntry = prevLbByUserId[userId]
-      const prevRoundScore = prevRoundEntry ? prevRoundEntry.score : 0
-      const absoluteChange = score - prevRoundScore
-      const percentChange = (absoluteChange / prevRoundScore) * 100
-
-      const entry: ILeaderboardEntry = {
-        userId,
-        rank: index + 1,
-        score,
-        isWinning: index < game.numOfWinners,
-        stats: { prevRoundScore, percentChange, absoluteChange },
-      }
-      return entry
-    })
-    let sortedLbEntries = lbEntries
     const { winningCriteriaCode } = game
-    switch (winningCriteriaCode) {
-      case 'h_spend':
-        break
-      case 'h_trxn_vol':
-        break
-      case 'h_trxn_amt':
-        break
-      case 'h_growth_trxn_vol':
-        break
-      case 'h_growth_trxn_vol_p':
-        break
-      case 'h_growth_trxn_amt':
-        sortedLbEntries = sortedLbEntries.sort((a, b) => {
-          return b.stats.absoluteChange - a.stats.absoluteChange
-        })
-
-        break
-      case 'h_growth_trxn_amt_p':
-        sortedLbEntries = sortedLbEntries.sort((a, b) => {
-          return b.stats.percentChange - a.stats.percentChange
-        })
-        break
-      case 'l_cancel_rate':
-        break
-      default:
-        break
-    }
-    sortedLbEntries = sortedLbEntries.map((entry, index) => {
-      entry.rank = index + 1
-      return entry
-    })
+    const { scoreKey, statKey } = winningEvalConfig[winningCriteriaCode]
+    const scoreVal = payload[scoreKey] || 0
+    await this.scoreService.addScore(playerId, Number(scoreVal), game.currentRoundId)
+    await this.leaderboardService.updateRankings(game, statKey)
   }
 }

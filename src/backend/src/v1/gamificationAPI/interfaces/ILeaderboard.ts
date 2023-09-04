@@ -1,7 +1,9 @@
+import { IGame } from "./IGame"
+
 export interface ILeaderboardService {
   getTopParticipants(topN: number, roundId: string): Promise<ILeaderboardEntry[]>
   getParticipantRank(userId: string, roundId: string): Promise<number>
-  updateRankings(roundId: string): Promise<boolean>
+  updateRankings(game: IGame, statKey: LbStatKey): Promise<boolean>
 }
 
 export interface ILeaderboard {
@@ -15,5 +17,8 @@ export interface ILeaderboardEntry {
   rank: number
   isWinning: boolean
   score: number
-  stats: { prevRoundScore: number; percentChange: number; absoluteChange: number }
+  prevRoundScore: number
+  stats: { percentChange: number; absoluteChange: number }
 }
+
+export type LbStatKey = keyof ILeaderboardEntry['stats']

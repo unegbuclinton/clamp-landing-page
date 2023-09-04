@@ -1,7 +1,13 @@
-import { ILeaderboard, ILeaderboardService, ILeaderboardEntry } from '../interfaces/ILeaderboard'
+import {
+  ILeaderboard,
+  ILeaderboardService,
+  ILeaderboardEntry,
+  LbStatKey,
+} from '../interfaces/ILeaderboard'
 import { Leaderboard } from '../models/Leaderboard'
 import { ScoreService } from './score'
 import { RoundService } from './round'
+import { IGame } from '../interfaces/IGame'
 
 export class LeaderboardService implements ILeaderboardService {
   private scoreService: ScoreService
@@ -21,28 +27,53 @@ export class LeaderboardService implements ILeaderboardService {
     return 1
   }
 
-  async updateRankings(roundId: string): Promise<boolean> {
-    const scores = await this.scoreService.getRoundScores(roundId)
-    let leaderboard = await Leaderboard.findOne({ roundId })
-    if (!leaderboard) {
-      leaderboard = new Leaderboard({ roundId, entries: [] })
-      await leaderboard.save()
+  async updateRankings(game: IGame, statKey: string): Promise<boolean> {
+    const { currentRoundId } = game
+    const currentRound = await this.roundService.getRoundById(currentRoundId)
+    const roundScores = await this.scoreService.getRoundScores(currentRoundId)
+    const playerScores: Record<string, number> = {}
+    for (const score of roundScores) {
+      if (!playerScores[score.userId]) {
+        playerScores[score.userId] = 0
+      }
+      playerScores[score.userId] += score.points
     }
-    const entries = leaderboard.entries
-    for (const score of scores) {
-      const entry = entries.find((e) => e.userId === score.userId)
-      if (entry) {
-        entry.score += score.points
-      } else {
-        entries.push({
-          userId: score.userId,
-          rank: 0,
-          score: score.points,
-          isWinning: false,
-          stats: { prevRoundScore: 0, percentChange: 0, absoluteChange: 0 },
-        })
+    const prevLbByUserId: Record<string, ILeaderboardEntry> = {}
+    if (currentRound.index > 0) {
+      const prevRound = await this.roundService.getRoundByIndex(
+        currentRound.gameId,
+        currentRound.index - 1
+      )
+      const prevRoundLeaderboard = await this.getLeaderboard(prevRound.id)
+      for (const entry of prevRoundLeaderboard.entries) {
+        prevLbByUserId[entry.userId] = entry
       }
     }
+    const lbEntries = Object.entries(playerScores).map(([userId, score], index) => {
+      const prevRoundEntry = prevLbByUserId[userId]
+      const prevRoundScore = prevRoundEntry ? prevRoundEntry.score : 0
+      const absoluteChange = score - prevRoundScore
+      const percentChange = (absoluteChange / prevRoundScore) * 100
+
+      const entry: ILeaderboardEntry = {
+        userId,
+        rank: index + 1,
+        score,
+        prevRoundScore,
+        isWinning: index < game.numOfWinners,
+        stats: { percentChange, absoluteChange },
+      }
+      return entry
+    })
+    const sortedLbEntries = lbEntries
+      .sort((a, b) => {
+        if (statKey) return b.stats[statKey as LbStatKey] - a.stats[statKey as LbStatKey]
+        return b.score - a.score
+      })
+      .map((entry, index) => {
+        entry.rank = index + 1
+        return entry
+      })
 
     return true
   }
