@@ -23,10 +23,10 @@ export const getParticipantRank = async (req: Request, res: Response): Promise<v
   }
 }
 
-export const recordScore = async (req: Request, res: Response): Promise<void> => {
+export const updateRankings = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { userId, points, roundId } = req.body
-    const success = await leaderboardService.recordScore(userId, points, roundId)
+    const { roundId } = req.body
+    const success = await leaderboardService.updateRankings(roundId)
     if (success) {
       res.json({ message: 'Score recorded successfully.' })
     } else {

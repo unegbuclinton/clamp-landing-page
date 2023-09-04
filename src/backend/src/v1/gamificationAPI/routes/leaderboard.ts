@@ -1,10 +1,10 @@
 import express from 'express'
-import { getTopParticipants, getParticipantRank, recordScore } from '../controllers/leaderboard'
+import { getTopParticipants, getParticipantRank, updateRankings } from '../controllers/leaderboard'
 
 const router = express.Router()
 
 router.get('/top', getTopParticipants)
 router.get('/rank/:userId/:roundId', getParticipantRank)
-router.post('/record', recordScore)
+router.put('/rank/:roundId', updateRankings)
 
 export default router
