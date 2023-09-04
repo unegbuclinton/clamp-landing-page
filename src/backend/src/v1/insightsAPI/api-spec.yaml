@@ -1,0 +1,139 @@
+openapi: 3.0.3
+info:
+  title: Insights API
+  version: 1.3.0
+  description: API for loyalty program insights and user retention
+servers:
+  - url: 'http://localhost:8080/clamp-api/insights'
+  - url: 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/insights'
+paths:
+  /customers/{customerId}/assetBalance:
+    get:
+      summary: Get a customer's asset balance
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  balance:
+                    type: integer
+        '404':
+          description: Customer not found
+
+  /customers/{customerId}/predictions:
+    get:
+      summary: Get a customer's purchase predictions
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  predictions:
+                    type: array
+                    items:
+                      type: object
+        '404':
+          description: Customer not found
+
+  /campaigns/overview:
+    get:
+      summary: Get an overview of all campaigns
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  campaigns:
+                    type: array
+                    items:
+                      $ref: '../campaignAPI/api-spec/swagger.yaml#/components/schemas/Campaign'
+
+  /campaigns/{campaignId}/highlights:
+    get:
+      summary: Get highlights of a specific campaign
+      parameters:
+        - name: campaignId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '404':
+          description: Campaign not found
+
+  /userLoyaltyScores:
+    get:
+      summary: Get loyalty scores of all users
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    customerId:
+                      type: string
+                    score:
+                      type: integer
+
+components:
+#paths:
+#/loyaltyProgramRegistrationTrend:
+#/rewardRedemptionRate:
+#/userBehaviorPatterns:
+#/campaignResponseRate:
+#/couponUsage:
+#/membershipUpgradeAnalysis:
+#/loyaltyProgramROI:
+#/customerFeedbackAnalysis:
+#/campaignCostAnalysis:
+#/rewardCategoryPerformance:
+#/pointsExpirationTrend:
+#/loyaltyProgramDemographics:
+#/campaignEffectOnSales:
+#/referralSourceAnalysis:
+#/customerLifetimeValueTrend:
+#/loyaltyProgramMembershipStatus:
+#/rewardPreferences:
+#/activeUsersAnalysis:
+#/segmentPerformance:
+#/customerAttritionRate:
+#/loyaltyProgramPerformance:
+#/loyaltyProgramEngagement:
+#/loyaltyProgramRevenue:
+#/loyaltyProgramCost:
+#/loyaltyProgramProfit:
+#/loyaltyProgramROI:
+#/loyaltyProgramROAS:
+#/loyaltyProgramBreakEvenPoint:
+#/loyaltyProgramBreakEvenPoint:

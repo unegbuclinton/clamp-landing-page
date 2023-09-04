@@ -20,26 +20,16 @@ import DashboardLayout from '@/components/layouts/dashboardLayout'
 const { Option } = Select
 import { createNewCampaign } from '@/api/campaign'
 import { createNewRule } from '@/api/rules'
+import { createNewGame } from '@/api/game'
+import { IDraftGame } from '@/backend/src/v1/gamificationAPI/interfaces/IGame'
 interface NewGamifiedCampaignFormValues {
   campaignName: string
-  rewardFrequency: string
-  winnerQuota: number
+  roundsDuration: string
+  numOfWinners: number
   rewardAmount: number
   winningCriteria: string
 }
 export type GameStatus = 'pending' | 'started' | 'paused' | 'stopped'
-
-export interface IGame {
-  id: string
-  status: GameStatus
-  currentRoundId: string
-  nextRoundStartsAt: Date
-  campaignId: string
-  roundsDuration: number // in seconds
-  winnerQuota: number
-  createdAt: Date
-  updatedAt: Date
-}
 
 async function createUnderlyingCampaign(
   payload: NewGamifiedCampaignFormValues
@@ -53,7 +43,7 @@ async function createUnderlyingCampaign(
       {
         key: 'position',
         operator: 'lte',
-        value: payload.winnerQuota,
+        value: payload.numOfWinners,
       },
     ],
   }
@@ -77,17 +67,26 @@ async function createUnderlyingCampaign(
     status: 'draft',
     redemptionRules: [],
   })
-  const newGame: IGame = {
-    id: '',
-    status: 'pending',
-    currentRoundId: '',
-    nextRoundStartsAt: new Date(),
-    campaignId: '',
-    roundsDuration: 0,
-    winnerQuota: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+}
+
+async function initNewGame(
+  campaignId: string,
+  numOfWinners: number,
+  _roundsDuration: string
+) {
+  let roundsDuration = 60 * 60 * 24 * 7 // 'week'
+  if (_roundsDuration === 'day') {
+    roundsDuration = 60 * 60 * 24
+  } else if (_roundsDuration === 'month') {
+    roundsDuration = 60 * 60 * 24 * 30
   }
+  const newGameDraft: IDraftGame = {
+    campaignId,
+    roundsDuration,
+    numOfWinners,
+    numOfRounds: 10, // get this from the campaign form later
+  }
+  return await createNewGame(newGameDraft)
 }
 
 const NewGamifiedCampaign = () => {
@@ -95,10 +94,13 @@ const NewGamifiedCampaign = () => {
   const router = useRouter()
 
   const handleSubmit = async (values: NewGamifiedCampaignFormValues) => {
-    console.log(values)
-    console.log('Received values:', form.getFieldsValue())
-    const { id: campaignId } = await createUnderlyingCampaign(values)
-    console.log({ campaignId })
+    const { campaignId } = await createUnderlyingCampaign(values)
+    const newGame = await initNewGame(
+      campaignId,
+      values.numOfWinners,
+      values.roundsDuration
+    )
+    console.log({ campaignId }, 'gameId: ', newGame.id)
     router.push(`/loyaltyCampaign/campaign/${campaignId}`)
   }
 
@@ -169,7 +171,7 @@ const NewGamifiedCampaign = () => {
               </InfoCard>
               <InfoCard label='FREQUENCY' description={'Award prize(s) every'}>
                 <Form.Item
-                  name='rewardFrequency'
+                  name='roundsDuration'
                   rules={[
                     { required: true, message: 'Please select frequency.' },
                   ]}
@@ -191,7 +193,7 @@ const NewGamifiedCampaign = () => {
                 <div className='flex items-center'>
                   <Form.Item
                     className='m-0'
-                    name='winnerQuota'
+                    name='numOfWinners'
                     rules={[
                       {
                         required: true,
