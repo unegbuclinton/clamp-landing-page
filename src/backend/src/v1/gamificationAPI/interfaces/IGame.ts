@@ -1,14 +1,18 @@
 import { IRound } from './IRound'
 export type GameStatus = 'pending' | 'started' | 'paused' | 'stopped'
 
-export interface IGame {
+export interface IDraftGame {
+  campaignId: string
+  roundsDuration: number // in ms
+  numOfRounds: number
+  numOfWinners: number
+}
+
+export interface IGame extends IDraftGame {
   id: string
   status: GameStatus
   currentRoundId: string
   nextRoundStartsAt: Date
-  campaignId: string
-  roundsDuration: number // in ms
-  winnerQuota: number
   createdAt: Date
   updatedAt: Date
 }

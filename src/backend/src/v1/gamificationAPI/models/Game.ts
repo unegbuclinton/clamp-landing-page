@@ -9,6 +9,7 @@ const GameSchema = new mongoose.Schema<IGame>(
     nextRoundStartsAt: { type: Date, required: true },
     campaignId: { type: String, required: true },
     roundsDuration: { type: Number, required: true },
+    roundsCount: { type: Number, required: true },
     winnerQuota: { type: Number, required: true },
   },
   {
