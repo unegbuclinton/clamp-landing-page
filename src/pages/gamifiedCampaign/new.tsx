@@ -27,10 +27,21 @@ interface NewGamifiedCampaignFormValues {
   rewardAmount: number
   winningCriteria: string
 }
+export type GameStatus = 'pending' | 'started' | 'paused' | 'stopped'
 
-async function createUnderlyingCampaign(
-  payload: NewGamifiedCampaignFormValues
-) {
+export interface IGame {
+  id: string
+  status: GameStatus
+  currentRoundId: string
+  nextRoundStartsAt: Date
+  campaignId: string
+  roundsDuration: number // in seconds
+  winnerQuota: number
+  createdAt: Date
+  updatedAt: Date
+}
+
+async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) {
   const rule: ruleInterface = {
     id: '',
     assetId: 'cash--naira',
@@ -64,6 +75,17 @@ async function createUnderlyingCampaign(
     status: 'draft',
     redemptionRules: [],
   })
+  const newGame: IGame = {
+    id: '',
+    status: 'pending',
+    currentRoundId: '',
+    nextRoundStartsAt: new Date(),
+    campaignId: '',
+    roundsDuration: 0,
+    winnerQuota: 0,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }
 }
 
 const NewGamifiedCampaign = () => {
@@ -91,16 +113,14 @@ const NewGamifiedCampaign = () => {
 
   return (
     <DashboardLayout>
-      <div className=' flex justify-center mb-6'>
-        <div className='relative max-w-[462px] '>
-          <div className='flex flex-col justify-center w-full'>
-            <h3 className='text-xl font-bold w-full text-gray-700  mb-8'>
-              Gamified Campaign
-            </h3>
+      <div className=" flex justify-center mb-6">
+        <div className="relative max-w-[462px] ">
+          <div className="flex flex-col justify-center w-full">
+            <h3 className="text-xl font-bold w-full text-gray-700  mb-8">Gamified Campaign</h3>
             <Form form={form} onFinish={handleSubmit} noValidate>
-              <InfoCard description='Campaign name'>
+              <InfoCard description="Campaign name">
                 <Form.Item
-                  name='campaignName'
+                  name="campaignName"
                   rules={[
                     {
                       required: true,
@@ -109,22 +129,20 @@ const NewGamifiedCampaign = () => {
                   ]}
                 >
                   <Input
-                    className='bg-transparent border-none shadow-none p-0 focus:border focus:border-black'
-                    placeholder='E.g. Weekly top buyers'
+                    className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black"
+                    placeholder="E.g. Weekly top buyers"
                   />
                 </Form.Item>
               </InfoCard>
-              <InfoCard label='FREQUENCY' description={'Award prize(s) every'}>
+              <InfoCard label="FREQUENCY" description={'Award prize(s) every'}>
                 <Form.Item
-                  name='rewardFrequency'
-                  rules={[
-                    { required: true, message: 'Please select frequency.' },
-                  ]}
+                  name="rewardFrequency"
+                  rules={[{ required: true, message: 'Please select frequency.' }]}
                 >
                   <Select
-                    className='cursor-pointer'
+                    className="cursor-pointer"
                     style={{ width: '100%' }}
-                    placeholder='Set frequency'
+                    placeholder="Set frequency"
                   >
                     {['day', 'week', 'month'].map((value) => (
                       <Option key={value} value={value}>
@@ -134,11 +152,11 @@ const NewGamifiedCampaign = () => {
                   </Select>
                 </Form.Item>
               </InfoCard>
-              <InfoCard label='WINNERS' description='After each round'>
-                <div className='flex items-center'>
+              <InfoCard label="WINNERS" description="After each round">
+                <div className="flex items-center">
                   <Form.Item
-                    className='m-0'
-                    name='winnerQuota'
+                    className="m-0"
+                    name="winnerQuota"
                     rules={[
                       {
                         required: true,
@@ -147,8 +165,8 @@ const NewGamifiedCampaign = () => {
                     ]}
                   >
                     <InputNumber
-                      className='bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-14 mr-1'
-                      placeholder='10'
+                      className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-14 mr-1"
+                      placeholder="10"
                       step={1}
                       min={1}
                       max={10}
@@ -157,40 +175,33 @@ const NewGamifiedCampaign = () => {
                   <span> {'winner(s) will be selected'}</span>
                 </div>
               </InfoCard>
-              <InfoCard label='REWARD' description='Each winner earns'>
-                <div className='flex'>
-                  <span className='align-top leading-8 mr-1'>&#8358; </span>
+              <InfoCard label="REWARD" description="Each winner earns">
+                <div className="flex">
+                  <span className="align-top leading-8 mr-1">&#8358; </span>
                   <Form.Item
-                    className='m-0'
-                    name='rewardAmount'
-                    rules={[
-                      { required: true, message: 'Enter prize money amount' },
-                    ]}
+                    className="m-0"
+                    name="rewardAmount"
+                    rules={[{ required: true, message: 'Enter prize money amount' }]}
                   >
                     <InputNumber
-                      className='bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-60'
-                      placeholder='100.00'
+                      className="bg-transparent border-none shadow-none p-0 focus:border focus:border-black inline-block w-60"
+                      placeholder="100.00"
                       step={0.01}
                       min={0.01}
                     />
                   </Form.Item>
                 </div>
               </InfoCard>
-              <InfoCard
-                label='HOW TO WIN'
-                description='Winners are determined by'
-              >
+              <InfoCard label="HOW TO WIN" description="Winners are determined by">
                 <Form.Item
-                  className='m-0'
-                  name='winningCriteria'
-                  rules={[
-                    { required: true, message: 'Select winning criteria' },
-                  ]}
+                  className="m-0"
+                  name="winningCriteria"
+                  rules={[{ required: true, message: 'Select winning criteria' }]}
                 >
                   <Select
-                    className='cursor-pointer'
+                    className="cursor-pointer"
                     style={{ width: '100%' }}
-                    placeholder='Select winning criteria'
+                    placeholder="Select winning criteria"
                   >
                     {Object.keys(winningCriteria).map((k) => (
                       <Option key={k} value={k}>
@@ -200,7 +211,7 @@ const NewGamifiedCampaign = () => {
                   </Select>
                 </Form.Item>
               </InfoCard>
-              <ButtonComponent type='submit' text='Create gamified campaign' />
+              <ButtonComponent type="submit" text="Create gamified campaign" />
             </Form>
           </div>
         </div>
