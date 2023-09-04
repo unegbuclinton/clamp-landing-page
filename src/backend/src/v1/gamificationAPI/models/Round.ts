@@ -4,7 +4,6 @@ import { IRound } from '../interfaces/IRound'
 const RoundSchema = new mongoose.Schema<IRound>(
   {
     id: { type: String, required: true, unique: true },
-    winnerIds: { type: [String], required: true },
     status: { type: String, required: true },
     gameId: { type: String, required: true },
     campaignId: { type: String, required: true },

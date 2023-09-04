@@ -49,6 +49,7 @@ export class GameService implements IGameService {
   }
 
   async endGame(id: string): Promise<boolean> {
+    await this.endRound(id)
     await Game.findOneAndUpdate({ id }, { status: 'stopped' })
     return false
   }

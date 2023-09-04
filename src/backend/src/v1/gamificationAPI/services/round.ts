@@ -47,10 +47,6 @@ export class RoundService implements IRoundService {
     return true
   }
 
-  async calculateWinners(): Promise<string[]> {
-    return []
-  }
-
   async fetchGameRounds(gameId: string): Promise<IRound[]> {
     return await Round.find({ gameId }).sort({ startedAt: -1 })
   }

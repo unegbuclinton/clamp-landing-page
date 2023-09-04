@@ -5,6 +5,9 @@ import { Campaign, ICampaign } from '../models/Campaign'
 import { CustomerAccount, ICustomerAsset } from '../models/CustomerAccount'
 import { Rule, IRule } from '../models/Rule'
 import { checkCondition } from '../../../lib/conditions'
+import { GameService } from '@/v1/gamificationAPI/services/game'
+
+const gameService = new GameService()
 
 const getAllTriggers = async (): Promise<ITrigger[]> => {
   return Trigger.find().exec()
@@ -74,6 +77,13 @@ const createTrigger = async (
             console.log('multiplier applied')
           }
           awardedAssets.push(earnedAsset)
+        }
+
+        const { gameId } = campaign
+        if (gameId) {
+          const game = await gameService.getGameById(gameId)
+          const lbId  = game.currentLeaderboardId
+          
         }
       }
 
