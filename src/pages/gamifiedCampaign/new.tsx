@@ -66,7 +66,7 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
   const { id: ruleId } = await createNewRule(rule)
   const { id: inGameRuleId } = await createNewRule(inGameRule)
   console.log({ ruleId, inGameRuleId })
-  return await createNewCampaign({
+  const newCampaign = await createNewCampaign({
     id: '',
     name: payload.campaignName,
     startDate: new Date().toISOString(), // add 90 days by default
@@ -75,17 +75,19 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
     status: 'draft',
     redemptionRules: [],
   })
-  const newGame: IGame = {
+  const { campaignId } = newCampaign
+  const newGameDraft: IGame = {
     id: '',
     status: 'pending',
     currentRoundId: '',
     nextRoundStartsAt: new Date(),
-    campaignId: '',
+    campaignId,
     roundsDuration: 0,
     winnerQuota: 0,
     createdAt: new Date(),
     updatedAt: new Date(),
   }
+  const { id: gameId } = await createNewGame(newGameDraft)
 }
 
 const NewGamifiedCampaign = () => {
