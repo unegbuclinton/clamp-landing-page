@@ -123,3 +123,7 @@ html {
   justify-content: center;
   align-items: center;
 }
+
+.file-input {
+  display: none !important;
+}
