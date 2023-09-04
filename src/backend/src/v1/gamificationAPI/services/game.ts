@@ -59,6 +59,7 @@ export class GameService implements IGameService {
       game.status = 'started'
       const round = await this.roundService.start(game.id)
       game.currentRoundId = round.id
+      game.nextRoundStartsAt = new Date(Date.now() + game.roundsDuration)
       await game.save()
       return game
     }
@@ -70,10 +71,7 @@ export class GameService implements IGameService {
       id: uuidv4(),
       status: 'pending',
       currentRoundId: '',
-      nextRoundStartsAt: new Date(Date.now() + ),
-      campaignId: dGame.campaignId,
-      roundsDuration: sevenDaysInMs,
-      winnerQuota,
+      ...dGame,
     })
     await game.save()
     return game
