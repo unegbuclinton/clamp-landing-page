@@ -18,9 +18,14 @@ export class LeaderboardService implements ILeaderboardService {
     return 1
   }
 
-  async recordScore(userId: string, points: number, roundId: string): Promise<boolean> {
-    await this.scoreService.addScore(userId, points, roundId)
-    // After recording the score, we might also update the leaderboard. This is a simplistic mock.
+  async updateRankings(roundId: string): Promise<boolean> {
+    const scores = await this.scoreService.getRoundScores(roundId)
+    const leaderboard = await Leaderboard.findOne({ roundId })
+    if (!leaderboard) {
+      const newLeaderboard = new Leaderboard({ roundId, entries: [] })
+      await newLeaderboard.save()
+    }
+
     return true
   }
 }

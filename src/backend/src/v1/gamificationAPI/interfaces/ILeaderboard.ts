@@ -1,7 +1,7 @@
 export interface ILeaderboardService {
   getTopParticipants(topN: number): Promise<ILeaderboardEntry[]>
   getParticipantRank(userId: string, roundId: string): Promise<number>
-  recordScore(userId: string, points: number, roundId: string): Promise<boolean>
+  updateRankings(roundId: string): Promise<boolean>
 }
 
 export interface ILeaderboard {
