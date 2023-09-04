@@ -21,7 +21,7 @@ export interface IGameService {
   fetchCurrentRound(gameId: string): Promise<IRound | null>
   endRound(gameId: string): Promise<boolean>
   nextRound(gameId: string): Promise<IRound>
-  initNewGame(campaignId: string, winnerQuota: number): Promise<IGame>
+  initNewGame(draftGame: IDraftGame): Promise<IGame>
   startGame(campaignId: string): Promise<IGame>
   endGame(id: string): Promise<boolean>
   getAllGames(): Promise<IGame[]>

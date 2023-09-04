@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { GameService } from '../services/game'
+import { IDraftGame } from '../interfaces/IGame'
 
 const gameService = new GameService()
 
@@ -30,7 +31,8 @@ export const nextRound = async (req: Request, res: Response): Promise<void> => {
 
 export const initNewGame = async (req: Request, res: Response): Promise<void> => {
   try {
-    const game = await gameService.initNewGame(req.params.campaignId, req.body.winnerQuota)
+    const payload: IDraftGame = req.body
+    const game = await gameService.initNewGame(payload)
     res.json(game)
   } catch (error: any) {
     res.status(500).send(error.message)
