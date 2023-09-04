@@ -22,6 +22,7 @@ import { createNewCampaign } from '@/httpClient/campaign'
 import { createNewRule } from '@/httpClient/rules'
 import { initNewGame } from '@/httpClient/game'
 import { IDraftGame } from '@/backend/src/v1/gamificationAPI/interfaces/IGame'
+import { winningCriteria } from '@/backend/src/v1/gamificationAPI/services/game'
 interface NewGamifiedCampaignFormValues {
   campaignName: string
   roundsDuration: string

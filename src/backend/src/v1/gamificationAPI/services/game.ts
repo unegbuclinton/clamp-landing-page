@@ -110,9 +110,6 @@ export class GameService implements IGameService {
     if (game.status !== 'started') throw new Error('GameNotStarted')
     const currentRound = await this.fetchCurrentRound(gameId)
     if (!currentRound) throw new Error('RoundNotFound')
-    const currRoundIndex = currentRound.index
-    const prevRound = await this.roundService.getRoundByIndex(gameId, currRoundIndex - 1)
-    const prevRoundLeaderboard = await this.leaderboardService.getLeaderboard(prevRound.id)
     const scoreVal = payload['trxn_amt']
     await this.scoreService.addScore(playerId, Number(scoreVal), currentRound.id)
     const roundScores = await this.scoreService.getRoundScores(currentRound.id)
@@ -124,8 +121,12 @@ export class GameService implements IGameService {
       playerScores[score.userId] += score.points
     }
     const prevLbByUserId: Record<string, ILeaderboardEntry> = {}
-    for (const entry of prevRoundLeaderboard.entries) {
-      prevLbByUserId[entry.userId] = entry
+    if (currentRound.index > 0) {
+      const prevRound = await this.roundService.getRoundByIndex(gameId, currentRound.index - 1)
+      const prevRoundLeaderboard = await this.leaderboardService.getLeaderboard(prevRound.id)
+      for (const entry of prevRoundLeaderboard.entries) {
+        prevLbByUserId[entry.userId] = entry
+      }
     }
     const lbEntries = Object.entries(playerScores).map(([userId, score], index) => {
       const prevRoundEntry = prevLbByUserId[userId]
