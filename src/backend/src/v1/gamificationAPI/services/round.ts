@@ -8,6 +8,9 @@ const gameService = new GameService()
 export class RoundService implements IRoundService {
   async start(gameId: string): Promise<IRound> {
     const game = await gameService.getGameById(gameId)
+    if (!game) {
+      throw new Error('Game not found')
+    }
     const lastGameRound = await Round.findOne({
       gameId,
     }).sort({ index: -1 })
@@ -31,7 +34,7 @@ export class RoundService implements IRoundService {
 
   async end(id: string): Promise<boolean> {
     const currentRound = await Round.findOne({
-      id
+      id,
     })
     if (!currentRound) {
       throw new Error('Round not found')
@@ -40,6 +43,7 @@ export class RoundService implements IRoundService {
     currentRound.status = 'stopped'
     currentRound.endedAt = new Date()
     await currentRound.save()
+    //  Calculate winners based on winning criteria
     return true
   }
 

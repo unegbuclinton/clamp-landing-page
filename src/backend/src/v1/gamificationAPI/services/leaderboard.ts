@@ -1,40 +1,26 @@
-import { ILeaderboardService, ILeaderboardEntry } from '../interfaces/ILeaderboard'
+import { ILeaderboard, ILeaderboardService, ILeaderboardEntry } from '../interfaces/ILeaderboard'
+import { Leaderboard } from '../models/Leaderboard'
+import { ScoreService } from './score'
 
 export class LeaderboardService implements ILeaderboardService {
-  private participants: ILeaderboardEntry[] = []
+  private scoreService: ScoreService
+  constructor() {
+    this.scoreService = new ScoreService()
+  }
 
   async getTopParticipants(topN: number): Promise<ILeaderboardEntry[]> {
-    return this.participants.slice(0, topN)
+    // This is a simplistic implementation. In a real-world scenario, we'd have to aggregate scores and rank users.
+    return []
   }
 
-  async getParticipantRank(userId: string): Promise<number> {
-    for (let i = 0; i < this.participants.length; i++) {
-      if (this.participants[i].userId === userId) {
-        return i + 1 // Rank is 1-based
-      }
-    }
-    return -1 // Not found
+  async getParticipantRank(userId: string, roundId: string): Promise<number> {
+    // Again, this is a simplistic mock. In a real-world scenario, we'd query the leaderboard and find the rank.
+    return 1
   }
 
-  async recordScore(userId: string, points: number): Promise<boolean> {
-    const participant = this.participants.find((p) => p.userId === userId)
-    if (participant) {
-      participant.score += points
-    } else {
-      this.participants.push({
-        userId,
-        rank: 0,
-        score: points,
-        prevRoundScore: 0,
-        percentChange: 0,
-        absoluteChange: 0,
-      })
-    }
-    this.sortParticipants()
+  async recordScore(userId: string, points: number, roundId: string): Promise<boolean> {
+    await this.scoreService.addScore(userId, points, roundId)
+    // After recording the score, we might also update the leaderboard. This is a simplistic mock.
     return true
-  }
-
-  private sortParticipants(): void {
-    this.participants.sort((a, b) => b.points - a.points)
   }
 }
