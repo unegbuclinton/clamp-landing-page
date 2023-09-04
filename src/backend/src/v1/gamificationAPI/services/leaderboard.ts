@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import {
   ILeaderboard,
   ILeaderboardService,
@@ -74,15 +75,22 @@ export class LeaderboardService implements ILeaderboardService {
         entry.rank = index + 1
         return entry
       })
-
+    const leaderboardDraft: Partial<ILeaderboard> = {
+      roundId: currentRound.id,
+      entries: sortedLbEntries,
+    }
+    const existingLeaderboard = await this.getLeaderboard(currentRound.id)
+    if (existingLeaderboard) {
+      await Leaderboard.updateOne({ roundId: currentRound.id }, leaderboardDraft)
+    } else {
+      await Leaderboard.create({ id: uuidv4(), ...leaderboardDraft })
+    }
     return true
   }
 
-  async getLeaderboard(roundId: string): Promise<ILeaderboard> {
+  async getLeaderboard(roundId: string): Promise<ILeaderboard | null> {
     const leaderboard = await Leaderboard.findOne({ roundId })
-    if (!leaderboard) {
-      throw new Error('Leaderboard not found')
-    }
+    if (!leaderboard) return null
     return leaderboard
   }
 }

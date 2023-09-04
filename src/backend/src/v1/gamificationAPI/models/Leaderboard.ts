@@ -13,7 +13,7 @@ const LeaderboardEntrySchema = new mongoose.Schema({
 const LeaderboardSchema = new mongoose.Schema<ILeaderboard>(
   {
     id: { type: String, required: true, unique: true },
-    roundId: { type: String, required: true },
+    roundId: { type: String, required: true, unique: true },
     entries: [LeaderboardEntrySchema],
   },
   {
