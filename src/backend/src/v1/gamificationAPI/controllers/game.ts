@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import { GameService } from '../services/game'
-import { IGame } from '../interfaces/IGame'
 
 const gameService = new GameService()
 
@@ -36,7 +35,7 @@ export const initNewGame = async (req: Request, res: Response): Promise<void> =>
   } catch (error: any) {
     res.status(500).send(error.message)
   }
-} 
+}
 
 export const startGame = async (req: Request, res: Response): Promise<void> => {
   try {

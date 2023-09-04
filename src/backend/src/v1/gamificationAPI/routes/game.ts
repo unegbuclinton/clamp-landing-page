@@ -11,7 +11,6 @@ import {
 
 const router = express.Router()
 
-// Asset routes
 router.get('/', getAllGames)
 router.get('/:id', getGameById)
 router.post('/:id/rounds/new', nextRound)

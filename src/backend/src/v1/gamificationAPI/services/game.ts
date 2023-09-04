@@ -19,6 +19,7 @@ export class GameService implements IGameService {
   async nextRound(gameId: string): Promise<IRound> {
     const currentRound = await this.fetchCurrentRound(gameId)
     const game = await this.getGameById(gameId)
+    if (!game) throw new Error('GameNotFound')
     if (Date.now() < game.nextRoundStartsAt.getTime()) {
       throw new Error('Cannot start new round before the current round ends')
     }
@@ -31,6 +32,7 @@ export class GameService implements IGameService {
 
   async endRound(gemeId: string): Promise<boolean> {
     const game = await this.getGameById(gemeId)
+    if (!game) throw new Error('GameNotFound')
     const currentRound = await this.roundService.getRoundById(game.currentRoundId)
     if (currentRound) {
       await this.roundService.end(currentRound.id)

@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllRules, getRuleById, createRule, updateRule } from '../controllers/rule'
+import { getAllRules, getRuleById, createRule, updateRule } from '../controllers/leaderboard'
 
 const router = express.Router()
 
