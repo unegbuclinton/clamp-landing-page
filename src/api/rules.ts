@@ -3,6 +3,7 @@ import { message } from 'antd'
 import axios from 'axios'
 
 const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
+// const baseURL = 'http://localhost:8080/clamp-api/core'
 
 export const createNewRule = async (body: ruleInterface) => {
   try {
@@ -16,21 +17,6 @@ export const createNewRule = async (body: ruleInterface) => {
     return error
   }
 }
-
-// export const createNewRule = async (body: ruleInterface) => {
-//   try {
-//     const response = await axios({
-//       method: 'post',
-//       url: `${baseURL}/rules`,
-//       data: body,
-//     })
-
-//     const createdRule = await getSingleRule(response?.id)
-//     return createdRule
-//   } catch (error: any) {
-//     return error
-//   }
-// }
 
 export const getRules = async () => {
   try {

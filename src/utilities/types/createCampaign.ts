@@ -51,13 +51,14 @@ export interface ruleInterface {
   eventName: string
   id: string
   conditions: Condition[]
-  multiplier: Multiplier
+  multiplier?: Multiplier
+  scoreKey?: string
 }
 
 interface Condition {
   key: string
   operator: string
-  value: string
+  value: string | number
 }
 
 interface Multiplier {

@@ -13,8 +13,7 @@ export const createNewCampaign = async (body: createCampaignInterface) => {
       url: `${baseURL}/campaigns`,
       data: body,
     })
-    const createdCampaign = await getSingleCampaign(response.data.id)
-    return createdCampaign
+    return response.data
   } catch (error: any) {
     return error
   }
@@ -52,6 +51,20 @@ export const pauseCampaign = async (id: string) => {
     })
     const specificCampaign = await getSingleCampaign(response.data.id)
     message.info('Campaign Paused')
+    return specificCampaign
+  } catch (error: any) {
+    return error
+  }
+}
+
+export const startCampaign = async (id: string) => {
+  try {
+    const response = await axios({
+      method: 'post',
+      url: `${baseURL}/campaigns/${id}/start`,
+    })
+    const specificCampaign = await getSingleCampaign(response.data.id)
+    message.info('Campaign started')
     return specificCampaign
   } catch (error: any) {
     return error

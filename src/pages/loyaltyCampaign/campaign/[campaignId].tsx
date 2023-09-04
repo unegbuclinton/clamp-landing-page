@@ -16,6 +16,7 @@ import {
   continueSpecificCampaign,
   endSpecificCampaign,
   pauseSpecificCampaign,
+  startSpecificCampaign,
 } from '@/utilities/redux/CampaignFormSlice'
 import Link from 'next/link'
 import {
@@ -39,7 +40,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const formattedEndDate = dayjs(endDate).utc().format('DD/MM/YYYY')
   const [redemptiontextText, setRedemptionText] = useState<string>('')
   const condition = specificRule?.conditions?.[0]
-  const redemptionCondition = redemptionRules?.[0].assetConditions?.[0]
+  const redemptionCondition = redemptionRules?.[0]?.assetConditions?.[0]
 
   const [conditionInfo, setConditionInfo] = useState<{
     header: string
@@ -53,12 +54,20 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const onClickFunction =
     status === 'active'
       ? () => dispatch(pauseSpecificCampaign(id))
-      : () => dispatch(continueSpecificCampaign(id))
+      : status === 'inactive'
+      ? () => dispatch(continueSpecificCampaign(id))
+      : () => dispatch(startSpecificCampaign(id))
 
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: `${status === 'active' ? 'Pause campaign' : 'Continue campaign'}`,
+      label: `${
+        status === 'active'
+          ? 'Pause campaign'
+          : status === 'inactive'
+          ? 'Continue campaign'
+          : 'Start campaign'
+      }`,
       onClick: onClickFunction,
       disabled:
         adminEvent &&
@@ -83,8 +92,6 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     },
   ]
 
-  // conditions
-
   useEffect(() => {
     if (condition) {
       const {
@@ -94,7 +101,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
       } = condition
       const { header, description } = generateConditionText(
         conditionOperator,
-        conditionValue,
+        String(conditionValue),
         key
       )
       setConditionInfo({ header, description })
@@ -204,14 +211,14 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
             <div className='py-6'>
               <p className='text-dim-grey py-1.5 text-[10px]'>REDEMPTION</p>
               <p className='font-semibold text-sm'>
-                {redemptionRules?.[0].liquidationInstrument.toLocaleUpperCase()}
+                {redemptionRules?.[0]?.liquidationInstrument.toLocaleUpperCase()}
               </p>
             </div>
             <div className='py-6'>
               <p className='text-dim-grey text-[10px]'>
                 POINTS NEEDED FOR REDEMPTION
               </p>
-              <p className='font-semibold py-1.5 text-sm'>{`${redemptionRules?.[0].assetConditions?.[0].value} POINTS`}</p>
+              <p className='font-semibold py-1.5 text-sm'>{`${redemptionRules?.[0]?.assetConditions?.[0].value} POINTS`}</p>
               <p className='text-dim-grey text-xs'>{redemptiontextText}</p>
             </div>
           </div>
@@ -227,10 +234,14 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
               onClick={
                 status === 'active'
                   ? () => dispatch(endSpecificCampaign(id))
-                  : () => dispatch(continueSpecificCampaign(id))
+                  : status === 'inactive'
+                  ? () => dispatch(continueSpecificCampaign(id))
+                  : () => dispatch(startSpecificCampaign(id))
               }
             >
-              {status === 'active' ? 'End campaign' : 'Resume campaign'}
+              {status === 'active' && 'End campaign'}
+              {status === 'inactive' && 'Resume campaign'}
+              {status === 'draft' && 'Start campaign'}
             </Button>
           ) : null}
         </div>

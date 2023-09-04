@@ -2,8 +2,8 @@ import PillButton from '@/components/atoms/pillButton'
 import InfoCard from '@/components/molecules/infoCard'
 import { campaignOptions } from '@/utilities/data/campaignOption'
 import type { DatePickerProps } from 'antd'
-import { Form, Input, InputNumber, Select } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Button, Form, Input, InputNumber, Select } from 'antd'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { AiFillCheckCircle } from 'react-icons/ai'
 import { FormInstance } from 'antd/lib/form'
 import { DatePicker } from 'antd'
@@ -49,6 +49,7 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
   const [selectedOption, setSelectedOption] = useState<string>('')
   const [rewardValue, setRewardValue] = useState<any>(initialRewardValue)
   const [errorMessage, setErrorMessage] = useState<boolean>(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const dispatch = useDispatch()
 
   const handleEarningChange = (value: number | null) => {
@@ -88,6 +89,33 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     } else {
       setErrorMessage(true)
     }
+  }
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0]
+    setSelectedFile(file || null)
+
+    if (file) {
+      uploadFile(file)
+    }
+  }
+
+  const uploadFile = (file: File) => {
+    const formData = new FormData()
+    formData.append('csvFile', file)
+
+    fetch('/upload', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response from the backend (if needed)
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
 
   return (
@@ -321,6 +349,22 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
                 className='w-full'
               />
             </div>
+          </div>
+        </InfoCard>
+        <InfoCard
+          label='ENROLL CUSTOMERS'
+          description={'Upload a CSV file with customers'}
+        >
+          <div>
+            <label className='bg-black hover:bg-black/80 text-white font-bold py-2 px-4 rounded cursor-pointer'>
+              <input
+                type='file'
+                accept='.csv'
+                onChange={handleFileChange}
+                className='file-input'
+              />
+              Choose CSV File
+            </label>
           </div>
         </InfoCard>
       </div>

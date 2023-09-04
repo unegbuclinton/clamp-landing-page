@@ -28,6 +28,7 @@ import {
   updateSpecificRule,
 } from '@/utilities/redux/RuleSlice'
 import LoadingStateComponent from '@/components/molecules/LoadingState'
+import Link from 'next/link'
 
 const CampaignForm = () => {
   const router = useRouter()
@@ -233,11 +234,12 @@ const CampaignForm = () => {
       >
         <div className=' flex justify-center mb-6'>
           <div className='relative max-w-[462px] '>
-            <h1 className='text-2xl font-semibold mb-8'>
+            <h1 className='text-2xl font-semibold mb-2'>
               {`${
                 campaignId ? 'Edit Reward Campaign' : 'Create Rewards Campaign'
               }`}
             </h1>
+
             {steps[currentStep].component}
             {currentStep <= 0 && (
               <div>

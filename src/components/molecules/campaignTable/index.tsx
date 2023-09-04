@@ -76,12 +76,12 @@ const CampaignTable = () => {
                 if (data.payload) {
                   const id = data.payload.ruleIds?.[0]
                   getRules().then((data) => {
-                    const specificRule = data.find((element: any) => {
+                    const specificRule = data?.find((element: any) => {
                       return element.id === id
                     })
 
                     dispatch(getSpecificRule(specificRule))
-                    router.push(`/loyaltyCampaign/campaign/${record.id}`)
+                    router.push(`/loyaltyCampaign/campaign/${record?.id}`)
                   })
                 }
               }),
