@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { ruleInterface } from '../types/createCampaign'
-import { createNewCampaign, getSingleCampaign } from '@/api/campaign'
-import { createNewRule, getRules, getSingleRule, updateRule } from '@/api/rules'
+import { createNewCampaign, getSingleCampaign } from '@/httpClient/campaign'
+import { createNewRule, getRules, getSingleRule, updateRule } from '@/httpClient/rules'
 
 interface ruleState {
   allRules: Array<ruleInterface>
@@ -21,10 +21,7 @@ export const getAllRules = createAsyncThunk('rule/getAllRules', getRules)
 
 export const createRule = createAsyncThunk('rule/createRule', createNewRule)
 
-export const updateSpecificRule = createAsyncThunk(
-  'rule/updateSpecificRule',
-  updateRule
-)
+export const updateSpecificRule = createAsyncThunk('rule/updateSpecificRule', updateRule)
 
 export const ruleSlice = createSlice({
   name: 'rule',

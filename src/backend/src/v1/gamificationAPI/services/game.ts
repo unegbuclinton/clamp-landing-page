@@ -1,10 +1,9 @@
-import { IGame, IGameService } from '../interfaces/IGame'
+import { IDraftGame, IGame, IGameService } from '../interfaces/IGame'
+import { RoundService } from './round'
 import { IRound } from '../interfaces/IRound'
 import { Game } from '../models/Game'
 import { v4 as uuidv4 } from 'uuid'
-import { RoundService } from './round'
 
-const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000
 export class GameService implements IGameService {
   private roundService: RoundService
   constructor() {
@@ -60,21 +59,19 @@ export class GameService implements IGameService {
       game.status = 'started'
       const round = await this.roundService.start(game.id)
       game.currentRoundId = round.id
+      game.nextRoundStartsAt = new Date(Date.now() + game.roundsDuration)
       await game.save()
       return game
     }
     throw new Error('Game not found')
   }
 
-  async initNewGame(campaignId: string, winnerQuota: number): Promise<IGame> {
+  async initNewGame(dGame: IDraftGame): Promise<IGame> {
     const game = new Game({
       id: uuidv4(),
       status: 'pending',
       currentRoundId: '',
-      nextRoundStartsAt: new Date(Date.now() + sevenDaysInMs),
-      campaignId,
-      roundsDuration: sevenDaysInMs,
-      winnerQuota,
+      ...dGame,
     })
     await game.save()
     return game
