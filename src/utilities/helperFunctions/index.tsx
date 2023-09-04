@@ -53,8 +53,6 @@ export function formatDateToCustomFormat<T extends string>(
   return format.replace('DD', day).replace('MM', month).replace('YYYY', year)
 }
 
-// export const filterRule = async () => {
-//   const rules = await getRules()
-//   const specificRule = rules.filter((rule: any) => rule.id === 'r10')
-//   dispatch(getSpecificRule(specificRule))
-// }
+export function isValidIdFunction(id: string) {
+  return id !== 'invalid_id'
+}

@@ -104,13 +104,15 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     const formData = new FormData()
     formData.append('csvFile', file)
 
-    fetch('/upload', {
-      method: 'POST',
-      body: formData,
-    })
+    fetch(
+      'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core/customerAccounts/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response from the backend (if needed)
         console.log(data)
       })
       .catch((error) => {

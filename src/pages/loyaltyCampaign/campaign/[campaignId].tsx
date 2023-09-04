@@ -27,7 +27,7 @@ import {
 
 dayjs.extend(utc)
 
-const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
+const CampaignDetail = () => {
   const { specificCampaign } = useAppSelector(
     (state: RootState) => state.campaign
   )
@@ -117,6 +117,13 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     }
   }, [redemptionCondition])
 
+  const { campaignId } = router.query
+  const isValidId = campaignId === id
+
+  if (!isValidId) {
+    router.replace('/404Page')
+    return null
+  }
   return (
     <ClientOnly>
       <DashboardLayout>
