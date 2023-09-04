@@ -35,8 +35,9 @@ const CampaignSelection = () => {
             </h1>
             <p>Select Campaign type</p>
             <div className='flex gap-2 mt-4'>
-              {campaignType?.map(({ type, text, route, icon }) => (
+              {campaignType?.map(({ type, text, route, icon }, idx) => (
                 <Link
+                  key={idx}
                   href={route}
                   className='p-4 rounded-2xl border max-w-[280px] cursor-pointer'
                 >
