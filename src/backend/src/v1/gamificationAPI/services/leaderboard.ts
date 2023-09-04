@@ -38,6 +38,7 @@ export class LeaderboardService implements ILeaderboardService {
           userId: score.userId,
           rank: 0,
           score: score.points,
+          isWinning: false,
           stats: { prevRoundScore: 0, percentChange: 0, absoluteChange: 0 },
         })
       }

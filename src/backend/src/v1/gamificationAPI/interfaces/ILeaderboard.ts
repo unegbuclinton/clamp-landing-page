@@ -13,6 +13,7 @@ export interface ILeaderboard {
 export interface ILeaderboardEntry {
   userId: string
   rank: number
+  isWinning: boolean
   score: number
   stats: { prevRoundScore: number; percentChange: number; absoluteChange: number }
 }

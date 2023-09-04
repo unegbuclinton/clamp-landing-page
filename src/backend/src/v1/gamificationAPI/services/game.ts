@@ -1,6 +1,8 @@
 import { IDraftGame, IGame, IGameService } from '../interfaces/IGame'
+import { ILeaderboardEntry } from '../interfaces/ILeaderboard'
 import { RoundService } from './round'
 import { LeaderboardService } from './leaderboard'
+import { ScoreService } from './score'
 import { IRound } from '../interfaces/IRound'
 import { Game } from '../models/Game'
 import { v4 as uuidv4 } from 'uuid'
@@ -19,9 +21,11 @@ export const winningCriteria: Record<string, string> = {
 export class GameService implements IGameService {
   private roundService: RoundService
   private leaderboardService: LeaderboardService
+  private scoreService: ScoreService
   constructor() {
     this.roundService = new RoundService()
     this.leaderboardService = new LeaderboardService()
+    this.scoreService = new ScoreService()
   }
 
   async fetchCurrentRound(gameId: string): Promise<IRound | null> {
@@ -101,12 +105,44 @@ export class GameService implements IGameService {
     gameId: string
     payload: Record<string, any>
   }) {
-    // scenario 1: player action is a trigger because the
     const game = await this.getGameById(gameId)
     if (!game) throw new Error('GameNotFound')
     if (game.status !== 'started') throw new Error('GameNotStarted')
     const currentRound = await this.fetchCurrentRound(gameId)
     if (!currentRound) throw new Error('RoundNotFound')
+    const currRoundIndex = currentRound.index
+    const prevRound = await this.roundService.getRoundByIndex(gameId, currRoundIndex - 1)
+    const prevRoundLeaderboard = await this.leaderboardService.getLeaderboard(prevRound.id)
+    const scoreVal = payload['trxn_amt']
+    await this.scoreService.addScore(playerId, Number(scoreVal), currentRound.id)
+    const roundScores = await this.scoreService.getRoundScores(currentRound.id)
+    const playerScores: Record<string, number> = {}
+    for (const score of roundScores) {
+      if (!playerScores[score.userId]) {
+        playerScores[score.userId] = 0
+      }
+      playerScores[score.userId] += score.points
+    }
+    const prevLbByUserId: Record<string, ILeaderboardEntry> = {}
+    for (const entry of prevRoundLeaderboard.entries) {
+      prevLbByUserId[entry.userId] = entry
+    }
+    const lbEntries = Object.entries(playerScores).map(([userId, score], index) => {
+      const prevRoundEntry = prevLbByUserId[userId]
+      const prevRoundScore = prevRoundEntry ? prevRoundEntry.score : 0
+      const absoluteChange = score - prevRoundScore
+      const percentChange = (absoluteChange / prevRoundScore) * 100
+
+      const entry: ILeaderboardEntry = {
+        userId,
+        rank: index + 1,
+        score,
+        isWinning: index < game.numOfWinners,
+        stats: { prevRoundScore, percentChange, absoluteChange },
+      }
+      return entry
+    })
+    let sortedLbEntries = lbEntries
     const { winningCriteriaCode } = game
     switch (winningCriteriaCode) {
       case 'h_spend':
@@ -120,27 +156,24 @@ export class GameService implements IGameService {
       case 'h_growth_trxn_vol_p':
         break
       case 'h_growth_trxn_amt':
-        // here we want to check if the player has the highest growth in transaction amount compared to the previous round
-        // to achieve this, we need to get the player's transaction amount in the previous round
-        // and compare it to the current round
-        
-        const currentRound = await this.fetchCurrentRound(gameId)
-        if (!currentRound) throw new Error('RoundNotFound')
-        const currRoundIndex = currentRound.index
-      const prevRound = await this.roundService.getRoundByIndex(gameId, currRoundIndex - 1)
-      const prevRoundLeaderboard = this.leaderboardService.getLeaderboard(prevRound.id)
-      const leaderBoard
+        sortedLbEntries = sortedLbEntries.sort((a, b) => {
+          return b.stats.absoluteChange - a.stats.absoluteChange
+        })
 
         break
       case 'h_growth_trxn_amt_p':
+        sortedLbEntries = sortedLbEntries.sort((a, b) => {
+          return b.stats.percentChange - a.stats.percentChange
+        })
         break
       case 'l_cancel_rate':
         break
       default:
         break
-
     }
-
-    //
+    sortedLbEntries = sortedLbEntries.map((entry, index) => {
+      entry.rank = index + 1
+      return entry
+    })
   }
 }
