@@ -4,7 +4,11 @@ import { getAllRules, getSpecificRule } from '../redux/RuleSlice'
 import { getRules } from '@/httpClient/rules'
 import { useDispatch } from 'react-redux'
 
-export default function ClientOnly({ children }: { children: React.ReactNode }) {
+export default function ClientOnly({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   // State / Props
   const [hasMounted, setHasMounted] = useState(false)
 
@@ -37,7 +41,10 @@ export function getFirstLetter(inputString: string) {
   }
 }
 
-export function formatDateToCustomFormat<T extends string>(dateString: T, format: string): string {
+export function formatDateToCustomFormat<T extends string>(
+  dateString: T,
+  format: string
+): string {
   const dateObject = new Date(dateString)
   const day = dateObject.getDate().toString().padStart(2, '0')
   const month = (dateObject.getMonth() + 1).toString().padStart(2, '0')
@@ -48,4 +55,18 @@ export function formatDateToCustomFormat<T extends string>(dateString: T, format
 
 export function isValidIdFunction(id: string) {
   return id !== 'invalid_id'
+}
+
+export function getFirstLetters(inputString: string): string {
+  const words = inputString.split(' ')
+  const firstLetters = []
+  for (const word of words) {
+    if (word.trim() !== '') {
+      firstLetters.push(word.charAt(0).toUpperCase())
+    }
+  }
+
+  const resultString = firstLetters.join('')
+
+  return resultString
 }

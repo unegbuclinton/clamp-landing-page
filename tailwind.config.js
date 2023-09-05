@@ -15,6 +15,7 @@ module.exports = {
         'battle-grey': '#999999',
         'mikando-yellow': '#FFC633',
         silver: '#BEBEBE',
+        platimum: '#D9D9D9',
       },
       backgroundImage: {
         'hero-pattern':

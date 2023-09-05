@@ -3,6 +3,7 @@ import LoyaltyTransaction from '@/assets/svgs/transaction.svg'
 import LoyaltyTime from '@/assets/svgs/loyaltyTime.svg'
 import LoyaltyReward from '@/assets/svgs/reward.svg'
 import { Button } from 'antd'
+import RewardProgressBar from '../RewardProgressBar'
 
 const CustomerLoyaltyBoard = () => {
   return (
@@ -18,7 +19,8 @@ const CustomerLoyaltyBoard = () => {
         21/35{' '}
         <span className='text-xs font-normal text-[#666]'>points earned</span>
       </h2>
-      <div className='p-4 bg-[#D9D9D9] rounded-lg border-l-[3px] mb-4'>
+      <RewardProgressBar />
+      <div className='p-4 bg-platimum rounded-lg border-l-[3px] mb-4'>
         <div className='flex gap-4 mb-3'>
           <LoyaltyTransaction />
           <div>

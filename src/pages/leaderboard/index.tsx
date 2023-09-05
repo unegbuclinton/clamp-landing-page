@@ -1,6 +1,6 @@
 import CustomerLoyaltyBoard from '@/components/molecules/CustomerLoyaltyBoard'
 import NameLogo from '@/components/molecules/NameLogo/NameLogo'
-import { getFirstLetter } from '@/utilities/helperFunctions'
+import { getFirstLetters } from '@/utilities/helperFunctions'
 import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import React from 'react'
@@ -78,13 +78,13 @@ const LeaderBoard = () => {
       points: '100',
     },
   ]
-  const label = getFirstLetter(data[0].participant)
+  const label = getFirstLetters(data[0].participant)
   return (
     <div className='p-5'>
       <h1 className='text-2xl font-semibold'>Leader board</h1>
 
       <div>
-        <div className='w-[150px] h-[150px] rounded-full border mx-auto flex justify-center items-center text-2xl font-bold'>
+        <div className='w-[80px] h-[80px] rounded-full border mx-auto flex justify-center items-center text-2xl font-bold'>
           {label}
         </div>
       </div>
