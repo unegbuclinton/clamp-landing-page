@@ -16,7 +16,7 @@ const CustomerLoyaltyBoard = () => {
       </div>
       <p className='text-sm text-[#666] mb-4'>Name of campaign goes here</p>
       <h2 className='text-2xl font-semibold'>
-        21/35{' '}
+        35/35{' '}
         <span className='text-xs font-normal text-[#666]'>points earned</span>
       </h2>
       <RewardProgressBar />
