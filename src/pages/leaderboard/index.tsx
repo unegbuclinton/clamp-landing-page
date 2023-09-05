@@ -1,6 +1,7 @@
+import CustomerLoyaltyBoard from '@/components/molecules/CustomerLoyaltyBoard'
 import NameLogo from '@/components/molecules/NameLogo/NameLogo'
 import { getFirstLetter } from '@/utilities/helperFunctions'
-import { Table } from 'antd'
+import { Button, Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import React from 'react'
 
@@ -88,7 +89,16 @@ const LeaderBoard = () => {
         </div>
       </div>
       <h2 className='text-xl'>Week 1</h2>
-      <Table columns={columns} dataSource={data} className='max-w-[85%] pt-4' />
+      <div className='flex w-full'>
+        <div className='w-[60%]'>
+          <Table
+            columns={columns}
+            dataSource={data}
+            className='max-w-[85%] pt-4'
+          />
+        </div>
+        <CustomerLoyaltyBoard />
+      </div>
     </div>
   )
 }
