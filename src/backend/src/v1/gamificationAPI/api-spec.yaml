@@ -2,7 +2,70 @@ openapi: 3.0.0
 info:
   version: '1.0.0'
   title: Gamification API
-  description: API documentation for the gamification system, including entities like Game, Score, Round, and Leaderboard.
+  description: |-
+    API documentation for the gamification system, including entities like Game, Score, Round, and Leaderboard.
+    ## Introduction
+    The gamification system makes it possible for us to power campaigns with game-like features such as leaderboards, rounds and winners.
+    In this system,participants are typically in competition with each other to win prizes, which are awarded to the top performers in each round.
+    ## Game
+    A game is a collection of rounds, each of which has a leaderboard that showcases the top performers based on a specific statistic. Such a statistic is called a winning criterion.
+    A game can be in one of the following states:
+    - draft: The game has been created but not yet started.
+    - started: The game has been started and is currently in progress.
+    - paused: The game has been paused and is currently not in progress.
+    - stopped: The game has been stopped and is no longer in progress.
+    A game requires a campaign to be associated with it. This is done by specifying the campaign ID when creating the game.
+    ## Round
+    A round is a period of time during which participants compete with each other to win prizes. A round is associated with a leaderboard that showcases the top performers based on a specific statistic.
+    A round can be in one of the following states:
+    - draft: The round has been created but not yet started.
+    - started: The round has been started and is currently in progress.
+    - paused: The round has been paused and is currently not in progress.
+    - stopped: The round has been stopped and is no longer in progress.
+    A round requires a game to be associated with it. This is done by specifying the game ID when creating the round.
+    ## Leaderboard
+    A leaderboard is a list of participants ranked in order of their performance in a round. It showcases the top performers based on a specific statistic.
+    ## Score
+    A score is a single record of a player completing of an action of value in a round. A score is associated with a user and a round. A player's performance in a round is determined by the sum of their scores in that round.
+    ## Winning Criteria
+    A winning criterion is a statistic used to determine the top performers in a round. It is specified when creating a game.
+    The following winning criteria are currently supported:
+    - `h_spend`: Highest total spend in the round.
+    - `h_trxn_vol`: Highest total transaction volume in the round.
+    - `h_trxn_amt`: Highest total transaction amount in the round.
+    - `h_growth_trxn_vol`: Highest growth in transaction volume from the previous round.
+    - `h_growth_trxn_amt`: Highest growth in transaction amount from the previous round.
+    - `h_growth_trxn_amt_p`: Highest growth in transaction amount from the previous round as a percentage.
+    - `h_growth_trxn_vol_p`: Highest growth in transaction volume from the previous round as a percentage.
+    - `l_cancel_rate`: Least cancellation rate in the round.
+
+    ## API Endpoints
+    The following endpoints are currently supported:
+    - `POST /games`: [Create a new game](/#operations/createGame)
+    - `GET /games/{id}`: [Get game details by ID](/#operations/getGameById)
+    - `POST /games/{id}/start`: [Start the game](/#operations/startGame)
+    - `POST /games/{id}/rounds/new`: [Start a new round for the game](/#operations/nextRound)
+    - `PUT /games/{id}/rounds/end`: [End the current round of the game](/#operations/endRound)
+    - `PUT /games/{id}/end`: [End the game](/#operations/endGame)
+    - `POST /games/periodic-updates`: [Periodically update game statuses](/#operations/updateGameStatuses)
+    - `GET /leaderboards/{roundId}`: [Get the leaderboard for a specific round](/#operations/getLeaderboard)
+    - `GET /leaderboards/{roundId}/top/{n}`: [Get the top N participants for a specific round](/#operations/getTopParticipants)
+    ## Error Codes
+    The following error codes are currently supported:
+    - `400`: Bad request  
+    - `404`: Resource not found
+    - `500`: Internal server error
+
+    ## Walkthrough
+    Suppose we want to help a bank run a campaign to encourage its customers to spend more on their credit cards. We can use the gamification system to power this campaign.
+    To accomplish this we first create a gamified campaign from the UI. This is equivalent to performing the following API calls:
+    1. Create a campaign: `POST /core/campaigns`
+    2. Upload a CSV file containing the list of participants: `POST /campaigns/{id}/participants`
+    | Action | Request | Response |
+    | --- | --- | --- |
+    | Create campaign | `POST /campaigns` | `201 Created` |
+    | Create game | `POST /games` | `201 Created` |
+   
   contact:
     name: S. Omojola
     email: omojolasolomon@gmail.com
