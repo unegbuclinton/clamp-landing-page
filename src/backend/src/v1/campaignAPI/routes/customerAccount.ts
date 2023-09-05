@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import multer from 'multer'
 
@@ -13,7 +14,9 @@ const router = express.Router()
 // Configure multer storage
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
-    cb(null, 'uploads/')
+    const pth = path.resolve(__dirname, '../uploads')
+    console.log({pth})
+    cb(null, pth)
   },
   filename: function (_req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + '.' + file.mimetype.split('/')[1])
