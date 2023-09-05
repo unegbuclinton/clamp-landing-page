@@ -2,41 +2,35 @@ import React from 'react'
 import Gift from '@/assets/svgs/gift.svg'
 
 const RewardProgressBar = () => {
+  const numberOfDots = 6 // Define the number of dots you want
+  const dots = []
+
+  for (let i = 0; i < numberOfDots - 1; i++) {
+    dots.push(
+      <div key={i} className='dot'>
+        <div className='h-[10px] w-[10px] bg-black rounded-full' />
+      </div>
+    )
+  }
+
+  // Add the last dot with the icon
+  dots.push(
+    <div key={numberOfDots - 1} className='dot'>
+      <div className='h-fit w-fit bg-platimum rounded-full p-[6px]'>
+        <Gift />
+      </div>
+    </div>
+  )
+
   return (
     <div className='mb-4'>
-      <div className='bg-white flex mt-2'>
-        <div className='flex items-center'>
-          <div className='h-[8px] w-[8px] bg-black rounded-full'></div>
-          <div className='w-[81px] h-[2px]  bg-black -ml-1'></div>
-        </div>
-
-        <div className='flex items-center -ml-1'>
-          <div className='h-[8px] w-[8px] bg-black rounded-full'></div>
-          <div className='w-[81px] h-[2px]  bg-black -ml-1'></div>
-        </div>
-
-        <div className='flex items-center -ml-1'>
-          <div className='h-[8px] w-[8px] bg-black rounded-full z-10'></div>
-          <div className='w-[81px] h-[2px]  bg-platimum -ml-1'></div>
-        </div>
-
-        <div className='flex items-center -ml-1'>
-          <div className='h-[8px] w-[8px] bg-platimum rounded-full'></div>
-          <div className='w-[81px] h-[2px]  bg-platimum -ml-1'></div>
-        </div>
-        <div className='flex items-center -ml-1'>
-          <div className='h-[8px] w-[8px] bg-platimum rounded-full'></div>
-          <div className='w-[81px] h-[2px]  bg-platimum -ml-1'></div>
-        </div>
-        <div className='flex items-center -ml-1'>
-          <div className='h-[8px] w-[8px] bg-platimum rounded-full'></div>
-          <div className='w-[81px] h-[2px]  bg-platimum -ml-1'></div>
-        </div>
-        <div className='flex items-center -ml-1'>
-          <div className='h-fit w-fit bg-platimum rounded-full p-[6px]'>
-            <Gift />
-          </div>
-        </div>
+      <div className='progress-bar'>
+        {dots.map((dot, index) => (
+          <React.Fragment key={index}>
+            {dot}
+            {index < numberOfDots - 1 && <div className='progress-line' />}
+          </React.Fragment>
+        ))}
       </div>
       <div className='flex justify-between text-platimum mt-1 text-xs'>
         <p>Start</p>
