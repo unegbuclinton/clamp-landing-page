@@ -1,6 +1,10 @@
 import { Campaign, ICampaign, ICampaignDraft } from '../models/Campaign'
+import { MessagingService } from './messaging'
 import { CustomerAccount } from '../models/CustomerAccount'
 import { v4 as uuidv4 } from 'uuid'
+
+const messagingService = new MessagingService()
+
 const getAllCampaigns = async (): Promise<ICampaign[]> => {
   return Campaign.find().exec()
 }
@@ -71,12 +75,21 @@ const startCampaign = async (id: string): Promise<ICampaign | null> => {
 }
 
 const enrollCustomer = async (campaignId: string, customerId: string): Promise<boolean> => {
+  const campaign = await getCampaignById(campaignId)
+  if (!campaign || campaign.endDate <= new Date()) return false
   const updatedCustomer = await CustomerAccount.findOneAndUpdate(
     { id: customerId },
     { $push: { campaignIds: campaignId } },
     { new: true }
   ).exec()
   if (!updatedCustomer) return false
+  if (campaign.status === 'active') {
+    await messagingService.sendMsg({
+      to: customerId,
+      body: `Welcome to ${campaign.name}!`,
+      subject: campaign.name,
+    })
+  }
   return true
 }
 
