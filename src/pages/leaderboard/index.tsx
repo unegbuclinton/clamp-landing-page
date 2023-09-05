@@ -31,14 +31,10 @@ const LeaderBoard = () => {
       ),
     },
     {
-      title: 'VALUES',
+      title: 'TRANSACTION VOLUME',
       dataIndex: 'points',
       key: 'points',
-    },
-    {
-      title: 'TOTAL SPENDING',
-      dataIndex: 'totalSpending',
-      key: 'totalSpending',
+      render: (text) => <div className='text-center'>{text}</div>,
     },
   ]
 
@@ -82,12 +78,9 @@ const LeaderBoard = () => {
   const label = getFirstLetters(data[0].participant)
   return (
     <div className='px-10 py-5'>
-      <nav className='pb-10'>
+      <nav className=' flex justify-center w-full pb-24'>
         <BanklyLogo />
       </nav>
-      <h1 className='text-2xl font-bold mb-4'>
-        Leader board <span className='font-normal text-base'> (Week 1)</span>
-      </h1>
 
       {/* <div>
         <div className='w-[80px] h-[80px] rounded-full border mx-auto flex justify-center items-center text-2xl font-bold'>
@@ -95,9 +88,13 @@ const LeaderBoard = () => {
         </div>
       </div> */}
       {/* <h2 className='text-xl mb-4'>Week 1</h2> */}
-      <div className='flex justify-between w-full'>
+      <div className='flex justify-center gap-10 w-full'>
         <CustomerLoyaltyBoard />
-        <div className='w-[60%]'>
+        <div className='w-full max-w-[600px]'>
+          <h1 className='text-2xl font-bold mb-4'>
+            Leader board{' '}
+            <span className='font-normal text-base'> (Week 1)</span>
+          </h1>
           <Table
             columns={columns}
             dataSource={data}
