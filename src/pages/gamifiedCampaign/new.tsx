@@ -1,19 +1,7 @@
-// gamification campaign flow
-// -> import customer data
-// -> create gamified campaign [campaign type that has leaderboard and winners]
-// -> set reward frequency [award x {asset} every y {time period} to top z users]
-// -> create underlying campaign that receives a trigger from the gamified campaign with position and user id.
-//    the rule for the campaign is that it should award the user with the reward if property position is less than or equal to z
-
-// -> when a trigger is sent the trigger service checks for leaderboardId and userId in the trigger payload and then sends the transaction data to the
-// gamification service which then updates the leaderboard
-
-// -> every interval of y, the gamification service sends a trigger to the campaign service with payload {leaderboardId, userId, position} for the top z users
-
 import React, { ChangeEvent, useEffect, useState } from 'react'
 import { ruleInterface } from '@/utilities/types/createCampaign'
 import { useRouter } from 'next/router'
-import { Form, Input, InputNumber, Select } from 'antd'
+import { Form, Input, InputNumber, Select, message } from 'antd'
 import ButtonComponent from '@/components/atoms/button'
 import InfoCard from '@/components/molecules/infoCard'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
@@ -96,8 +84,10 @@ const NewGamifiedCampaign = () => {
   const [form] = Form.useForm()
   const router = useRouter()
   const [importOpId, setImportOpId] = useState('')
+  const [newCampaignId, setNewCampaignId] = useState('')
   const handleSubmit = async (values: NewGamifiedCampaignFormValues) => {
     const { campaignId } = await createUnderlyingCampaign(values)
+    setNewCampaignId(campaignId)
     const newGame = await initiliazeGame(
       campaignId,
       values.numOfWinners,
@@ -107,20 +97,19 @@ const NewGamifiedCampaign = () => {
     console.log({ campaignId }, 'gameId: ', newGame.id)
     router.push(`/loyaltyCampaign/campaign/${campaignId}`)
   }
-
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const handleFileChange = async(e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0]
-    setSelectedFile(file || null)
-
     if (file) {
       const {importOperationId} = await importCustomerCSV(file)
       setImportOpId(importOperationId)
     }
   }
   useEffect(()=>{
-    bulkEnrol
-  },[importOpId])
+    if (!importOpId || !newCampaignId) return
+    bulkEnrol(importOpId, newCampaignId).then(({enrolledCount}:{enrolledCount:number})=>{
+      message.success(`${enrolledCount} customers enrolled successully`)
+    })
+  },[importOpId, newCampaignId])
 
   
   return (
