@@ -66,6 +66,7 @@ export class LeaderboardService implements ILeaderboardService {
       })
       .map((entry, index) => {
         entry.rank = index + 1
+        entry.isWinning = index < game.numOfWinners
         return entry
       })
     const leaderboardDraft: Partial<ILeaderboard> = {
