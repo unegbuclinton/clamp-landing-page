@@ -10,7 +10,7 @@
 
 // -> every interval of y, the gamification service sends a trigger to the campaign service with payload {leaderboardId, userId, position} for the top z users
 
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { ruleInterface } from '@/utilities/types/createCampaign'
 import { useRouter } from 'next/router'
 import { Form, Input, InputNumber, Select } from 'antd'
@@ -18,11 +18,14 @@ import ButtonComponent from '@/components/atoms/button'
 import InfoCard from '@/components/molecules/infoCard'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 const { Option } = Select
-import { createNewCampaign } from '@/httpClient/campaign'
+import { createNewCampaign,bulkEnrol } from '@/httpClient/campaign'
 import { createNewRule } from '@/httpClient/rules'
 import { initNewGame } from '@/httpClient/game'
+import {importCustomerCSV } from '@/httpClient/customer'
 import { IDraftGame } from '@/backend/src/v1/gamificationAPI/interfaces/IGame'
 import { winningCriteria } from '@/backend/src/lib/game'
+
+
 interface NewGamifiedCampaignFormValues {
   campaignName: string
   roundsDuration: string
@@ -92,7 +95,7 @@ async function initiliazeGame(
 const NewGamifiedCampaign = () => {
   const [form] = Form.useForm()
   const router = useRouter()
-
+  const [importOpId, setImportOpId] = useState('')
   const handleSubmit = async (values: NewGamifiedCampaignFormValues) => {
     const { campaignId } = await createUnderlyingCampaign(values)
     const newGame = await initiliazeGame(
@@ -106,32 +109,20 @@ const NewGamifiedCampaign = () => {
   }
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async(e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0]
     setSelectedFile(file || null)
 
     if (file) {
-      uploadFile(file)
+      const {importOperationId} = await importCustomerCSV(file)
+      setImportOpId(importOperationId)
     }
   }
+  useEffect(()=>{
+    bulkEnrol
+  },[importOpId])
 
-  const uploadFile = (file: File) => {
-    const formData = new FormData()
-    formData.append('csvFile', file)
-
-    fetch('https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core/customerAccounts/upload', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-  }
-
+  
   return (
     <DashboardLayout>
       <div className=" flex justify-center mb-6">

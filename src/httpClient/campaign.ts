@@ -5,8 +5,10 @@ import {
 } from '@/utilities/types/createCampaign'
 import { message } from 'antd'
 import axios from 'axios'
-const baseURL = 'http://localhost:8080/clamp-api/core'
-// const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
+import { API_URL } from './config'
+
+
+const baseURL = `${API_URL}/core`
 export const createNewCampaign = async (body: createCampaignInterface) => {
   try {
     const response = await axios({
@@ -146,4 +148,13 @@ export const createAssets = async (body: assetsInterface) => {
   } catch (error: any) {
     return error
   }
+}
+
+export const bulkEnrol = async (importOpId:string, campaignId:string) =>{
+  const {data} = await axios({
+    method:'post',
+    url: `${baseURL}/${campaignId}/bulk-enrollments/${importOpId}`
+  })
+  return data
+
 }
