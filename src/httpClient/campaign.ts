@@ -5,8 +5,8 @@ import {
 } from '@/utilities/types/createCampaign'
 import { message } from 'antd'
 import axios from 'axios'
-const baseURL = 'http://localhost:8080/clamp-api/core'
-// const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
+// const baseURL = 'http://localhost:8080/clamp-api/core'
+const baseURL = 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
 export const createNewCampaign = async (body: createCampaignInterface) => {
   try {
     const response = await axios({
