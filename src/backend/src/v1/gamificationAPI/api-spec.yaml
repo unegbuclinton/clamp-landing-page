@@ -157,6 +157,7 @@ components:
         - id
         - roundId
         - entries
+
     LeaderboardEntry:
       type: object
       description: Represents a participant on a leaderboard.
@@ -166,7 +167,7 @@ components:
           example: 'u12345'
         rank:
           type: number
-          example: 1
+          example: 3
         isWinning:
           type: boolean
           example: true
@@ -185,6 +186,9 @@ components:
             absoluteChange:
               type: number
               example: 50
+          required:
+            - percentChange
+            - absoluteChange
       required:
         - userId
         - rank
@@ -192,7 +196,6 @@ components:
         - score
         - prevRoundScore
         - stats
-  score: number
 paths:
   /games/{id}:
     get:
@@ -285,6 +288,7 @@ paths:
           description: Invalid request
         500:
           description: Internal server error
+  
   /games/{id}/end:
     put:
       tags:

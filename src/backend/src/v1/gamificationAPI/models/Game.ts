@@ -5,10 +5,10 @@ const GameSchema = new mongoose.Schema<IGame>(
   {
     id: { type: String, required: true, unique: true },
     status: { type: String, required: true },
-    currentRoundId: { type: String, required: true },
+    currentRoundId: { type: String },
     currentRoundIndex: { type: Number, required: true },
-    currentLeaderboardId: { type: String, required: true },
-    nextRoundStartsAt: { type: Date, required: true },
+    currentLeaderboardId: { type: String },
+    nextRoundStartsAt: { type: Date },
     campaignId: { type: String, required: true },
     roundsDuration: { type: Number, required: true },
     numOfRounds: { type: Number, required: true },

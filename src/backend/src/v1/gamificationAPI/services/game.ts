@@ -79,6 +79,7 @@ export class GameService implements IGameService {
       id: uuidv4(),
       status: 'pending',
       currentRoundId: '',
+      currentRoundIndex: 0,
       ...dGame,
     })
     await game.save()

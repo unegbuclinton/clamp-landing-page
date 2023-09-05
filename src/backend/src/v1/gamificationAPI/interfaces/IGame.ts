@@ -12,10 +12,10 @@ export interface IDraftGame {
 export interface IGame extends IDraftGame {
   id: string
   status: GameStatus
-  currentRoundId: string
+  currentRoundId?: string
   currentRoundIndex: number
-  currentLeaderboardId: string
-  nextRoundStartsAt: Date
+  currentLeaderboardId?: string
+  nextRoundStartsAt?: Date
   createdAt: Date
   updatedAt: Date
 }
