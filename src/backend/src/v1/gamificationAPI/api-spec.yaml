@@ -1,14 +1,16 @@
-swagger: '2.0'
+openapi: 3.0.0
 info:
   version: '1.0.0'
   title: Gamification API
   description: API documentation for the gamification system, including entities like Game, Score, Round, and Leaderboard.
-
-# Base path and schemes can be adjusted as per actual API implementation
-basePath: '/api/v1'
+  contact:
+    name: S. Omojola
+    email: omojolasolomon@gmail.com
+servers:
+  - url: 'http://localhost:8080/clamp-api/gamification'
+  - url: 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/gamification'
 schemes:
   - http
-
 tags:
   - name: Game
     description: Operations related to the Game entity.
@@ -19,152 +21,116 @@ tags:
   - name: Leaderboard
     description: Operations related to the Leaderboard entity.
 
-definitions:
-  DraftGame:
-    type: object
-    description: Represents the draft version of a game with settings for its rounds and winners.
-    properties:
-      campaignId:
-        type: string
-        example: 'c12345'
-        description: Identifier for the associated campaign.
-      roundsDuration:
-        type: number
-        example: 604800000
-        description: Duration of each round in milliseconds.
-      numOfRounds:
-        type: number
-        example: 5
-        description: Total number of rounds in the game.
-      numOfWinners:
-        type: number
-        example: 10
-        description: Number of winners to be selected in each round.
-    required:
-      - campaignId
-      - roundsDuration
-      - numOfRounds
-      - numOfWinners
+components:
+  schemas:
+    DraftGame:
+      type: object
+      description: Represents the draft version of a game with settings for its rounds and winners.
+      properties:
+        campaignId:
+          type: string
+          example: 'c12345'
+          description: Identifier for the associated campaign.
+        roundsDuration:
+          type: number
+          example: 604800000
+          description: Duration of each round in milliseconds.
+        numOfRounds:
+          type: number
+          example: 5
+          description: Total number of rounds in the game.
+        numOfWinners:
+          type: number
+          example: 10
+          description: Number of winners to be selected in each round.
+      required:
+        - campaignId
+        - roundsDuration
+        - numOfRounds
+        - numOfWinners
 
-  Game:
-    allOF:
-      - $ref: '#/definitions/DraftGame'
-    type: object
-    description: Represents a game with its rounds, status, and related information.
-    properties:
-      gameId:
-        type: string
-        example: 'g12345'
-      draftGame:
-        $ref: '#/definitions/IDraftGame'
-      campaignId:
-        type: string
-        example: 'c12345'
-      id:
-        type: string
-        example: '12345'
-    required:
-      - gameId
-      - draftGame
-      - campaignId
-      - id
+    Game:
+      allOf:
+        - $ref: '#/components/schemas/DraftGame'
+      type: object
+      description: Represents a game with its rounds, status, and related information.
+      properties:
+        gameId:
+          type: string
+          example: 'g12345'
+        campaignId:
+          type: string
+          example: 'c12345'
+        id:
+          type: string
+          example: '12345'
+      required:
+        - gameId
+        - campaignId
+        - id
 
-  Score:
-    type: object
-    description: Represents a score achieved by a user in a particular round of a game.
-    properties:
-      id:
-        type: string
-        example: 's12345'
-      points:
-        type: number
-        example: 150
-      userId:
-        type: string
-        example: 'u12345'
-      roundId:
-        type: string
-        example: 'r12345'
-    required:
-      - id
-      - points
-      - userId
-      - roundId
+    Score:
+      type: object
+      description: Represents a score achieved by a user in a particular round of a game.
+      properties:
+        id:
+          type: string
+          example: 's12345'
+        points:
+          type: number
+          example: 150
+        userId:
+          type: string
+          example: 'u12345'
+        roundId:
+          type: string
+          example: 'r12345'
+      required:
+        - id
+        - points
+        - userId
+        - roundId
 
-  Round:
-    type: object
-    description: Represents a round within a game with its index and related information.
-    properties:
-      gameId:
-        type: string
-        example: 'g12345'
-      id:
-        type: string
-        example: 'r12345'
-      index:
-        type: number
-        example: 1
-    required:
-      - gameId
-      - id
-      - index
+    Round:
+      type: object
+      description: Represents a round within a game with its index and related information.
+      properties:
+        gameId:
+          type: string
+          example: 'g12345'
+        id:
+          type: string
+          example: 'r12345'
+        index:
+          type: number
+          example: 1
+      required:
+        - gameId
+        - id
+        - index
 
-  Leaderboard:
-    type: object
-    description: Represents a leaderboard for a game showcasing top performers based on a specific statistic.
-    properties:
-      topN:
-        type: number
-        example: 10
-      roundId:
-        type: string
-        example: 'r12345'
-      game:
-        $ref: '#/definitions/Game'
-      statKey:
-        type: string
-        example: 'total_points'
-    required:
-      - topN
-      - roundId
-      - game
-      - statKey
+    Leaderboard:
+      type: object
+      description: Represents a leaderboard for a game showcasing top performers based on a specific statistic.
+      properties:
+        topN:
+          type: number
+          example: 10
+        roundId:
+          type: string
+          example: 'r12345'
+        game:
+          $ref: '#/definitions/Game'
+        statKey:
+          type: string
+          example: 'total_points'
+      required:
+        - topN
+        - roundId
+        - game
+        - statKey
 
 paths:
-  /games:
-    get:
-      tags:
-        - Game
-      summary: Get all games
-      operationId: getAllGames
-      responses:
-        200:
-          description: List of all games
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Game'
-    post:
-      tags:
-        - Game
-      summary: Create a new game
-      operationId: createGame
-      parameters:
-        - name: game
-          in: body
-          description: Game object
-          required: true
-          schema:
-            $ref: '#/definitions/DraftGame'
-      responses:
-        200:
-          description: Game created successfully
-          schema:
-            $ref: '#/definitions/Game'
-        400:
-          description: Invalid request body
-        500:
-          description: Internal server error
   /games/{id}:
     get:
       tags:
@@ -176,7 +142,20 @@ paths:
           in: path
           description: Game ID
           required: true
-          type: string
+          schema:
+            type: string
+      responses:
+        200:
+          description: Game details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        404:
+          description: Game not found
+        500:
+          description: Internal server error
+
   /games/{id}/rounds/new:
     post:
       tags:
@@ -188,7 +167,16 @@ paths:
           in: path
           description: Game ID
           required: true
-          type: string
+          schema:
+            type: string
+      responses:
+        200:
+          description: New round started successfully
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
+
   /games/{id}/start:
     post:
       tags:
@@ -200,7 +188,41 @@ paths:
           in: path
           description: Game ID
           required: true
-          type: string
+          schema:
+            type: string
+      responses:
+        200:
+          description: Game started successfully
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
+
+
+  /games:
+    post:
+      tags:
+        - Game
+      summary: Create a new game
+      operationId: createGame
+      requestBody:
+        description: Game details
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftGame'
+      responses:
+        200:
+          description: Game created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
   /games/{id}/end:
     put:
       tags:
@@ -212,7 +234,16 @@ paths:
           in: path
           description: Game ID
           required: true
-          type: string
+          schema:
+            type: string
+      responses:
+        200:
+          description: Game ended successfully
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
+
   /games/{id}/rounds/end:
     put:
       tags:
@@ -224,67 +255,24 @@ paths:
           in: path
           description: Game ID
           required: true
-          type: string
+          schema:
+            type: string
+      responses:
+        200:
+          description: Current round ended successfully
+        400:
+          description: Invalid request
+        500:
+          description: Internal server error
 
-  /periodic-update:
+  /games/periodic-update:
     post:
       tags:
         - Game
       summary: Periodically update game statuses
       operationId: updateGameStatuses
-
-  /user/{userId}:
-    get:
-      tags:
-        - Score
-      summary: Get scores for a user
-      operationId: getUserScores
-      parameters:
-        - name: userId
-          in: path
-          description: User ID
-          required: true
-          type: string
       responses:
         200:
-          description: List of scores for the user
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Score'
-        404:
-          description: No scores found for the user
-
-  /round/{roundId}:
-    get:
-      tags:
-        - Round
-      summary: Get round details by ID
-      operationId: getRoundById
-      parameters:
-        - name: roundId
-          in: path
-          description: Round ID
-          required: true
-          type: string
-      responses:
-        200:
-          description: Round details
-          schema:
-            $ref: '#/definitions/Round'
-        404:
-          description: Round not found
-
-  /rounds:
-    get:
-      tags:
-        - Round
-      summary: Get all rounds
-      operationId: getAllRounds
-      responses:
-        200:
-          description: List of all rounds
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Round'
+          description: Game statuses updated successfully
+        500:
+          description: Internal server error
