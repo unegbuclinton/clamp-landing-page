@@ -1,8 +1,9 @@
 import CustomerLoyaltyBoard from '@/components/molecules/CustomerLoyaltyBoard'
 import NameLogo from '@/components/molecules/NameLogo/NameLogo'
 import { getFirstLetters } from '@/utilities/helperFunctions'
-import { Button, Table } from 'antd'
+import { Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
+import BanklyLogo from '@/assets/svgs/bankly.svg'
 import React from 'react'
 
 const LeaderBoard = () => {
@@ -80,16 +81,22 @@ const LeaderBoard = () => {
   ]
   const label = getFirstLetters(data[0].participant)
   return (
-    <div className='p-5'>
-      <h1 className='text-2xl font-semibold'>Leader board</h1>
+    <div className='px-10 py-5'>
+      <nav className='pb-10'>
+        <BanklyLogo />
+      </nav>
+      <h1 className='text-2xl font-bold mb-4'>
+        Leader board <span className='font-normal text-base'> (Week 1)</span>
+      </h1>
 
-      <div>
+      {/* <div>
         <div className='w-[80px] h-[80px] rounded-full border mx-auto flex justify-center items-center text-2xl font-bold'>
           {label}
         </div>
-      </div>
-      <h2 className='text-xl'>Week 1</h2>
-      <div className='flex w-full'>
+      </div> */}
+      {/* <h2 className='text-xl mb-4'>Week 1</h2> */}
+      <div className='flex justify-between w-full'>
+        <CustomerLoyaltyBoard />
         <div className='w-[60%]'>
           <Table
             columns={columns}
@@ -97,7 +104,6 @@ const LeaderBoard = () => {
             className='max-w-[85%] pt-4'
           />
         </div>
-        <CustomerLoyaltyBoard />
       </div>
     </div>
   )
