@@ -143,23 +143,56 @@ components:
       type: object
       description: Represents a leaderboard for a game showcasing top performers based on a specific statistic.
       properties:
-        topN:
-          type: number
-          example: 10
+        id:
+          type: string
+          example: 'l12345'
         roundId:
           type: string
           example: 'r12345'
-        game:
-          $ref: '#/definitions/Game'
-        statKey:
-          type: string
-          example: 'total_points'
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaderboardEntry'
       required:
-        - topN
+        - id
         - roundId
-        - game
-        - statKey
-
+        - entries
+    LeaderboardEntry:
+      type: object
+      description: Represents a participant on a leaderboard.
+      properties:
+        userId:
+          type: string
+          example: 'u12345'
+        rank:
+          type: number
+          example: 1
+        isWinning:
+          type: boolean
+          example: true
+        score:
+          type: number
+          example: 150
+        prevRoundScore:
+          type: number
+          example: 100
+        stats:
+          type: object
+          properties:
+            percentChange:
+              type: number
+              example: 50
+            absoluteChange:
+              type: number
+              example: 50
+      required:
+        - userId
+        - rank
+        - isWinning
+        - score
+        - prevRoundScore
+        - stats
+  score: number
 paths:
   /games/{id}:
     get:
@@ -303,5 +336,63 @@ paths:
       responses:
         200:
           description: Game statuses updated successfully
+        500:
+          description: Internal server error
+
+  /leaderboard/{roundId}/top/{n}:
+    get:
+      tags:
+        - Leaderboard
+      summary: Get the top N participants for a specific round
+      operationId: getTopParticipants
+      parameters:
+        - name: roundId
+          in: path
+          description: ID of the round
+          required: true
+          schema:
+            type: string
+        - name: n
+          in: path
+          description: Number of top participants to retrieve
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of top N participants for the round
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeaderboardEntry'
+        404:
+          description: Round not found
+        500:
+          description: Internal server error
+
+  /leaderboard/{roundId}:
+    get:
+      tags:
+        - Leaderboard
+      summary: Get the leaderboard for a specific round
+      operationId: getLeaderboard
+      parameters:
+        - name: roundId
+          in: path
+          description: ID of the round
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Leaderboard details for the round
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leaderboard'
+        404:
+          description: Round not found
         500:
           description: Internal server error
