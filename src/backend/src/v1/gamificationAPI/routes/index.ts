@@ -6,7 +6,7 @@ const router = express.Router()
 
 // Mount the routers
 router.use('/games', gameRouter)
-router.use('/leaderboard', leaderboardRouter)
+router.use('/leaderboards', leaderboardRouter)
 router.get('/health', (_req: Request, res: Response) => {
   res.json({ message: 'Clamp API [Gamification]. Status OK' })
 })

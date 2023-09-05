@@ -339,7 +339,7 @@ paths:
         500:
           description: Internal server error
 
-  /leaderboard/{roundId}/top/{n}:
+  /leaderboards/{roundId}/top/{n}:
     get:
       tags:
         - Leaderboard
@@ -372,7 +372,7 @@ paths:
         500:
           description: Internal server error
 
-  /leaderboard/{roundId}:
+  /leaderboards/{roundId}:
     get:
       tags:
         - Leaderboard
