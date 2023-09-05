@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'http'
+import { IncomingMessage } from 'http'
 import express, { Request, Response } from 'express'
 import pino from 'pino'
 import { ReqId } from 'express-pino-logger'
@@ -6,7 +6,6 @@ import expressPino from 'express-pino-logger'
 import campaignAPIRoutes from './v1/campaignAPI/routes'
 import insightsAPIRoutes from './v1/insightsAPI/routes/insights'
 import gamificationAPIRoutes from './v1/gamificationAPI/routes'
-// import redemptionAPIRoutes from './v1/redemptionAPI/routes'
 import { v4 as uuidv4 } from 'uuid'
 import cors from 'cors'
 import path from 'path'
@@ -30,9 +29,6 @@ server.use(
 )
 server.use(express.json())
 server.use(expressLogger)
-
-// Configure API routes
-// server.use('/clamp-api/redemption', redemptionAPIRoutes)
 
 // Campaign API
 server.use('/clamp-api/core', campaignAPIRoutes)

@@ -129,7 +129,7 @@ export class GameService implements IGameService {
     const games = await this.getAllGames()
     for (const game of games) {
       // @todo: check for campaign end date and all that other stuff
-      if (game.status !== 'started') return
+      if (game.status !== 'started') return false
       if (game.nextRoundStartsAt.getTime() <= Date.now()) {
         await this.nextRound(game.id)
       }
