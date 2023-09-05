@@ -29,19 +29,19 @@ const importCustomerAccountsFromFile = async (filePath: string): Promise<string 
   try {
     const jsonArray = await csv().fromFile(filePath)
     const sanitisedJsonArray: ICustomerAccountDraft[] = jsonArray.map((json) => {
+      const id = json.customerId || json.id
+      const {name, email, phone, ...rest} = json
+      if(!id || !(email||phone)) return null
       return {
         id: uuidv4(),
         assets: [],
         campaignIds: [],
         customerData: {
-          id: json.id,
-          name: json.name,
-          email: json.email,
-          phone: json.phone,
-          address: json.address,
-          city: json.city,
-          state: json.state,
-          zip: json.zip,
+          id,
+          name,
+          email,
+          phone,
+          ...rest,
           country: json.country,
           metadata: {
             importOperationId,
