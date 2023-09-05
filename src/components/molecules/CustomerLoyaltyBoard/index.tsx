@@ -7,7 +7,7 @@ import RewardProgressBar from '../RewardProgressBar'
 
 const CustomerLoyaltyBoard = () => {
   return (
-    <div className='p-4 border border-light-grey/90 rounded-xl w-[35%] h-fit'>
+    <div className='p-4 border border-light-grey/90 rounded-xl w-full max-w-[600px] h-fit'>
       <div className='flex justify-between mb-2'>
         <h2 className='text-base font-semibold'>Loyalty status</h2>
         <p className='px-2 bg-light-grey/90 rounded-2xl text-xs flex items-center'>
@@ -16,7 +16,7 @@ const CustomerLoyaltyBoard = () => {
       </div>
       <p className='text-sm text-[#666] mb-4'>Name of campaign goes here</p>
       <h2 className='text-2xl font-semibold'>
-        21/35{' '}
+        35/35
         <span className='text-xs font-normal text-[#666]'>points earned</span>
       </h2>
       <RewardProgressBar />
