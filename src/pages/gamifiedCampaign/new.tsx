@@ -10,7 +10,7 @@
 
 // -> every interval of y, the gamification service sends a trigger to the campaign service with payload {leaderboardId, userId, position} for the top z users
 
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { ruleInterface } from '@/utilities/types/createCampaign'
 import { useRouter } from 'next/router'
 import { Form, Input, InputNumber, Select } from 'antd'
@@ -18,12 +18,12 @@ import ButtonComponent from '@/components/atoms/button'
 import InfoCard from '@/components/molecules/infoCard'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 const { Option } = Select
-import { createNewCampaign } from '@/httpClient/campaign'
+import { createNewCampaign,bulkEnrol } from '@/httpClient/campaign'
 import { createNewRule } from '@/httpClient/rules'
 import { initNewGame } from '@/httpClient/game'
+import {importCustomerCSV } from '@/httpClient/customer'
 import { IDraftGame } from '@/backend/src/v1/gamificationAPI/interfaces/IGame'
 import { winningCriteria } from '@/backend/src/lib/game'
-import {importCustomerCSV } from '@/httpClient/customer'
 
 
 interface NewGamifiedCampaignFormValues {
@@ -95,7 +95,7 @@ async function initiliazeGame(
 const NewGamifiedCampaign = () => {
   const [form] = Form.useForm()
   const router = useRouter()
-
+  const [importOpId, setImportOpId] = useState('')
   const handleSubmit = async (values: NewGamifiedCampaignFormValues) => {
     const { campaignId } = await createUnderlyingCampaign(values)
     const newGame = await initiliazeGame(
@@ -114,9 +114,13 @@ const NewGamifiedCampaign = () => {
     setSelectedFile(file || null)
 
     if (file) {
-      await importCustomerCSV(file)
+      const {importOperationId} = await importCustomerCSV(file)
+      setImportOpId(importOperationId)
     }
   }
+  useEffect(()=>{
+    bulkEnrol
+  },[importOpId])
 
   
   return (

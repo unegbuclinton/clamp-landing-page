@@ -1,18 +1,12 @@
 import { API_URL } from "./config"
 
-export const importCustomerCSV = (file: File) => {
+export const importCustomerCSV = async (file: File):Promise<{importOperationId:string}> => {
     const formData = new FormData()
-    formData.append('csvFile', file)
+    formData.append('file', file)
 
-    fetch(`${API_URL}/clamp-api/core/customerAccounts/upload`, {
+   const response = await fetch(`${API_URL}/core/customerAccounts/upload`, {
       method: 'POST',
       body: formData,
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+    return await response.json()
   }

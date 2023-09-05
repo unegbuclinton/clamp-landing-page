@@ -149,3 +149,12 @@ export const createAssets = async (body: assetsInterface) => {
     return error
   }
 }
+
+export const bulkEnrol = async (importOpId:string, campaignId:string) =>{
+  const {data} = await axios({
+    method:'post',
+    url: `${baseURL}/${campaignId}/bulk-enrollments/${importOpId}`
+  })
+  return data
+
+}
