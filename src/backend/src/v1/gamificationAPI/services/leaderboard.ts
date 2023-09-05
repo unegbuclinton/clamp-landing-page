@@ -6,16 +6,14 @@ import {
   LbStatKey,
 } from '../interfaces/ILeaderboard'
 import { Leaderboard } from '../models/Leaderboard'
+import { Round } from '../models/Round'
 import { ScoreService } from './score'
-import { RoundService } from './round'
 import { IGame } from '../interfaces/IGame'
 
 export class LeaderboardService implements ILeaderboardService {
   private scoreService: ScoreService
-  private roundService: RoundService
   constructor() {
     this.scoreService = new ScoreService()
-    this.roundService = new RoundService()
   }
 
   async getTopParticipants(topN: number, roundId: string): Promise<ILeaderboardEntry[]> {
@@ -26,7 +24,7 @@ export class LeaderboardService implements ILeaderboardService {
 
   async updateRankings(game: IGame, statKey: string): Promise<boolean> {
     const { currentRoundId } = game
-    const currentRound = await this.roundService.getRoundById(currentRoundId)
+    const currentRound = await Round.findOne({ id: currentRoundId }).exec()
     if (!currentRound || !currentRound.index) return false
     const roundScores = await this.scoreService.getRoundScores(currentRoundId)
     const playerScores: Record<string, number> = {}
@@ -38,10 +36,7 @@ export class LeaderboardService implements ILeaderboardService {
     }
     const prevLbByUserId: Record<string, ILeaderboardEntry> = {}
     if (currentRound.index > 0) {
-      const prevRound = await this.roundService.getRoundByIndex(
-        currentRound.gameId,
-        currentRound.index - 1
-      )
+      const prevRound = await Round.findOne({ gameId: game.id, index: currentRound.index - 1 }).exec()
       if (!prevRound) return false
       const prevRoundLeaderboard = await this.getLeaderboard(prevRound.id)
       for (const entry of prevRoundLeaderboard?.entries || []) {

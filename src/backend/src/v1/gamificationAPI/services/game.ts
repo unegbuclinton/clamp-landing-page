@@ -5,7 +5,6 @@ import { ScoreService } from './score'
 import { IRound } from '../interfaces/IRound'
 import { Game } from '../models/Game'
 import { v4 as uuidv4 } from 'uuid'
-import { TriggerService } from '@/v1/campaignAPI/services/trigger'
 
 export const winningCriteria: Record<string, string> = {
   h_spend: 'Highest spend',

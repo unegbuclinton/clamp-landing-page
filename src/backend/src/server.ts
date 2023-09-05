@@ -10,6 +10,9 @@ import { v4 as uuidv4 } from 'uuid'
 import cors from 'cors'
 import path from 'path'
 import connectToMongoDB from './db/mongostore'
+import ENV from 'dotenv'
+
+ENV.config()
 
 const dev = process.env.NODE_ENV !== 'production'
 const PORT = process.env.PORT || 8080

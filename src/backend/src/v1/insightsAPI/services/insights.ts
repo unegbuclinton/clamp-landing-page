@@ -67,7 +67,7 @@ export class InsightGenerator {
     customerAccount.assets.forEach(async (asset) => {
       const { qty, assetId } = asset
       const assetDeets = await Asset.findOne({ id: assetId })
-      totalBalance += qty * Number(assetDeets.monetaryValue)
+      totalBalance += qty * Number(assetDeets?.monetaryValue)
     })
   }
 

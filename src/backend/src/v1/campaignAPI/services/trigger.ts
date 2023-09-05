@@ -5,9 +5,9 @@ import { Campaign, ICampaign } from '../models/Campaign'
 import { CustomerAccount, ICustomerAsset } from '../models/CustomerAccount'
 import { Rule, IRule } from '../models/Rule'
 import { checkCondition } from '../../../lib/conditions'
-import { GameService } from '@/v1/gamificationAPI/services/game'
-import { LeaderboardService } from '@/v1/gamificationAPI/services/leaderboard'
-import { ScoreService } from '@/v1/gamificationAPI/services/score'
+import { GameService } from '../../gamificationAPI/services/game'
+import { LeaderboardService } from '../../gamificationAPI/services/leaderboard'
+import { ScoreService } from '../../gamificationAPI/services/score'
 
 const gameService = new GameService()
 const leaderboardService = new LeaderboardService()
@@ -57,8 +57,9 @@ const createTrigger = async (
           console.log('checking rule: ', rule.id)
           console.log('rule conditions: ', conditions)
           if (eventName !== triggerData.eventName) continue
+          if (!triggerData?.payload) continue
           const doesMeetConditions = conditions.every((condition) =>
-            checkCondition(condition, triggerData.payload)
+            checkCondition(condition, triggerData.payload!)
           )
           if (!doesMeetConditions) {
             console.log('rule conditions not met')
@@ -99,7 +100,7 @@ const createTrigger = async (
           await gameService.processPlayerAction({
             playerId: customerAccount.id,
             gameId: game.id,
-            payload: triggerData.payload,
+            payload: triggerData.payload || {},
           })
         }
       }
@@ -107,11 +108,12 @@ const createTrigger = async (
       customerAccount.assets = [...customerAccount.assets, ...awardedAssets]
 
       await customerAccount.save({ session })
-      createdTrigger = await Trigger.findOneAndUpdate(
+      createdTrigger = (await Trigger.findOneAndUpdate(
         { id: createdTrigger.id },
         { status: 'processed' },
         { session, new: true }
-      )
+      )) as ITrigger
+      if (!createdTrigger) throw new Error('Trigger not found')
       console.log('customer account updated')
     } else {
       console.log('customer account not found')

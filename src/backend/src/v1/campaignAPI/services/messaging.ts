@@ -1,5 +1,7 @@
 import { Resend } from 'resend'
+import ENV from 'dotenv'
 
+ENV.config()
 const resendKey = process.env.RESEND_API_KEY
 const resendDomain = process.env.RESEND_DOMAIN
 

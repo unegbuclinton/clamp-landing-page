@@ -1,22 +1,20 @@
 import { IRound, IRoundService } from '../interfaces/IRound'
 import { Round } from '../models/Round'
+import { Game } from '../models/Game'
 import { GameStatus } from '../interfaces/IGame'
-import { GameService } from './game'
-import { TriggerService } from '@/v1/campaignAPI/services/trigger'
+import { TriggerService } from '../../campaignAPI/services/trigger'
 import { LeaderboardService } from './leaderboard'
 
 export class RoundService implements IRoundService {
   private triggerService: typeof TriggerService
-  private gameService: GameService
   private leaderboardService: LeaderboardService
 
   constructor() {
     this.triggerService = TriggerService
-    this.gameService = new GameService()
     this.leaderboardService = new LeaderboardService()
   }
   async start(gameId: string): Promise<IRound> {
-    const game = await this.gameService.getGameById(gameId)
+    const game = await Game.findOne({ id: gameId }).exec()
     if (!game) {
       throw new Error('Game not found')
     }
