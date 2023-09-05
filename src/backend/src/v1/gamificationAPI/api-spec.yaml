@@ -331,7 +331,7 @@ paths:
         500:
           description: Internal server error
 
-  /games/periodic-update:
+  /games/periodic-updates:
     post:
       tags:
         - Game

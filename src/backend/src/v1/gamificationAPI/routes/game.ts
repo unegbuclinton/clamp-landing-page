@@ -19,6 +19,6 @@ router.post('/', initNewGame)
 router.put('/:id/start', startGame)
 router.put('/:id/end', endGame)
 router.put('/:id/rounds/end', endRound)
-router.post('/periodic-update', updateGameStatuses)
+router.post('/periodic-updates', updateGameStatuses)
 
 export default router
