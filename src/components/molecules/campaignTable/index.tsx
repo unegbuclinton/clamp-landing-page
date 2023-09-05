@@ -20,7 +20,7 @@ const CampaignTable = () => {
     dispatch(getAllCampaign())
   }, [])
 
-  const reversedCampaign = [...allCampaigns]?.reverse()
+  const reversedCampaign = [...(allCampaigns||[])]?.reverse()
 
   const router = useRouter()
   const columns: ColumnsType<createCampaignInterface> = [
