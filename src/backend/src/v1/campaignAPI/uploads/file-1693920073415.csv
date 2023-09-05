@@ -1,0 +1,4 @@
+id,name,email,phone,address,city,state,zip,country
+uid-1,John Doe,johndoe@example.com,123-456-7890,123 Elm St.,Springfield,IL,62704,USA
+uid-2,Jane Smith,janesmith@example.com,987-654-3210,456 Maple Dr.,Shelbyville,IL,62565,USA
+uid-3,Robert Brown,robertbrown@example.com,555-777-8888,789 Oak Ave.,Capital City,IL,62701,USA
