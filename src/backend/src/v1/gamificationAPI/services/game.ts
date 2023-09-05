@@ -63,7 +63,7 @@ export class GameService implements IGameService {
     if (!game) throw new Error('GameNotFound')
     const currentRound = await this.roundService.getRoundById(game.currentRoundId)
     if (currentRound) {
-      await this.roundService.end(currentRound.id)
+      await this.roundService.end(currentRound.id, game.numOfWinners)
       return true
     }
     return false
@@ -131,7 +131,9 @@ export class GameService implements IGameService {
     for (const game of games) {
       // @todo: check for campaign end date and all that other stuff
       if (game.status !== 'started') return false
-      if (game.nextRoundStartsAt.getTime() <= Date.now()) {
+      const tDelta = game.nextRoundStartsAt.getTime() - Date.now()
+      if (tDelta <= 0 && game.currentRoundIndex < game.numOfRounds) {
+        console.log('lost time: ', tDelta)
         await this.nextRound(game.id)
       }
       if (game.currentRoundIndex >= game.numOfRounds) {
