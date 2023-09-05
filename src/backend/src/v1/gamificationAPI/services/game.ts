@@ -110,9 +110,15 @@ export class GameService implements IGameService {
 
   async updateGameStatuses(): Promise<boolean> {
     const games = await this.getAllGames()
+    console.log('updating game statuses')
+    console.log('total games: ', games.length)
     for (const game of games) {
+      console.log('processing game  with id: ', game.id)
       // @todo: check for campaign end date and all that other stuff
-      if (game.status !== 'started') return false
+      if (game.status !== 'started') {
+        console.log('game not started')
+        continue
+      }
       const tDelta = game.nextRoundStartsAt.getTime() - Date.now()
       if (tDelta <= 0 && game.currentRoundIndex < game.numOfRounds) {
         console.log('lost time: ', tDelta)

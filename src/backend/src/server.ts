@@ -11,6 +11,9 @@ import cors from 'cors'
 import path from 'path'
 import connectToMongoDB from './db/mongostore'
 import ENV from 'dotenv'
+import { pollToTriggerStatusUpdate } from './v1/gamificationAPI/utils/helpers'
+
+pollToTriggerStatusUpdate({ n: 1000, t: 100000 })
 
 ENV.config()
 

@@ -288,7 +288,7 @@ paths:
           description: Invalid request
         500:
           description: Internal server error
-  
+
   /games/{id}/end:
     put:
       tags:
