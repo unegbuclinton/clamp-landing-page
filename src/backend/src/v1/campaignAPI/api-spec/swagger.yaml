@@ -1,0 +1,983 @@
+openapi: 3.0.0
+info:
+  description: |-
+    # Getting started
+
+    ## Introduction
+
+    The Campaign Management API is a RESTful API that allows you to manage campaigns, rules, triggers, assets, customer accounts, and customer assets. It is a core component of the Clamp platform and is used to manage the core functionalities of the platform.
+
+    ## Concepts and Definitions
+
+    This section covers essential terms that will be used throughout the API documentation. Understanding these terms will provide a better grasp of the API's functionalities.
+
+    **Campaign:** A program set up within the API, where events triggered by customers result in reward points and perks according to rules defined in the campaign setup. Campaigns represent overarching initiatives like "Summer loyalty program" or "Holiday discount extravaganza".. 
+
+    **Rule:** Rules define the criteria and conditions that must be met during a campaign to trigger a particular outcome, usually the issuing of rewards. For instance, a rule could be "Customers earn 10 points for every purchase above $50".. 
+
+    **Customer:** A participant in the campaign. The individual performs actions that may trigger events, leading to reward earnings according to the campaign's rules.. 
+
+    **Event:** Events are customer activities that could lead to the earning of rewards under the established campaign rules. These can be purchases, referrals, subscription sign-ups, and more.. 
+
+    **Reward:** A benefit earned by a customer after fulfilling certain conditions specified in the campaign rules. Rewards can be points, cash backs, discounts, or other perks.. 
+
+    **Point:** A type of reward earned by customers. The earning, redemption, and management of points are key functionalities of the API.. 
+
+    **Redemption:** The process through which customers exchange their earned points for benefits like discounts, goods, or services.. 
+
+    **Trigger:** A specific action or condition that initiates an event. Triggers are specified within rules and are monitored during the course of a campaign.. 
+
+    **API Authentication:** A method used to verify the identity of the client trying to connect with the API. This process ensures that only authorized entities can interact with your API.. 
+
+    **Error Handling:** The process of catching and resolving errors or exceptions that are encountered when the API is run. Proper error handling is crucial for the smooth running of the API and for debugging issues when they arise.. 
+
+    **Endpoint:** A specific route or URL where the API can access the resources it needs. Each endpoint is associated with a particular function of the API.. 
+
+    **HTTP Methods:** Standard methods that indicate the desired action to be performed on a given resource. The most common methods are GET (retrieve data), POST (send data), PUT (update data), and DELETE (remove data).. 
+
+    **Request and Response:** In the context of APIs, a request is made by a client (like a browser) to an API to retrieve or manipulate data. The API processes this request and returns a response, which includes the requested data (in the case of a GET request), confirmation of successful operation, or an error message.. 
+
+    **Rate Limiting:** A technique for controlling the amount of incoming or outgoing traffic to or from a network. For an API, this means the number of requests a client can make in a specific time frame is limited to prevent abuse or overload of resources.. API Key: A code passed in by computer programs calling an API to identify the calling program, its developer, or its user to the API. It is used to control and monitor the usage of the API.
+
+    Remember, these definitions and concepts are fundamental in understanding the functionality and working of the API.
+  title: Campaign Management API
+  version: 1.0.0
+  contact:
+    name: S. Omojola
+    email: omojolasolomon@gmail.com
+servers:
+  - url: 'http://localhost:8080/clamp-api/core'
+  - url: 'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core'
+paths:
+  /health:
+    get:
+      summary: Health probe
+      description: Server health probe
+      operationId: checkServerHealth
+      responses:
+        '200':
+          description: Server is OK
+        default:
+          description: Server is unhealthy
+  /campaigns:
+    tags:
+      - Campaigns
+    post:
+      description: Create a new campaign
+      operationId: createCampaign
+      summary: Create campaign
+      tags:
+        - Campaigns
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+      responses:
+        '201':
+          description: Campaign created
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    get:
+      description: Get all campaigns
+      operationId: getAllCampaigns
+      summary: Get campaigns
+      tags:
+        - Campaigns
+      responses:
+        '200':
+          description: List of campaigns
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Campaign'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /campaigns/{id}:
+    get:
+      description: Get campaign details by ID
+      operationId: getCampaignById
+      summary: Get specific campaign
+      tags:
+        - Campaigns
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The campaign ID
+      responses:
+        '200':
+          description: Campaign details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    put:
+      description: Update campaign by ID
+      operationId: updateCampaignById
+      summary: Update campaign
+      tags:
+        - Campaigns
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The campaign ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+      responses:
+        '200':
+          description: Campaign updated
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /campaigns/{id}/pause:
+    post:
+      description: Pause campaign by ID
+      operationId: pauseCampaignById
+      summary: Pause campaign
+      tags:
+        - Campaigns
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The campaign ID
+      responses:
+        '200':
+          description: Campaign paused
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /campaigns/{id}/resume:
+    post:
+      description: Resume campaign by ID
+      operationId: resumeCampaignById
+      summary: Resume campaign
+      tags:
+        - Campaigns
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The campaign ID
+      responses:
+        '200':
+          description: Campaign resumed
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /campaigns/{id}/stop:
+    post:
+      description: Stop campaign by ID
+      operationId: stopCampaignById
+      summary: Stop campaign
+      tags:
+        - Campaigns
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The campaign ID
+      responses:
+        '200':
+          description: Campaign stopped
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /campaigns/{id}/start:
+    post:
+      description: Start campaign by ID
+      operationId: startCampaignById
+      summary: Start campaign
+      tags:
+        - Campaigns
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The campaign ID
+      responses:
+        '200':
+          description: Campaign started
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /rules:
+    post:
+      description: Create a new rule
+      operationId: createRule
+      summary: Create rule
+      tags:
+        - Rules
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '201':
+          description: Rule created
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    get:
+      description: Get all rules
+      operationId: getAllRules
+      summary: Get rules
+      tags:
+        - Rules
+      responses:
+        '200':
+          description: List of rules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rule'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /rules/{id}:
+    get:
+      description: Get rule details by ID
+      operationId: getRuleById
+      summary: Get specific rule
+      tags:
+        - Rules
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The rule ID
+      responses:
+        '200':
+          description: Rule details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rule'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    put:
+      description: Update rule by ID
+      operationId: updateRuleById
+      summary: Update rule
+      tags:
+        - Rules
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The rule ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rule'
+      responses:
+        '200':
+          description: Rule updated
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /triggers:
+    post:
+      description: Create a new trigger
+      operationId: createTrigger
+      summary: Create trigger
+      tags:
+        - Triggers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trigger'
+      responses:
+        '201':
+          description: Trigger created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trigger:
+                    $ref: '#/components/schemas/Trigger'
+                  rewards:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CustomerAsset'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    get:
+      description: Get all triggers
+      operationId: getAllTriggers
+      summary: Get triggers
+      tags:
+        - Triggers
+      responses:
+        '200':
+          description: List of triggers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trigger'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /triggers/{id}:
+    get:
+      description: Get trigger details by ID
+      operationId: getTriggerById
+      summary: Get specific trigger
+      tags:
+        - Triggers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The trigger ID
+      responses:
+        '200':
+          description: Trigger details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trigger'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    put:
+      description: Update trigger by ID
+      operationId: updateTriggerById
+      summary: Update trigger
+      tags:
+        - Triggers
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The trigger ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Trigger'
+      responses:
+        '200':
+          description: Trigger updated
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /assets:
+    post:
+      description: Create a new asset
+      operationId: createAsset
+      summary: Create asset
+      tags:
+        - Assets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asset'
+      responses:
+        '201':
+          description: Asset created
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    get:
+      description: Get all assets
+      operationId: getAllAssets
+      summary: Get assets
+      tags:
+        - Assets
+      responses:
+        '200':
+          description: List of assets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Asset'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /assets/{id}:
+    get:
+      description: Get asset details by ID
+      operationId: getAssetById
+      summary: Get specific asset
+      tags:
+        - Assets
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The asset ID
+      responses:
+        '200':
+          description: Asset details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    put:
+      description: Update asset by ID
+      operationId: updateAssetById
+      summary: Update asset
+      tags:
+        - Assets
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The asset ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Asset'
+      responses:
+        '200':
+          description: Asset updated
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /customerAccounts:
+    post:
+      description: Create a new customer account
+      operationId: createCustomerAccount
+      summary: Create customer account
+      tags:
+        - CustomerAccounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccount'
+      responses:
+        '201':
+          description: CustomerAccount created
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+
+        default:
+          description: Unexpected error
+    get:
+      description: Get all customer accounts
+      operationId: getAllCustomerAccounts
+      summary: Get customer accounts
+      tags:
+        - CustomerAccounts
+      responses:
+        '200':
+          description: List of customer accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerAccount'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /customerAccounts/{id}:
+    get:
+      description: Get customer account details by ID
+      operationId: getCustomerAccountById
+      summary: Get specific customer account
+      tags:
+        - CustomerAccounts
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The customerAccount ID
+      responses:
+        '200':
+          description: CustomerAccount details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAccount'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+    put:
+      description: Update customer account by ID
+      operationId: updateCustomerAccountById
+      summary: Update customer account
+      tags:
+        - CustomerAccounts
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The customerAccount ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAccount'
+      responses:
+        '200':
+          description: CustomerAccount updated
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+  /customerAccounts/upload:
+    post:
+      description: Upload customer accounts
+      operationId: uploadCustomerAccounts
+      summary: Upload customer accounts
+      tags:
+        - CustomerAccounts
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Customer accounts uploaded
+          type: object
+          properties:
+            importOperationId:
+              type: string
+              example: 'import_1'
+        '500':
+          description: Server error
+        '400':
+          description: Bad request
+        default:
+          description: Unexpected error
+components:
+  schemas:
+    Campaign:
+      description: |-
+        A campaign is a program set up within the API, where events triggered by customers result in reward points and perks according to rules defined in the campaign setup. Campaigns represent overarching initiatives like "Summer loyalty program" or "Holiday discount extravaganza".
+
+        Campaigns can be compared to a video game tournament. A tournament (or campaign) has a specific name, a start date, an end date, and a set of rules. Participants in the tournament are like the customers in a campaign, and the rewards they earn for accomplishing tasks are similar to the benefits they receive in a campaign.
+
+        For example, imagine a video game tournament named 'Space Invaders Championship'. It's scheduled from July 1 to August 31. Players earn points and rewards like in-game currency or exclusive items for accomplishing various tasks, such as defeating enemies, completing levels, or achieving high scores. The conditions to earn these rewards are defined by the tournament rules, similar to campaign rules.
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Summer Campaign'
+        startDate:
+          type: string
+          format: date
+          example: '2023-07-01'
+        endDate:
+          type: string
+          format: date
+          example: '2023-08-31'
+        ruleIds:
+          type: array
+          items:
+            type: string
+          example: ['r1', 'r2', 'r3']
+        status:
+          type: string
+          enum: [draft, active, inactive]
+          example: 'active'
+        redemptionRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedemptionConfig'
+    Rule:
+      description: |-
+        Rules define the criteria and conditions that must be met during a campaign to trigger a particular outcome, usually the issuing of rewards. For instance, a rule could be "Customers earn 10 points for every purchase above $50".
+
+        Rules are associated with campaigns and when a customer activity or event meets the conditions defined in a campaign rule, the customer earns a reward.
+
+      type: object
+      properties:
+        assetId:
+          type: string
+          example: 'std_loyalty_point'
+        assetQty:
+          type: integer
+          example: 2
+        eventName:
+          type: string
+          example: 'purchase'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+        multiplier:
+          $ref: '#/components/schemas/Multiplier'
+    Condition:
+      description: |-
+        Conditions are the criteria that must be met for a rule to be triggered. For instance, a condition could be "If the customer's purchase amount is greater than $50".
+
+        The key is the property of the event object that will be evaluated. The operator is the comparison operator that will be used to compare the key and value. The value is the value that will be compared to the key.
+        If the condition for a rule is set as 
+        ```json
+        {
+          "key": "price",
+          "operator": "gt",
+          "value": "10"
+        }
+        ```
+        Then the condition will be met if the event object has a property named "price" with a value greater than 10.
+        A customer trigger with the following payload will result in a condition match, hence the customer will earn the reward defined in the rule:
+        ```json
+        {
+          "product_id": "p1",
+          "quantity": 3,
+          "price": 15
+        }
+        ```
+        The following payload will not result in a condition match, hence the customer will not earn the reward defined in the rule:
+        ```json
+        {
+          "product_id": "p1",
+          "quantity": 1,
+          "price": 5
+        }
+        ```
+
+      type: object
+      properties:
+        key:
+          type: string
+          example: 'price'
+        operator:
+          type: string
+          enum: [eq, lt, gt, lte, gte, ne, in, nin]
+          example: 'gt'
+        value:
+          type: string
+          example: '10'
+    Multiplier:
+      description: |-
+        A multiplier allows to allocate rewards that can vary based on the value of a condition. For instance, a multiplier makes it possible for us to set up rules like: *"If the customer's purchase amount is greater than $50, the customer earns 2 points for every $50 spent."*.
+        This business logic will be expressed as:
+        ```json
+        {
+          "key": "price",
+          "operator": "gt",
+          "value": "50",
+          "multiplier": {
+            "key": "price",
+            "multiple": 0.04 // (2 / 50) 2 points for every $50 spent.
+          }
+        }
+        ```
+      type: object
+      properties:
+        key:
+          type: string
+          example: 'price'
+        multiple:
+          type: number
+          example: 2
+    Trigger:
+      description: |-
+        Triggers are the specific actions carried out by customers that can lead to the earning of rewards. For instance, a trigger could be a customer purchase, a customer referral, or a customer subscription sign-up, etc.
+      type: object
+      properties:
+        eventName:
+          type: string
+          example: 'purchase'
+        customerId:
+          type: string
+          example: 'c1'
+        payload:
+          type: object
+          example:
+            product_id: 'p1'
+            quantity: 3
+        status:
+          type: string
+          enum: [pending, processed]
+          example: 'pending'
+    Asset:
+      description: |-
+        Assets are the products, services, or perks that can be earned or purchased by customers. Assets are different from customer assets. Customer assets are the assets that the customer has earned or purchased.
+
+        For instance, if a customer earns 10 points, the customer will have 10 points as a customer asset. The points are the assets, and the customer asset is the customer's points balance.
+
+        Assets are associated with campaigns and rules. When a customer activity or event meets the conditions defined in a campaign rule, the customer earns an asset.
+
+        For instance, if a customer purchases a product worth $100, the customer earns 10 points. The points are the asset, and the customer asset is the customer's points balance from earning the points.
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'a1'
+        name:
+          type: string
+          example: 'Product A'
+        category:
+          type: string
+          example: 'Electronics'
+        type:
+          type: string
+          example: 'physical'
+        tags:
+          type: array
+          items:
+            type: string
+          example: ['tag1', 'tag2']
+        value:
+          type: string
+          example: '100'
+        monetaryValue:
+          type: string
+          example: '100 USD'
+        currency:
+          type: string
+          example: 'USD'
+        pointValue:
+          type: string
+          example: '10'
+        data:
+          type: string
+          example: '...'
+        status:
+          type: string
+          example: 'active'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2023-06-24T10:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2023-06-24T10:30:00Z'
+    CustomerAccount:
+      description: |-
+        Customer accounts holds information about a customer. It contains dfetails such as the customer's asset balances, campaigns the customer is enrolled in, and other customer data.
+      type: object
+      properties:
+        campaignIds:
+          type: array
+          items:
+            type: string
+          example: ['c1', 'c2', 'c3']
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerAsset'
+        customerData:
+          type: object
+          example:
+            age: 23
+            prop2: 123
+            contacts:
+              - 'phone1'
+              - 'email1'
+            userLocation:
+              city: 'Lagos'
+              country: 'Nigeria'
+
+        createdAt:
+          type: string
+          format: date-time
+          example: '2023-06-24T10:00:00Z'
+    CustomerAsset:
+      description: |-
+        Customer assets are assets that are associated with a customer account. They are assets that the customer has earned or purchased. For instance, if a customer earns 10 points, the customer will have 10 points as a customer asset.
+
+        Customer assets are different from assets. Assets are the products, services, or perks that can be earned or purchased by customers. Customer assets are the assets that the customer has earned or purchased.
+      type: object
+      properties:
+        id:
+          type: string
+          example: 'ca1'
+        assetId:
+          type: string
+          example: 'a1'
+        qty:
+          type: integer
+          example: 2
+        expiryDate:
+          type: string
+          format: date
+          example: '2024-06-30'
+    RedemptionConfig:
+      description: Configuration for redeeming rewards. This includes the conditions that must be met to redeem the reward, the instrument used to liquidate the reward, and the period within which the reward can be redeemed. Conditions can be related to the accumulated assets or the customer.
+      type: object
+      properties:
+        assetConditions:
+          description: Conditions related to the accumulated assets. e.g minimum points required to redeem
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+        customerConditions:
+          description: Conditions related to the customer. e.g customer age or membership level
+          type: array
+          items:
+            $ref: '#/components/schemas/Condition'
+        liquidationInstrument:
+          description: The instrument used to liquidate the assets. e.g cash, product, perk, etc
+          type: string
+          enum: [perk, cash, membership-upgrade, product, generic-reward]
+          example: 'perk'
+        redeemableFrom:
+          type: string
+          format: date
+          example: '2023-07-01'
+        redeemableUntil:
+          type: string
+          format: date
+          example: '2023-12-31'
+    AdminEvent:
+      description: |-
+        Admin events are events that are triggered by an admin. Admin events are used to trigger actions that are not triggered by a customer activity. For instance, an admin event can be used to trigger the addition of points to a customer's account. or to pause a campaign.
+      type: object
+      properties:
+        eventName:
+          type: string
+          example: 'add_points'
+        userId:
+          type: string
+          example: 'app_admin'
+        payload:
+          type: object
+          example:
+            points: 10
+            customerId: 'c1'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2023-06-24T10:00:00Z'

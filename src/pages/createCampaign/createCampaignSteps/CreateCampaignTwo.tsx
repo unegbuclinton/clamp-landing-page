@@ -104,13 +104,15 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
     const formData = new FormData()
     formData.append('csvFile', file)
 
-    fetch('/upload', {
-      method: 'POST',
-      body: formData,
-    })
+    fetch(
+      'https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core/customerAccounts/upload',
+      {
+        method: 'POST',
+        body: formData,
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response from the backend (if needed)
         console.log(data)
       })
       .catch((error) => {
@@ -353,18 +355,32 @@ const CreateCampaignTwo: React.FC<campaignStepTwo> = ({
         </InfoCard>
         <InfoCard
           label='ENROLL CUSTOMERS'
-          description={'Upload a CSV file with customers'}
+          description={'Upload list of customers'}
         >
-          <div>
-            <label className='bg-black hover:bg-black/80 text-white font-bold py-2 px-4 rounded cursor-pointer'>
-              <input
-                type='file'
-                accept='.csv'
-                onChange={handleFileChange}
-                className='file-input'
-              />
-              Choose CSV File
-            </label>
+          <div className='flex gap-3 mt-2'>
+            <div>
+              <label className='bg-transparent border-2 hover:bg-white/90 border-black text-black font-normal py-2 px-4 rounded cursor-pointer'>
+                <input
+                  type='file'
+                  accept='.csv'
+                  onChange={handleFileChange}
+                  className='file-input'
+                />
+                Choose CSV File
+              </label>
+            </div>
+            <div>
+              <label className='bg-dim-grey text-white font-normal pointer-events-none py-2 border-2 px-4 rounded cursor-pointer'>
+                <input
+                  type='file'
+                  accept='.csv'
+                  disabled
+                  onChange={handleFileChange}
+                  className='file-input'
+                />
+                Connect via API
+              </label>
+            </div>
           </div>
         </InfoCard>
       </div>

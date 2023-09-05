@@ -16,17 +16,10 @@ import {
   updateSpecificCampaign,
 } from '@/utilities/redux/CampaignFormSlice'
 import { useRouter } from 'next/router'
-import {
-  createCampaignInterface,
-  ruleInterface,
-} from '@/utilities/types/createCampaign'
+import { createCampaignInterface, ruleInterface } from '@/utilities/types/createCampaign'
 
-import { getRules } from '@/api/rules'
-import {
-  createRule,
-  getSpecificRule,
-  updateSpecificRule,
-} from '@/utilities/redux/RuleSlice'
+import { getRules } from '@/httpClient/rules'
+import { createRule, getSpecificRule, updateSpecificRule } from '@/utilities/redux/RuleSlice'
 import LoadingStateComponent from '@/components/molecules/LoadingState'
 import Link from 'next/link'
 
@@ -57,8 +50,7 @@ const CampaignForm = () => {
         earningType: 'Fixed',
         campaignTriggerValue: specificRule?.conditions?.[0]?.value,
         campaignEarnings: specificRule?.assetQty,
-        campaignRedeem:
-          specificCampaign.redemptionRules[0]?.assetConditions[0]?.value,
+        campaignRedeem: specificCampaign.redemptionRules[0]?.assetConditions[0]?.value,
         campaignTrigger: specificRule?.conditions[0]?.key,
         cashbackOption: 'percentage',
         campaignReward: 10,
@@ -98,9 +90,7 @@ const CampaignForm = () => {
 
   const steps = [
     {
-      component: (
-        <CreateCampaignOne form={form} formData={createCampaignData} />
-      ),
+      component: <CreateCampaignOne form={form} formData={createCampaignData} />,
     },
     {
       component: (
@@ -150,17 +140,14 @@ const CampaignForm = () => {
           key: createCampaignData.campaignTrigger,
           multiple:
             earningType === 'recurring'
-              ? createCampaignData.campaignEarnings /
-                createCampaignData.campaignTriggerValue
+              ? createCampaignData.campaignEarnings / createCampaignData.campaignTriggerValue
               : 0,
         },
       }
 
       const ruleId = (
         await (mode === 'edit'
-          ? dispatch(
-              updateSpecificRule({ body: rulesData, id: specificRule.id })
-            )
+          ? dispatch(updateSpecificRule({ body: rulesData, id: specificRule.id }))
           : dispatch(createRule(rulesData)))
       ).payload.id
 
@@ -227,17 +214,11 @@ const CampaignForm = () => {
 
   return (
     <DashboardLayout>
-      <Form
-        initialValues={createCampaignData}
-        form={form}
-        onFinish={handleFinish}
-      >
-        <div className=' flex justify-center mb-6'>
-          <div className='relative max-w-[462px] '>
-            <h1 className='text-2xl font-semibold mb-2'>
-              {`${
-                campaignId ? 'Edit Reward Campaign' : 'Create Rewards Campaign'
-              }`}
+      <Form initialValues={createCampaignData} form={form} onFinish={handleFinish}>
+        <div className=" flex justify-center mb-6">
+          <div className="relative max-w-[462px] ">
+            <h1 className="text-2xl font-semibold mb-2">
+              {`${campaignId ? 'Edit Reward Campaign' : 'Create Rewards Campaign'}`}
             </h1>
 
             {steps[currentStep].component}
@@ -245,35 +226,35 @@ const CampaignForm = () => {
               <div>
                 <ButtonComponent
                   onClick={handleStepForward}
-                  type='button'
-                  text='Continue'
-                  className=' w-full '
+                  type="button"
+                  text="Continue"
+                  className=" w-full "
                 />
               </div>
             )}
             {currentStep > 0 && (
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <ButtonComponent
                   onClick={handleStepBack}
-                  type='button'
-                  text='Back'
+                  type="button"
+                  text="Back"
                   outline
-                  className=' w-full '
+                  className=" w-full "
                 />
                 {currentStep < 2 && (
                   <ButtonComponent
                     onClick={handleStepForward}
-                    type='button'
-                    text='Continue'
-                    className=' w-full '
+                    type="button"
+                    text="Continue"
+                    className=" w-full "
                   />
                 )}
                 {currentStep === 2 && (
                   <ButtonComponent
-                    type='submit'
+                    type="submit"
                     loading={loading}
                     text={`${mode === 'edit' ? 'Update' : 'Submit'}`}
-                    className=' w-full '
+                    className=" w-full "
                   />
                 )}
               </div>

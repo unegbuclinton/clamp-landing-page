@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../hooks'
 import { getAllRules, getSpecificRule } from '../redux/RuleSlice'
-import { getRules } from '@/api/rules'
+import { getRules } from '@/httpClient/rules'
 import { useDispatch } from 'react-redux'
 
-export default function ClientOnly({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function ClientOnly({ children }: { children: React.ReactNode }) {
   // State / Props
   const [hasMounted, setHasMounted] = useState(false)
 
@@ -41,10 +37,7 @@ export function getFirstLetter(inputString: string) {
   }
 }
 
-export function formatDateToCustomFormat<T extends string>(
-  dateString: T,
-  format: string
-): string {
+export function formatDateToCustomFormat<T extends string>(dateString: T, format: string): string {
   const dateObject = new Date(dateString)
   const day = dateObject.getDate().toString().padStart(2, '0')
   const month = (dateObject.getMonth() + 1).toString().padStart(2, '0')
@@ -53,8 +46,6 @@ export function formatDateToCustomFormat<T extends string>(
   return format.replace('DD', day).replace('MM', month).replace('YYYY', year)
 }
 
-// export const filterRule = async () => {
-//   const rules = await getRules()
-//   const specificRule = rules.filter((rule: any) => rule.id === 'r10')
-//   dispatch(getSpecificRule(specificRule))
-// }
+export function isValidIdFunction(id: string) {
+  return id !== 'invalid_id'
+}

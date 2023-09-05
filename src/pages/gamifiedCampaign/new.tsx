@@ -10,7 +10,7 @@
 
 // -> every interval of y, the gamification service sends a trigger to the campaign service with payload {leaderboardId, userId, position} for the top z users
 
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { ruleInterface } from '@/utilities/types/createCampaign'
 import { useRouter } from 'next/router'
 import { Form, Input, InputNumber, Select } from 'antd'
@@ -18,27 +18,17 @@ import ButtonComponent from '@/components/atoms/button'
 import InfoCard from '@/components/molecules/infoCard'
 import DashboardLayout from '@/components/layouts/dashboardLayout'
 const { Option } = Select
-import { createNewCampaign } from '@/api/campaign'
-import { createNewRule } from '@/api/rules'
+import { createNewCampaign } from '@/httpClient/campaign'
+import { createNewRule } from '@/httpClient/rules'
+import { initNewGame } from '@/httpClient/game'
+import { IDraftGame } from '@/backend/src/v1/gamificationAPI/interfaces/IGame'
+import { winningCriteria } from '@/backend/src/lib/game'
 interface NewGamifiedCampaignFormValues {
   campaignName: string
-  rewardFrequency: string
-  winnerQuota: number
+  roundsDuration: string
+  numOfWinners: number
   rewardAmount: number
   winningCriteria: string
-}
-export type GameStatus = 'pending' | 'started' | 'paused' | 'stopped'
-
-export interface IGame {
-  id: string
-  status: GameStatus
-  currentRoundId: string
-  nextRoundStartsAt: Date
-  campaignId: string
-  roundsDuration: number // in seconds
-  winnerQuota: number
-  createdAt: Date
-  updatedAt: Date
 }
 
 async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) {
@@ -51,7 +41,7 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
       {
         key: 'position',
         operator: 'lte',
-        value: payload.winnerQuota,
+        value: payload.numOfWinners,
       },
     ],
   }
@@ -71,21 +61,32 @@ async function createUnderlyingCampaign(payload: NewGamifiedCampaignFormValues) 
     name: payload.campaignName,
     startDate: new Date().toISOString(), // add 90 days by default
     endDate: new Date(Date.now() + 90 * 24 * 60 * 60000).toISOString(),
-    ruleIds: [ruleId, inGameRuleId],
+    ruleIds: [inGameRuleId, ruleId],
     status: 'draft',
     redemptionRules: [],
   })
-  const newGame: IGame = {
-    id: '',
-    status: 'pending',
-    currentRoundId: '',
-    nextRoundStartsAt: new Date(),
-    campaignId: '',
-    roundsDuration: 0,
-    winnerQuota: 0,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+}
+
+async function initiliazeGame(
+  campaignId: string,
+  numOfWinners: number,
+  _roundsDuration: string,
+  winningCriteria: string
+) {
+  let roundsDuration = 1000 * 60 * 60 * 24 * 7 // 'week'
+  if (_roundsDuration === 'day') {
+    roundsDuration = 1000 * 60 * 60 * 24
+  } else if (_roundsDuration === 'month') {
+    roundsDuration = 1000 * 60 * 60 * 24 * 30
   }
+  const newGameDraft: IDraftGame = {
+    campaignId,
+    roundsDuration,
+    numOfWinners,
+    numOfRounds: 10, // get this from the campaign form later
+    winningCriteriaCode: winningCriteria,
+  }
+  return await initNewGame(newGameDraft)
 }
 
 const NewGamifiedCampaign = () => {
@@ -93,22 +94,42 @@ const NewGamifiedCampaign = () => {
   const router = useRouter()
 
   const handleSubmit = async (values: NewGamifiedCampaignFormValues) => {
-    console.log(values)
-    console.log('Received values:', form.getFieldsValue())
-    const { id: campaignId } = await createUnderlyingCampaign(values)
-    console.log({ campaignId })
+    const { campaignId } = await createUnderlyingCampaign(values)
+    const newGame = await initiliazeGame(
+      campaignId,
+      values.numOfWinners,
+      values.roundsDuration,
+      values.winningCriteria
+    )
+    console.log({ campaignId }, 'gameId: ', newGame.id)
     router.push(`/loyaltyCampaign/campaign/${campaignId}`)
   }
 
-  const winningCriteria: Record<string, string> = {
-    h_spend: 'Highest spend',
-    h_trxn_vol: 'Highest transaction volume',
-    h_trxn_amt: 'Highest transaction amount',
-    h_growth_trxn_vol: 'Highest transaction volume growth',
-    h_growth_trxn_vol_p: 'Highest transaction volume growth %',
-    h_growth_trxn_amt: 'Highest transaction amount growth',
-    h_growth_trxn_amt_p: 'Highest transaction amount growth %',
-    l_cancel_rate: 'Lowest cancellation rate',
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0]
+    setSelectedFile(file || null)
+
+    if (file) {
+      uploadFile(file)
+    }
+  }
+
+  const uploadFile = (file: File) => {
+    const formData = new FormData()
+    formData.append('csvFile', file)
+
+    fetch('https://clamp-service-g76glnnspa-ez.a.run.app/clamp-api/core/customerAccounts/upload', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
 
   return (
@@ -136,7 +157,7 @@ const NewGamifiedCampaign = () => {
               </InfoCard>
               <InfoCard label="FREQUENCY" description={'Award prize(s) every'}>
                 <Form.Item
-                  name="rewardFrequency"
+                  name="roundsDuration"
                   rules={[{ required: true, message: 'Please select frequency.' }]}
                 >
                   <Select
@@ -156,7 +177,7 @@ const NewGamifiedCampaign = () => {
                 <div className="flex items-center">
                   <Form.Item
                     className="m-0"
-                    name="winnerQuota"
+                    name="numOfWinners"
                     rules={[
                       {
                         required: true,
@@ -210,6 +231,33 @@ const NewGamifiedCampaign = () => {
                     ))}
                   </Select>
                 </Form.Item>
+              </InfoCard>
+              <InfoCard label="ENROLL CUSTOMERS" description={'Upload list of customers'}>
+                <div className="flex gap-3 mt-2">
+                  <div>
+                    <label className="bg-transparent border-2 hover:bg-white/90 border-black text-black font-normal py-2 px-4 rounded cursor-pointer">
+                      <input
+                        type="file"
+                        accept=".csv"
+                        onChange={handleFileChange}
+                        className="file-input"
+                      />
+                      Choose CSV File
+                    </label>
+                  </div>
+                  <div>
+                    <label className="bg-dim-grey text-white font-normal pointer-events-none py-2 border-2 px-4 rounded cursor-pointer">
+                      <input
+                        type="file"
+                        accept=".csv"
+                        disabled
+                        onChange={handleFileChange}
+                        className="file-input"
+                      />
+                      Connect via API
+                    </label>
+                  </div>
+                </div>
               </InfoCard>
               <ButtonComponent type="submit" text="Create gamified campaign" />
             </Form>

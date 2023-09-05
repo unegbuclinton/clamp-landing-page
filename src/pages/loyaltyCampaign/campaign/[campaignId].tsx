@@ -24,10 +24,20 @@ import {
   generateConditionText,
   generateRedemptionConditionText,
 } from '@/utilities/campaignData'
+import { CampaignInterface } from '@/utilities/types'
 
 dayjs.extend(utc)
+const getCampaignById = async (
+  campaignId: string
+): Promise<CampaignInterface> => {
+  const res = await fetch(`${process.env.API_URL}/campaigns/${campaignId}`, {
+    method: 'GET',
+  })
+  const data = await res.json()
+  return data as CampaignInterface
+}
 
-const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
+const CampaignDetail = () => {
   const { specificCampaign } = useAppSelector(
     (state: RootState) => state.campaign
   )
@@ -42,6 +52,32 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
   const condition = specificRule?.conditions?.[0]
   const redemptionCondition = redemptionRules?.[0]?.assetConditions?.[0]
 
+  useEffect(() => {
+    if (condition) {
+      const {
+        operator: conditionOperator,
+        value: conditionValue,
+        key,
+      } = condition
+      const { header, description } = generateConditionText(
+        conditionOperator,
+        String(conditionValue),
+        key
+      )
+      setConditionInfo({ header, description })
+    }
+  }, [condition])
+
+  // Redemption
+  useEffect(() => {
+    if (redemptionCondition) {
+      const { operator, value } = redemptionCondition
+      const conditionText = generateRedemptionConditionText(operator, value)
+      setRedemptionText(conditionText)
+    }
+  }, [redemptionCondition])
+
+  console.log({ specificCampaign })
   const [conditionInfo, setConditionInfo] = useState<{
     header: string
     description: string
@@ -117,6 +153,13 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
     }
   }, [redemptionCondition])
 
+  const { campaignId } = router.query
+  const isValidId = campaignId === id
+
+  if (!isValidId) {
+    router.replace('/404Page')
+    return null
+  }
   return (
     <ClientOnly>
       <DashboardLayout>
@@ -169,7 +212,7 @@ const CampaignDetail = ({ params }: { params: { campaignId: string } }) => {
                   adminEvent[adminEvent.length - 1].eventName !==
                     'stop-campaign') ||
                 !adminEvent ? (
-                  <> {status?.toLocaleUpperCase()}</>
+                  <> {status}</>
                 ) : (
                   <> ENDED</>
                 )}
