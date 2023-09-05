@@ -1,4 +1,5 @@
 import { IDraftGame, IGame, IGameService } from '../interfaces/IGame'
+import { CampaignService } from '../../campaignAPI/services/campaign'
 import { RoundService } from './round'
 import { LeaderboardService } from './leaderboard'
 import { ScoreService } from './score'
@@ -75,6 +76,8 @@ export class GameService implements IGameService {
   }
 
   async initNewGame(dGame: IDraftGame): Promise<IGame> {
+    const campaign = await CampaignService.getCampaignById(dGame.campaignId)
+    if (!campaign) throw new Error('CampaignNotFound')
     const game = new Game({
       id: uuidv4(),
       status: 'pending',
