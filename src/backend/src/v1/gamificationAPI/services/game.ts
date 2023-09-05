@@ -5,6 +5,7 @@ import { ScoreService } from './score'
 import { IRound } from '../interfaces/IRound'
 import { Game } from '../models/Game'
 import { v4 as uuidv4 } from 'uuid'
+import { TriggerService } from '@/v1/campaignAPI/services/trigger'
 
 export const winningCriteria: Record<string, string> = {
   h_spend: 'Highest spend',
@@ -132,6 +133,9 @@ export class GameService implements IGameService {
       if (game.status !== 'started') return false
       if (game.nextRoundStartsAt.getTime() <= Date.now()) {
         await this.nextRound(game.id)
+      }
+      if (game.currentRoundIndex >= game.numOfRounds) {
+        await this.endGame(game.id)
       }
     }
     return true

@@ -2,12 +2,21 @@ import { IRound, IRoundService } from '../interfaces/IRound'
 import { Round } from '../models/Round'
 import { GameStatus } from '../interfaces/IGame'
 import { GameService } from './game'
-
-const gameService = new GameService()
+import { TriggerService } from '@/v1/campaignAPI/services/trigger'
+import { LeaderboardService } from './leaderboard'
 
 export class RoundService implements IRoundService {
+  private triggerService: typeof TriggerService
+  private gameService: GameService
+  private leaderboardService: LeaderboardService
+
+  constructor() {
+    this.triggerService = TriggerService
+    this.gameService = new GameService()
+    this.leaderboardService = new LeaderboardService()
+  }
   async start(gameId: string): Promise<IRound> {
-    const game = await gameService.getGameById(gameId)
+    const game = await this.gameService.getGameById(gameId)
     if (!game) {
       throw new Error('Game not found')
     }
@@ -31,7 +40,7 @@ export class RoundService implements IRoundService {
     return await startedRound.save()
   }
 
-  async end(id: string): Promise<boolean> {
+  async end(id: string, numOfWinners = 1): Promise<boolean> {
     const currentRound = await Round.findOne({
       id,
     })
@@ -42,7 +51,18 @@ export class RoundService implements IRoundService {
     currentRound.status = 'stopped'
     currentRound.endedAt = new Date()
     await currentRound.save()
-    //  Calculate winners based on winning criteria
+    const lbEntries = await this.leaderboardService.getTopParticipants(numOfWinners, id)
+    const evtTriggerPms = lbEntries.map((entry) => {
+      return this.triggerService.createTrigger({
+        eventName: 'end_game_round',
+        customerId: entry.userId,
+        payload: {
+          position: entry.rank,
+          numOfWinners,
+        },
+      })
+    })
+    await Promise.all(evtTriggerPms)
     return true
   }
 

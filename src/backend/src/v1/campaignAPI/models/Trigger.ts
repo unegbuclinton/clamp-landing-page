@@ -3,7 +3,6 @@ import mongoose, { Schema } from 'mongoose'
 export interface ITriggerDraft {
   id?: string
   customerId: string
-  createdAt: Date
   eventName: string
   payload: Record<string, any>
 }

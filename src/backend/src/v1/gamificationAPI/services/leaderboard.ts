@@ -20,12 +20,14 @@ export class LeaderboardService implements ILeaderboardService {
 
   async getTopParticipants(topN: number, roundId: string): Promise<ILeaderboardEntry[]> {
     const leaderboard = await this.getLeaderboard(roundId)
+    if (!leaderboard) return []
     return leaderboard.entries.slice(0, topN)
   }
 
   async updateRankings(game: IGame, statKey: string): Promise<boolean> {
     const { currentRoundId } = game
     const currentRound = await this.roundService.getRoundById(currentRoundId)
+    if (!currentRound || !currentRound.index) return false
     const roundScores = await this.scoreService.getRoundScores(currentRoundId)
     const playerScores: Record<string, number> = {}
     for (const score of roundScores) {
@@ -40,8 +42,9 @@ export class LeaderboardService implements ILeaderboardService {
         currentRound.gameId,
         currentRound.index - 1
       )
+      if (!prevRound) return false
       const prevRoundLeaderboard = await this.getLeaderboard(prevRound.id)
-      for (const entry of prevRoundLeaderboard.entries) {
+      for (const entry of prevRoundLeaderboard?.entries || []) {
         prevLbByUserId[entry.userId] = entry
       }
     }
