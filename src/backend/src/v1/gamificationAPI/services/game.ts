@@ -75,9 +75,12 @@ export class GameService implements IGameService {
     throw new Error('Game not found')
   }
 
-  async initNewGame(dGame: IDraftGame): Promise<IGame> {
+  async initNewGame(dGame: IDraftGame): Promise<IGame|null> {
     const campaign = await CampaignService.getCampaignById(dGame.campaignId)
-    if (!campaign) throw new Error('CampaignNotFound')
+    if (!campaign) {
+      console.log('Campaign not found')
+      return null
+    }
     const game = new Game({
       id: uuidv4(),
       status: 'pending',

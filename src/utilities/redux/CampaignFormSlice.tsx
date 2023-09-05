@@ -50,10 +50,19 @@ const initialState = {
   campaignEndDate: new Date().toISOString().split('T')[0],
 } as campaignState
 
-export const getAllCampaign = createAsyncThunk('campaign/getAllCampaign', getCampaigns)
-export const createCampaign = createAsyncThunk('campaign/createCampaign', createNewCampaign)
+export const getAllCampaign = createAsyncThunk(
+  'campaign/getAllCampaign',
+  getCampaigns
+)
+export const createCampaign = createAsyncThunk(
+  'campaign/createCampaign',
+  createNewCampaign
+)
 
-export const getSpecificCampaign = createAsyncThunk('campaign/getSingleCampaign', getSingleCampaign)
+export const getSpecificCampaign = createAsyncThunk(
+  'campaign/getSingleCampaign',
+  getSingleCampaign
+)
 
 export const pauseSpecificCampaign = createAsyncThunk(
   'campaign/pauseSpecificCampaign',
@@ -65,7 +74,10 @@ export const startSpecificCampaign = createAsyncThunk(
   startCampaign
 )
 
-export const endSpecificCampaign = createAsyncThunk('campaign/endSpecificCampaign', endCampaign)
+export const endSpecificCampaign = createAsyncThunk(
+  'campaign/endSpecificCampaign',
+  endCampaign
+)
 
 export const continueSpecificCampaign = createAsyncThunk(
   'campaign/continueSpecificCampaign',
