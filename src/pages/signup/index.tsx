@@ -6,11 +6,7 @@ import React, { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 
 const SignUp = () => {
-  const [visible, setVisible] = useState<boolean>(false)
   const router = useRouter()
-  const toggleVisibility = () => {
-    setVisible((prev) => !prev)
-  }
   const onFinish = (values: any) => {
     console.log(values)
   }
@@ -19,7 +15,7 @@ const SignUp = () => {
       <Form
         onFinish={onFinish}
         requiredMark='optional'
-        className='max-w-[463px] pt-8 pb-5'
+        className='max-w-[463px] pt-9 pb-5'
       >
         <h1 className='text-2xl font-medium mb-2'>Create your clamp account</h1>
         <p className='text-dim-grey mb-[44px]'>
@@ -36,7 +32,7 @@ const SignUp = () => {
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-2 px-8' />
+          <Input className='py-2' />
         </Form.Item>
 
         <Form.Item
@@ -50,7 +46,7 @@ const SignUp = () => {
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-2 px-8' />
+          <Input className='py-2' />
         </Form.Item>
         <Form.Item
           className='mb-2 text-dim-grey'
@@ -63,7 +59,7 @@ const SignUp = () => {
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-2 px-8' />
+          <Input className='py-2' />
         </Form.Item>
         <Form.Item
           className='mb-2 text-dim-grey'
@@ -76,7 +72,7 @@ const SignUp = () => {
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-2 px-8' />
+          <Input className='py-2' />
         </Form.Item>
         <Form.Item
           className='mb-2 text-dim-grey'
@@ -89,7 +85,7 @@ const SignUp = () => {
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-2 px-8' />
+          <Input className='py-2' />
         </Form.Item>
         <Form.Item
           className='mb-2 text-dim-grey'
@@ -102,7 +98,7 @@ const SignUp = () => {
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-2 px-8' />
+          <Input className='py-2' />
         </Form.Item>
         <Form.Item
           className='mb-2 text-dim-grey'
@@ -111,29 +107,11 @@ const SignUp = () => {
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
           rules={[
-            { required: true, message: 'Please input your username!' },
-            { min: 4, message: 'Username must be at least 4 characters!' },
+            { required: true, message: 'Please input your password!' },
+            { min: 4, message: 'Password must be at least 8 characters!' },
           ]}
         >
-          <Input.Password
-            className='py-2 px-8'
-            type={visible ? 'text' : 'password'}
-            iconRender={
-              visible
-                ? () => (
-                    <AiOutlineEyeInvisible
-                      onClick={toggleVisibility}
-                      className='cursor-pointer'
-                    />
-                  )
-                : () => (
-                    <AiOutlineEye
-                      onClick={toggleVisibility}
-                      className='cursor-pointer'
-                    />
-                  )
-            }
-          />
+          <Input.Password className='py-2' />
         </Form.Item>
         <ButtonComponent
           type='submit'

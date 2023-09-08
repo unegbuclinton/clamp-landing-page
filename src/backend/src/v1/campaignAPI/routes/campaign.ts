@@ -24,6 +24,6 @@ router.post('/:id/start', startCampaign)
 router.post('/', createCampaign)
 router.put('/:id', updateCampaign)
 router.post('/:campaignId/enrollments/:customerId', enrollCustomer)
-router.post('/:campaignId/bulk-enrollments/:importOperationId', enrollCustomer)
+router.post('/:campaignId/bulk-enrollments/:importOperationId', enrollCustomersByImportId)
 
 export default router

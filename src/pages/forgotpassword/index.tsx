@@ -8,7 +8,7 @@ const ForgotPassword = () => {
   const router = useRouter()
   return (
     <AuthLayout>
-      <Form requiredMark='optional' className='max-w-[463px] '>
+      <Form requiredMark='optional' className='max-w-[463px] pt-20'>
         <h1 className='text-2xl font-medium mb-2'>Forgot your password?</h1>
         <p className='text-dim-grey mb-[44px]'>
           Enter the email address associated with your account and we’ll send
@@ -21,20 +21,18 @@ const ForgotPassword = () => {
           labelCol={{ span: 24 }}
           wrapperCol={{ span: 24 }}
           rules={[
-            { required: true, message: 'Please input your Email Address!' },
+            { required: true, message: 'Please input your Email!' },
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-4 px-8' />
+          <Input className='py-2' />
         </Form.Item>
 
-        <Button
-          type='primary'
-          htmlType='submit'
-          className='bg-black w-full h-16 mt-6 text-white'
-        >
-          Send reset link
-        </Button>
+        <ButtonComponent
+          type='submit'
+          className='w-full mt-6'
+          text='Send reset link'
+        />
       </Form>
 
       <span

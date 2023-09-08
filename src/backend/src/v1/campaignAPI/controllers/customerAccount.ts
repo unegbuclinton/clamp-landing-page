@@ -1,4 +1,3 @@
-import path from 'path'
 import express from 'express'
 import { CustomerAccountService } from '../services/customerAccount'
 
@@ -64,10 +63,9 @@ export const importCustomerAccountsFromFile = async (
       msg: 'File missing',
     })
   }
-  const filePath = path.join(__dirname, fPath)
 
   try {
-    const importOperationId = await CustomerAccountService.importCustomerAccountsFromFile(filePath)
+    const importOperationId = await CustomerAccountService.importCustomerAccountsFromFile(fPath)
     if (importOperationId) {
       res.json({ importOperationId })
     } else {

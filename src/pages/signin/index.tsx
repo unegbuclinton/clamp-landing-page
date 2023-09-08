@@ -1,21 +1,13 @@
 import React, { useState } from 'react'
 import { Form, Input, Button } from 'antd'
 import AuthLayout from '@/components/layouts/authLayout'
-import {
-  AiOutlineEyeInvisible,
-  AiOutlineEye,
-  AiOutlineUnlock,
-} from 'react-icons/ai'
+import { AiOutlineUnlock } from 'react-icons/ai'
 import { useRouter } from 'next/navigation'
 import ButtonComponent from '@/components/atoms/button'
 
 const SignIn = () => {
   const router = useRouter()
-  const [visible, setVisible] = useState<boolean>(false)
-  const toggleVisibility = () => {
-    setVisible((prev) => !prev)
-  }
-  
+
   return (
     <AuthLayout>
       <Form requiredMark='optional' className='max-w-[463px] pt-20'>
@@ -34,7 +26,7 @@ const SignIn = () => {
             { min: 4, message: 'Username must be at least 4 characters!' },
           ]}
         >
-          <Input className='py-2 px-8' />
+          <Input className='py-2' />
         </Form.Item>
 
         <Form.Item
@@ -45,26 +37,7 @@ const SignIn = () => {
           wrapperCol={{ span: 24 }}
           rules={[{ required: true, message: 'Please input your Password!' }]}
         >
-          <Input.Password
-            className='py-2 px-8'
-            placeholder='**********'
-            type={visible ? 'text' : 'password'}
-            iconRender={
-              visible
-                ? () => (
-                    <AiOutlineEyeInvisible
-                      onClick={toggleVisibility}
-                      className='cursor-pointer'
-                    />
-                  )
-                : () => (
-                    <AiOutlineEye
-                      onClick={toggleVisibility}
-                      className='cursor-pointer'
-                    />
-                  )
-            }
-          />
+          <Input.Password className='py-2' placeholder='**********' />
         </Form.Item>
         <div
           onClick={() => router.push('/forgotpassword')}

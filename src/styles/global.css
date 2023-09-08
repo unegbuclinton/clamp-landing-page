@@ -131,7 +131,7 @@ html {
   font-weight: 600;
 }
 
-.ant-btn-default:not(:disabled):hover {
+.loyalty-btn.ant-btn-default:not(:disabled):hover {
   border: 1px solid #d9d9d9 !important;
   color: black !important;
 }
