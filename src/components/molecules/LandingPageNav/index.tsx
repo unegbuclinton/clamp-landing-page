@@ -3,7 +3,7 @@ import { useTheme } from '@/utilities/helperFunctions'
 import React, { useEffect, useState } from 'react'
 import { CiDark } from 'react-icons/ci'
 import { MdLightMode } from 'react-icons/md'
-import Logo from '@/assets/svgs/logo.svg'
+import ClampLogo from '../ClampLogo/ClampLogo'
 interface landingPageProps {
   buttonClick: () => void
 }
@@ -30,7 +30,7 @@ const LandingNavbar: React.FC<landingPageProps> = ({ buttonClick }) => {
   return (
     <div className='fixed w-full flex justify-center bg-white/90 dark:bg-dark/90 z-10'>
       <nav className=' w-full px-4 lg:px-0 lg:max-w-[75%] flex justify-between items-center py-5'>
-        <Logo />
+        <ClampLogo />
         <div className='flex items-center'>
           <div
             className={`${
