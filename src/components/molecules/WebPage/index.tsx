@@ -5,32 +5,37 @@ import SectionThree from './SectionThree'
 import retainImg from '@/assets/imgs/retain-img.png'
 import Demo from '@/assets/svgs/static-demo.svg'
 import Overview from '@/assets/svgs/overview.svg'
+import CustomerImg from '@/assets/svgs/customer.svg'
 import SectionFour from './SectionFour'
+import SectionFive from './SectionFive'
 
 const WebPageSections = () => {
-  const [showSectionThreeInfo, setShowSectionThreeInfo] =
-    useState<boolean>(false)
-  const [showSectionFourInfo, setShowSectionFourInfo] = useState<boolean>(false)
-
-  const changeRightContent = () => {
-    const scrollY = window.scrollY
-
-    if (scrollY >= 1315 && scrollY < 2078) {
-      setShowSectionThreeInfo(true)
-      setShowSectionFourInfo(false)
-    } else if (scrollY >= 2178) {
-      setShowSectionThreeInfo(false)
-      setShowSectionFourInfo(true)
-    } else {
-      setShowSectionThreeInfo(false)
-      setShowSectionFourInfo(false)
-    }
-  }
+  const [activeSection, setActiveSection] = useState<string | null>(null)
 
   useEffect(() => {
-    window.addEventListener('scroll', changeRightContent)
-    return () => window.removeEventListener('scroll', changeRightContent)
-  })
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const sections = [
+        { id: 'section-three', start: 1315, end: 2078 },
+        { id: 'section-four', start: 2178, end: 2948 },
+        { id: 'section-five', start: 2949 },
+      ]
+
+      const active = sections.find((section) =>
+        section.end
+          ? scrollY >= section.start && scrollY < section.end
+          : scrollY >= section.start
+      )
+
+      setActiveSection(active ? active.id : null)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   return (
     <div className='flex'>
@@ -39,6 +44,7 @@ const WebPageSections = () => {
         <SectionTwo />
         <SectionThree />
         <SectionFour />
+        <SectionFive />
       </div>
       <div
         className='flex justify-center items-center'
@@ -53,24 +59,28 @@ const WebPageSections = () => {
           width: '50%',
         }}
       >
-        {/* section three */}
         <div
-          className={`${
-            showSectionThreeInfo ? 'animate-fadeIn block' : 'opacity-0 hidden'
+          className={`animate-fadeIn ${
+            activeSection === 'section-three' ? 'block' : 'opacity-0 hidden'
           }`}
         >
           <Demo />
         </div>
 
-        {/* section four */}
         <div
-          className={`${
-            showSectionFourInfo
-              ? 'animate-fadeInFromBottom block'
-              : 'opacity-0 hidden'
+          className={`animate-fadeInFromBottom ${
+            activeSection === 'section-four' ? 'block' : 'opacity-0 hidden'
           }`}
         >
           <Overview />
+        </div>
+
+        <div
+          className={`animate-fadeInFromBottom ${
+            activeSection === 'section-five' ? 'block' : 'opacity-0 hidden'
+          }`}
+        >
+          <CustomerImg />
         </div>
       </div>
     </div>
