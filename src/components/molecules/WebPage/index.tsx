@@ -6,8 +6,12 @@ import retainImg from '@/assets/imgs/retain-img.png'
 import Demo from '@/assets/svgs/static-demo.svg'
 import Overview from '@/assets/svgs/overview.svg'
 import CustomerImg from '@/assets/svgs/customer.svg'
+import DataFlowImg from '@/assets/svgs/data-flow.svg'
 import SectionFour from './SectionFour'
 import SectionFive from './SectionFive'
+import SectionSix from './SectionSix'
+import SectionSeven from './SectionSeven'
+import SectionEight from './SectionEight'
 
 const WebPageSections = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null)
@@ -18,8 +22,11 @@ const WebPageSections = () => {
       const sections = [
         { id: 'section-three', start: 1315, end: 2078 },
         { id: 'section-four', start: 2178, end: 2948 },
-        { id: 'section-five', start: 2949 },
+        { id: 'section-five', start: 2949, end: 3400 },
+        { id: 'section-six', start: 3849, end: 4152 },
+        { id: 'section-seven', start: 3849, end: 4152 },
       ]
+      console.log(scrollY)
 
       const active = sections.find((section) =>
         section.end
@@ -45,6 +52,9 @@ const WebPageSections = () => {
         <SectionThree />
         <SectionFour />
         <SectionFive />
+        <SectionSix />
+        <SectionSeven />
+        <SectionEight />
       </div>
       <div
         className='flex justify-center items-center'
@@ -81,6 +91,13 @@ const WebPageSections = () => {
           }`}
         >
           <CustomerImg />
+        </div>
+        <div
+          className={`animate-fadeInFromBottom ${
+            activeSection === 'section-six' ? 'block' : 'opacity-0 hidden'
+          }`}
+        >
+          <DataFlowImg />
         </div>
       </div>
     </div>

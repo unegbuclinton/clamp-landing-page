@@ -18,9 +18,8 @@ const ButtonComponent: React.FC<ButtonProps> = ({
       disabled={disabled}
       loading={loading}
       onClick={onClick}
-      className={`${className} rounded-[8px] px-7 ${
-        height ? height : 'h-[43px]'
-      } text-sm ${
+      style={{ height: height ? height : '43px' }}
+      className={`${className} rounded-[8px] px-7  text-sm ${
         outline
           ? ' outline-button-override bg-white text-black hover:text-black'
           : 'bg-black text-white'
