@@ -55,8 +55,12 @@ const SectionSeven = () => {
         onFinish={onFinish}
         autoComplete='off'
       >
-        {formItems?.map(({ message, name, placeholder }) => (
-          <Form.Item name={name} rules={[{ required: true, message: message }]}>
+        {formItems?.map(({ message, name, placeholder }, idx) => (
+          <Form.Item
+            key={idx}
+            name={name}
+            rules={[{ required: true, message: message }]}
+          >
             <Input
               placeholder={placeholder}
               className='py-2.5 bg-[#F2F2F2] text-xl'

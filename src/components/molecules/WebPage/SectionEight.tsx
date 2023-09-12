@@ -20,8 +20,12 @@ const SectionEight = () => {
         veniam nam fugiat pariatur!
       </p>
       <ul className='flex flex-col'>
-        {links.map(({ text, url }) => (
-          <a href={url} className='underline cursor-pointer mb-6 text-base'>
+        {links.map(({ text, url }, idx) => (
+          <a
+            href={url}
+            key={idx}
+            className='underline cursor-pointer mb-6 text-base'
+          >
             {text}
           </a>
         ))}
