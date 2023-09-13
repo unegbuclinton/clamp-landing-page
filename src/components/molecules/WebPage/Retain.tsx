@@ -8,8 +8,9 @@ const Retain = () => {
         <span className='font-bold'>RETAIN</span> YOUR <br /> CUSTOMERS
       </h1>
       <div className='text-dim-grey text-lg max-w-[470px]'>
-        Increase customer loyalty with Clamp&apos;s API-driven loyalty software,
-        delivering personalized offers for repeat purchases.
+        Increase your customers loyalty & retention by using Clamp&apos;s API -
+        driven incentivization software, design personalized offers for
+        gamification, referral and repeat sales
       </div>
 
       <div className='text-sm mt-20'>

@@ -4,13 +4,14 @@ const CustomerSection = () => {
   return (
     <div className='section pl-[112px] flex flex-col justify-center gap-10 border-r border-light-grey/90'>
       <h2 className='text-[32px] max-w-[550px]'>
-        <span className='font-bold'>CUSTOMER</span> SECTION
+        CUSTOMER CAN SEE <span className='font-bold'>REWARDS</span> EARNED AND
+        REDEEM THEM
       </h2>
 
       <p className='text-dim-grey text-lg max-w-[500px]'>
-        Gain data-driven insights into customer behavior. Analyze engagement
-        metrics, track sales trends, and quantify program ROI to optimize and
-        demonstrate loyalty success.
+        Reward screens for your customers to see how much rewards they have
+        earned, actions they need to take to redeem the rewards and see more
+        campaign offerings.
       </p>
     </div>
   )

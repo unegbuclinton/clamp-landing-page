@@ -11,7 +11,7 @@ const SectionFour = () => {
       <p className='text-dim-grey text-lg max-w-[500px]'>
         Gain data-driven insights into customer behavior. Analyze engagement
         metrics, track sales trends, and quantify program ROI to optimize and
-        demonstrate loyalty success.
+        demonstrate campaign success.
       </p>
     </div>
   )

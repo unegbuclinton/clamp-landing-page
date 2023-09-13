@@ -9,7 +9,7 @@ import CustomerImg from '@/assets/svgs/customer.svg'
 import DataFlowImg from '@/assets/svgs/data-flow.svg'
 import CampaignInsight from './CampaignInsight'
 import CustomerSection from './CustomerSection'
-import SectionSix from './SectionSix'
+import Integration from './Integration'
 import ScheduleDemo from './ScheduleDemo'
 import AboutUs from './AboutUs'
 
@@ -20,13 +20,11 @@ const WebPageSections = () => {
     const handleScroll = () => {
       const scrollY = window.scrollY
       const sections = [
-        { id: 'section-three', start: 1315, end: 2078 },
-        { id: 'section-four', start: 2178, end: 2948 },
-        { id: 'section-five', start: 2949, end: 3400 },
-        { id: 'section-six', start: 3849, end: 4152 },
-        { id: 'section-seven', start: 3849, end: 4152 },
+        { id: 'section-three', start: 1159, end: 1702 },
+        { id: 'section-four', start: 1711, end: 2279 },
+        { id: 'section-five', start: 2318, end: 2910 },
+        { id: 'section-six', start: 2915, end: 3205 },
       ]
-      console.log(scrollY)
 
       const active = sections.find((section) =>
         section.end
@@ -52,7 +50,7 @@ const WebPageSections = () => {
         <HowItWorks />
         <CampaignInsight />
         <CustomerSection />
-        <SectionSix />
+        <Integration />
         <ScheduleDemo />
         <AboutUs />
       </div>
