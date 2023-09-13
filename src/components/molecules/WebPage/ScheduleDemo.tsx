@@ -3,7 +3,7 @@ import { Checkbox, Form, Input } from 'antd'
 import DemoIcon from '@/assets/svgs/demoIcon.svg'
 import React from 'react'
 
-const SectionSeven = () => {
+const ScheduleDemo = () => {
   const onFinish = (values: any) => {
     console.log('Success:', values)
   }
@@ -39,14 +39,19 @@ const SectionSeven = () => {
   return (
     <div className='section flex flex-col justify-center pl-[112px] border-r border-light-grey/90'>
       <h2 className='text-[32px] mb-6'>
-        REQUEST A <span className='font-bold'>DEMO</span>
+        {/* REQUEST A <span className='font-bold'>DEMO</span> */}
       </h2>
-      <p className='text-2xl mb-7'>
+      {/* <p className='text-2xl mb-7'>
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut accusamus
         ullam rem voluptates, laboriosam voluptas ipsam necessitatibus
         repudiandae! Voluptatibus, temporibus?
-      </p>
-      <Form
+      </p> */}
+      <iframe
+        src='https://nicelyformed.com/publications/822c8fc3-e1a1-40ec-b637-e33d89e1b24e'
+        width='100%'
+        height='900'
+      ></iframe>
+      {/* <Form
         name='demo'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -86,9 +91,9 @@ const SectionSeven = () => {
             }
           />
         </Form.Item>
-      </Form>
+      </Form> */}
     </div>
   )
 }
 
-export default SectionSeven
+export default ScheduleDemo

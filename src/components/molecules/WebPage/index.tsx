@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import SectionOne from './SectionOne'
-import SectionTwo from './SectionTwo'
-import SectionThree from './SectionThree'
+import Retain from './Retain'
+import ProductThread from './ProductThread'
+import HowItWorks from './HowItWorks'
 import retainImg from '@/assets/imgs/retain-img.png'
 import Demo from '@/assets/svgs/static-demo.svg'
 import Overview from '@/assets/svgs/overview.svg'
 import CustomerImg from '@/assets/svgs/customer.svg'
 import DataFlowImg from '@/assets/svgs/data-flow.svg'
-import SectionFour from './SectionFour'
-import SectionFive from './SectionFive'
+import CampaignInsight from './CampaignInsight'
+import CustomerSection from './CustomerSection'
 import SectionSix from './SectionSix'
-import SectionSeven from './SectionSeven'
-import SectionEight from './SectionEight'
+import ScheduleDemo from './ScheduleDemo'
+import AboutUs from './AboutUs'
 
 const WebPageSections = () => {
   const [activeSection, setActiveSection] = useState<string | null>(null)
@@ -47,14 +47,14 @@ const WebPageSections = () => {
   return (
     <div className='flex'>
       <div className='w-[50%]'>
-        <SectionOne />
-        <SectionTwo />
-        <SectionThree />
-        <SectionFour />
-        <SectionFive />
+        <Retain />
+        <ProductThread />
+        <HowItWorks />
+        <CampaignInsight />
+        <CustomerSection />
         <SectionSix />
-        <SectionSeven />
-        <SectionEight />
+        <ScheduleDemo />
+        <AboutUs />
       </div>
       <div
         className='flex justify-center items-center'
