@@ -18,9 +18,9 @@ const AboutUs = () => {
       <p className='text-dim-grey text-lg max-w-[500px] mb-8'>
         At <span className='font-bold'>clamp</span>, our mission is simple yet
         profound: We care deeply about customers and are dedicated to building
-        lasting relationships with your business and customers. We don't just
-        want customers; we want to create for you loyal fans and advocates who
-        genuinely love your products and services.
+        lasting relationships with your business and customers. We don&apos;t
+        just want customers; we want to create for you loyal fans and advocates
+        who genuinely love your products and services.
       </p>
       <ul className='flex flex-col'>
         {links.map(({ text, url }, idx) => (
