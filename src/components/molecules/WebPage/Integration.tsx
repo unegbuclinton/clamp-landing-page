@@ -5,7 +5,7 @@ const Integration = () => {
     <div className='section pl-[112px] flex flex-col justify-center gap-10 border-r border-light-grey/90'>
       <h2 className='text-[32px] max-w-[550px]'>
         TIME QUICK INTEGRATION, CREATE MULTIPLE
-        <span className='font-bold'>CAMPAIGNS</span> WITH NO CODE
+        <span className='font-bold'> CAMPAIGNS</span> WITH NO CODE
       </h2>
 
       <p className='text-dim-grey text-lg max-w-[500px]'>
