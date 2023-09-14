@@ -37,7 +37,7 @@ const ScheduleDemo = () => {
   ]
 
   return (
-    <div className='section flex flex-col justify-center pl-[112px] border-r border-light-grey/90'>
+    <div className='section flex flex-col justify-center lg:pl-[112px] px-6 md:px-0 border-r border-light-grey/90'>
       <h2 className='text-[32px] mb-6'>
         {/* REQUEST A <span className='font-bold'>DEMO</span> */}
       </h2>
@@ -49,7 +49,7 @@ const ScheduleDemo = () => {
       <iframe
         src='https://nicelyformed.com/publications/822c8fc3-e1a1-40ec-b637-e33d89e1b24e'
         width='100%'
-        height='900'
+        height='500'
       ></iframe>
       {/* <Form
         name='demo'

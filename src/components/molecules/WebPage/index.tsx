@@ -45,7 +45,7 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
 
   return (
     <div className='flex relative'>
-      <div className='w-[50%]'>
+      <div className='md:w-[50%]'>
         <Retain />
         <ProductThread />
         <HowItWorks />
@@ -55,7 +55,7 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
         <ScheduleDemo />
       </div>
       <div
-        className='flex justify-center items-center'
+        className='hidden md:flex justify-center items-center'
         style={{
           backgroundImage: `url(${retainImg.src})`,
           backgroundRepeat: 'no-repeat',

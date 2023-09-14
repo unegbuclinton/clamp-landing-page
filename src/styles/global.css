@@ -82,11 +82,18 @@ html {
   padding-top: 68px;
 }
 
-.section-wrrapper {
+/* .section-wrrapper {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
-}
+} */
 
+@media (max-width: 789px) {
+  .section {
+    height: fit-content;
+    padding-top: 120px;
+    scroll-snap-align: unset;
+  }
+}
 @keyframes fadeIn {
   from {
     opacity: 0;

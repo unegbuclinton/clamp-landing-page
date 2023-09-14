@@ -1,8 +1,9 @@
 import React from 'react'
+import Overview from '@/assets/svgs/overview.svg'
 
 const SectionFour = () => {
   return (
-    <div className='section pl-[112px] flex flex-col justify-center gap-10 border-r border-light-grey/90'>
+    <div className='section lg:pl-[112px] px-6 md:px-0 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
       <h2 className='text-[32px] max-w-[550px]'>
         TRACK <span className='font-bold'>SALES,CUSTOMER ENGAGEMENT</span> AND
         SEE THE IMPACT.
@@ -13,6 +14,9 @@ const SectionFour = () => {
         metrics, track sales trends, and quantify program ROI to optimize and
         demonstrate campaign success.
       </p>
+      <div className='flex md:hidden justify-center border-b py-4'>
+        <Overview />
+      </div>
     </div>
   )
 }
