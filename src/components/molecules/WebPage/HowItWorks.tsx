@@ -3,7 +3,7 @@ import Demo from '@/assets/svgs/static-demo.svg'
 
 const HowItWorks = () => {
   return (
-    <div className='section lg:pl-[112px] px-6 md:px-0 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
+    <div className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
       <h2 className='text-[32px] max-w-[450px]'>
         HOW DOES IT WORK? WELL, IT&apos;S AS EASY AS
         <br />

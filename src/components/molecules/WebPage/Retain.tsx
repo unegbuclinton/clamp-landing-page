@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Retain = () => {
   return (
-    <div className='section lg:pl-[112px] px-6 md:px-0 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
+    <div className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
       <h1 className='w-[150px] text-[32px]'>
         <span className='font-bold'>RETAIN</span> YOUR <br /> CUSTOMERS
       </h1>
