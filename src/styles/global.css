@@ -136,6 +136,14 @@ html {
   color: black !important;
 }
 
+.about-section {
+  transform: translateX(1%); /* Initial position, off-screen to the right */
+  transition: 0.3s ease-in;
+}
+.about-section__active {
+  transform: translateX(100%); /* Initial position, off-screen to the right */
+  transition: transform 0.3s ease-in-out; /* Add a smooth transition effect */
+}
 /* Example CSS using Tailwind CSS classes */
 .progress-bar {
   display: flex;

@@ -2,15 +2,22 @@ import React from 'react'
 import ClampLogo from '../ClampLogo/ClampLogo'
 import Link from 'next/link'
 
-const WebNavBar = () => {
+interface navbarProps {
+  openAboutSection: () => void
+  menuRef: React.RefObject<HTMLDivElement>
+}
+const WebNavBar: React.FC<navbarProps> = ({ openAboutSection, menuRef }) => {
   return (
     <nav className='w-full flex justify-between items-center px-28 py-3 border-b border-light-grey fixed top-0 bg-white z-10'>
       <ClampLogo />
 
-      <div className='flex gap-[30px] items-center'>
-        <Link className='text-sm' href={''}>
+      <div ref={menuRef} className='flex gap-[30px] items-center'>
+        <li
+          className='text-sm list-none cursor-pointer'
+          onClick={openAboutSection}
+        >
           About
-        </Link>
+        </li>
         <Link className='text-sm' href={''}>
           Contact
         </Link>

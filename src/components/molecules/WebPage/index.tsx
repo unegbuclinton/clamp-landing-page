@@ -13,7 +13,7 @@ import Integration from './Integration'
 import ScheduleDemo from './ScheduleDemo'
 import AboutUs from './AboutUs'
 
-const WebPageSections = () => {
+const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
   const [activeSection, setActiveSection] = useState<string | null>(null)
 
   useEffect(() => {
@@ -22,8 +22,9 @@ const WebPageSections = () => {
       const sections = [
         { id: 'section-three', start: 1159, end: 1702 },
         { id: 'section-four', start: 1711, end: 2279 },
-        { id: 'section-five', start: 2318, end: 2910 },
-        { id: 'section-six', start: 2915, end: 3205 },
+        { id: 'section-five', start: 2318, end: 3185 },
+        { id: 'section-six', start: 3195, end: 3500 },
+        // { id: 'section-seven', start: 3849, end: 4152 },
       ]
 
       const active = sections.find((section) =>
@@ -43,7 +44,7 @@ const WebPageSections = () => {
   }, [])
 
   return (
-    <div className='flex'>
+    <div className='flex relative'>
       <div className='w-[50%]'>
         <Retain />
         <ProductThread />
@@ -52,7 +53,6 @@ const WebPageSections = () => {
         <CustomerSection />
         <Integration />
         <ScheduleDemo />
-        <AboutUs />
       </div>
       <div
         className='flex justify-center items-center'
@@ -96,6 +96,13 @@ const WebPageSections = () => {
           }`}
         >
           <DataFlowImg />
+        </div>
+        <div
+          className={`w-[75%] absolute z-10 bg-white top-0 right-0 bottom-0 ${
+            isVisible ? 'about-section' : 'about-section__active'
+          }`}
+        >
+          <AboutUs />
         </div>
       </div>
     </div>
