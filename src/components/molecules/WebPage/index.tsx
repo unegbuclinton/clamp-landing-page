@@ -22,8 +22,8 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
       const sections = [
         { id: 'section-three', start: 1159, end: 1702 },
         { id: 'section-four', start: 1711, end: 2279 },
-        { id: 'section-five', start: 2318, end: 3185 },
-        { id: 'section-six', start: 3361, end: 4100 },
+        { id: 'section-five', start: 2363, end: 2889 },
+        { id: 'section-six', start: 2903, end: 3539 },
       ]
 
       console.log(scrollY)
