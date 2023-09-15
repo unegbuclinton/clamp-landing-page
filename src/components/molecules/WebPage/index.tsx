@@ -27,6 +27,7 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
         { id: 'section-seven', start: 3849, end: 4152 },
       ]
 
+      console.log(scrollY)
       const active = sections.find((section) =>
         section.end
           ? scrollY >= section.start && scrollY < section.end

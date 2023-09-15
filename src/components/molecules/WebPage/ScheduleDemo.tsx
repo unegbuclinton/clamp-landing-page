@@ -1,5 +1,3 @@
-import ButtonComponent from '@/components/atoms/button'
-import { Checkbox, Form, Input } from 'antd'
 import DemoIcon from '@/assets/svgs/demoIcon.svg'
 import React from 'react'
 import Link from 'next/link'
