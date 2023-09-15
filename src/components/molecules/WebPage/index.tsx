@@ -16,25 +16,29 @@ import AboutUs from './AboutUs'
 const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
   const [activeSection, setActiveSection] = useState<string | null>(null)
 
+  const handleScroll = () => {
+    const scrollY = window.scrollY
+    const viewportHeight = window.innerHeight
+
+    // Define section start and end points as percentages of viewport height
+    const sections = [
+      { id: 'section-three', start: 180, end: 250 },
+      { id: 'section-four', start: 255, end: 320 },
+      { id: 'section-five', start: 350, end: 450 },
+      { id: 'section-six', start: 480, end: 550 },
+    ]
+
+    const active = sections.find(
+      (section) =>
+        scrollY >= (section.start / 100) * viewportHeight &&
+        scrollY < (section.end / 100) * viewportHeight
+    )
+
+    console.log(active)
+    setActiveSection(active ? active.id : null)
+  }
+
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY
-      const sections = [
-        { id: 'section-three', start: 1159, end: 1702 },
-        { id: 'section-four', start: 1711, end: 2279 },
-        { id: 'section-five', start: 2363, end: 2889 },
-        { id: 'section-six', start: 2903, end: 3539 },
-      ]
-
-      const active = sections.find((section) =>
-        section.end
-          ? scrollY >= section.start && scrollY < section.end
-          : scrollY >= section.start
-      )
-
-      setActiveSection(active ? active.id : null)
-    }
-
     window.addEventListener('scroll', handleScroll)
 
     return () => {
