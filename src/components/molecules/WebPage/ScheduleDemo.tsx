@@ -47,7 +47,7 @@ const ScheduleDemo = () => {
     <div className='section relative flex flex-col justify-center lg:pl-[112px] px-6 md:px-4 pb-28 md:pb-0 border-r border-light-grey/90'>
       <h2 className='text-[32px] mb-6'>
         {/* REQUEST A <span className='font-bold'>DEMO</span> */}
-        <span className='font-bold'>Let's talk</span>
+        <span className='font-bold'>Let&apos;s talk</span>
       </h2>
 
       <p className='text-2xl mb-7'>
