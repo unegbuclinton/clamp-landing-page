@@ -13,7 +13,13 @@ import Integration from './Integration'
 import ScheduleDemo from './ScheduleDemo'
 import AboutUs from './AboutUs'
 
-const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
+const WebPageSections = ({
+  isVisible,
+  onCancel,
+}: {
+  isVisible: boolean
+  onCancel: () => void
+}) => {
   const [activeSection, setActiveSection] = useState<{
     id: string
     intersect: boolean
@@ -31,9 +37,9 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
 
   useEffect(() => {
     const options = {
-      root: null, // Use the viewport as the root
-      rootMargin: '0px', // No margin
-      threshold: 0.5, // Trigger when at least 50% of the section is visible
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5,
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -47,14 +53,12 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
       })
     }, options)
 
-    // Observe each section
     Object.values(sectionRefs).forEach((ref) => {
       if (ref.current) {
         observer.observe(ref.current)
       }
     })
 
-    // Cleanup the observer when the component unmounts
     return () => {
       observer.disconnect()
     }
@@ -122,13 +126,13 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
         >
           <DataFlowImg />
         </div>
-        <div
-          className={`w-[75%] absolute z-10 bg-white top-0 right-0 bottom-0 ${
-            isVisible ? 'about-section' : 'about-section__active'
-          }`}
-        >
-          <AboutUs />
-        </div>
+      </div>
+      <div
+        className={`w-full md:w-[50%] fixed z-10 bg-white top-0 right-0 bottom-0 transition-transform duration-500 ${
+          isVisible ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        <AboutUs onCancel={onCancel} />
       </div>
     </div>
   )

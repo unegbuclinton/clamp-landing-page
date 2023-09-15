@@ -27,7 +27,7 @@ const WebNavBar: React.FC<navbarProps> = ({ openAboutSection, menuRef }) => {
   }, [])
 
   return (
-    <nav className='w-full flex justify-between items-center px-3 lg:px-28 py-3 border-b border-light-grey fixed top-0 bg-white z-10'>
+    <nav className='w-full flex justify-between items-center px-3 lg:px-28 py-3 border-b border-light-grey fixed top-0 bg-white z-20'>
       <ClampLogo />
 
       <div ref={menuRef} className='flex gap-[30px] items-center'>

@@ -29,7 +29,10 @@ export default function Home() {
         menuRef={aboutRef}
         openAboutSection={() => setIsVisible((prev) => !prev)}
       />
-      <WebPageSections isVisible={isVisible} />
+      <WebPageSections
+        onCancel={() => setIsVisible(false)}
+        isVisible={isVisible}
+      />
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import React from 'react'
+import Cancel from '@/assets/svgs/cancel.svg'
 
-const AboutUs = () => {
+const AboutUs = ({ onCancel }: { onCancel: () => void }) => {
   const links = [
     { text: 'Contact', url: '' },
     // { text: 'Twitter', url: '' },
@@ -11,7 +12,10 @@ const AboutUs = () => {
     },
   ]
   return (
-    <div className='section flex flex-col justify-center pl-[112px] border-r border-light-grey/90'>
+    <div className='section flex flex-col justify-center lg:pl-[112px] px-6 md:px-4 border-r border-light-grey/90'>
+      <div onClick={onCancel} className='flex justify-end px-5'>
+        <Cancel />
+      </div>
       <h2 className='text-[32px] mb-6'>
         <span className='font-bold'>ABOUT</span> US
       </h2>
