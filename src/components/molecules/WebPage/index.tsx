@@ -35,6 +35,8 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
     )
 
     console.log(active)
+    if (activeSection === active?.id) return
+
     setActiveSection(active ? active.id : null)
   }
 
