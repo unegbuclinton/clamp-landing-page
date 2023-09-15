@@ -87,7 +87,7 @@ html {
   overflow-y: scroll;
 } */
 
-@media (max-width: 789px) {
+@media (max-width: 767px) {
   .section {
     height: fit-content;
     padding-top: 120px;

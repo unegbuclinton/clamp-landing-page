@@ -14,7 +14,7 @@ export const diagrams = [
       </>
     ),
     text: 'Keep customers coming back with a tailored loyalty program that rewards repeat purchases.',
-    borderStyle: 'border-r border-b rounded-br-3xl',
+    borderStyle: 'md:border-r border-b md:rounded-br-3xl',
   },
   {
     img: <Chart />,
@@ -26,7 +26,7 @@ export const diagrams = [
       </>
     ),
     text: 'Incentivize customers to buy more and spend more to earn exclusive rewards and benefits.',
-    borderStyle: 'border-l border-b rounded-bl-3xl',
+    borderStyle: 'md:border-l border-b md:rounded-bl-3xl',
   },
   {
     img: <Engage />,
@@ -38,7 +38,7 @@ export const diagrams = [
       </>
     ),
     text: 'Create a community that makes customers feel valued through personalized challenges and promotions.',
-    borderStyle: ' border-r border-t rounded-tr-3xl',
+    borderStyle: ' md:border-r border-t md:rounded-tr-3xl',
   },
   {
     img: <Time />,
@@ -50,6 +50,6 @@ export const diagrams = [
       </>
     ),
     text: 'Offer loyal customers progressively better rewards so they remain customers for life. customer retention.',
-    borderStyle: 'border-l border-t rounded-tl-3xl',
+    borderStyle: 'md:border-l border-t md:rounded-tl-3xl',
   },
 ]
