@@ -10,7 +10,7 @@ const CustomerSection = () => {
         <span className='font-bold'> REDEEM THEM</span>
       </h2>
 
-      <p className='text-dim-grey text-lg max-w-[500px]'>
+      <p className='text-dim-grey text-2xl lg:text-lg max-w-[500px]'>
         Reward screens for your customers to see how much rewards they have
         earned, actions they need to take to redeem the rewards and see more
         campaign offerings.

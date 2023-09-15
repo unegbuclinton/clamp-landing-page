@@ -48,7 +48,7 @@ const ScheduleDemo = () => {
         <span className='font-bold'>Let&apos;s talk</span>
       </h2>
 
-      <p className='text-2xl mb-7'>
+      <p className='text-2xl text-dim-grey max-w-[500px] lg:text-lg mb-7'>
         Take a decisive step towards keeping your customers engaged, fostering
         loyalty, and revenue growth.
       </p>
@@ -56,7 +56,7 @@ const ScheduleDemo = () => {
         href='https://zcal.co/i/Yrxnhmav'
         className='flex w-fit text-white justify-center items-center py-[6px] px-[18px] rounded-lg bg-black cursor-pointer hover:bg-black/95'
       >
-        <p className='flex items-center gap-[11px] text-[17px]'>
+        <p className='flex items-center gap-[11px] text-2xl lg:text-[17px]'>
           Request demo
           <span>
             <DemoIcon />

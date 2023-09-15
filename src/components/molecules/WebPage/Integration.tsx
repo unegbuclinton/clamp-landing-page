@@ -10,7 +10,7 @@ const Integration = () => {
         <span className='font-bold'> NO CODE NEEDED.</span>
       </h2>
 
-      <p className='text-dim-grey text-lg max-w-[500px]'>
+      <p className='text-dim-grey text-2xl lg:text-lg max-w-[500px]'>
         Connect to your application via API and then you can set campaign rules
         & rewards, watch results and iterate seamlessly where necessary.
       </p>

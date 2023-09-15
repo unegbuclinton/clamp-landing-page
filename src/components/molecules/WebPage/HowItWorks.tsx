@@ -14,7 +14,7 @@ const HowItWorks = () => {
         <span className='font-bold'>REWARD.</span>
       </h2>
 
-      <p className='text-dim-grey text-lg max-w-[500px]'>
+      <p className='text-dim-grey text-2xl lg:text-lg max-w-[500px]'>
         Configure triggers that incentivise your customers. Make a purchase?
         Earn points. Refer a friend? Reach a new tier. The possibilities are
         endless.

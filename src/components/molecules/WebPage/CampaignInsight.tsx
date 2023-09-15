@@ -9,7 +9,7 @@ const SectionFour = () => {
         SEE THE IMPACT.
       </h2>
 
-      <p className='text-dim-grey text-lg max-w-[500px]'>
+      <p className='text-dim-grey text-2xl lg:text-lg max-w-[500px]'>
         Gain data-driven insights into customer behavior. Analyze engagement
         metrics, track sales trends, and quantify program ROI to optimize and
         demonstrate campaign success.

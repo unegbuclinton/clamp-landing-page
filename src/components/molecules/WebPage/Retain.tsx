@@ -7,13 +7,13 @@ const Retain = () => {
       <h1 className='w-[150px] text-[32px]'>
         <span className='font-bold'>RETAIN</span> YOUR <br /> CUSTOMERS
       </h1>
-      <div className='text-dim-grey text-lg max-w-[470px]'>
+      <div className='text-dim-grey text-2xl lg:text-lg max-w-[470px]'>
         Increase your customers loyalty & retention by using Clamp&apos;s API -
         driven incentivization software, design personalized offers for
         gamification, referral and repeat sales
       </div>
 
-      <div className='text-sm mt-5 lg:mt-20'>
+      <div className='text-2xl lg:text-sm mt-5 lg:mt-20'>
         <a
           href='https://zcal.co/i/Yrxnhmav'
           className='flex w-fit text-white justify-center items-center py-[6px] px-[18px] rounded-lg bg-black cursor-pointer hover:bg-black/95'

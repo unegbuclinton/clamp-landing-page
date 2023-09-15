@@ -15,7 +15,7 @@ const AboutUs = () => {
       <h2 className='text-[32px] mb-6'>
         <span className='font-bold'>ABOUT</span> US
       </h2>
-      <p className='text-dim-grey text-lg max-w-[500px] mb-8'>
+      <p className='text-dim-grey text-2xl lg:text-lg max-w-[500px] mb-8'>
         At <span className='font-bold'>clamp</span>, our mission is simple yet
         profound: We care deeply about customers and are dedicated to building
         lasting relationships with your business and customers. We don&apos;t
