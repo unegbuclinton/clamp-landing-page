@@ -51,4 +51,5 @@ const ScheduleDemo = forwardRef<HTMLDivElement, {}>((props, ref) => {
   )
 })
 
+ScheduleDemo.displayName = 'ScheduleDemo'
 export default ScheduleDemo

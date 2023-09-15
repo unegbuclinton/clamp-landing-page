@@ -60,8 +60,6 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
     }
   }, [])
 
-  console.log(activeSection)
-
   return (
     <div className='flex relative'>
       <div className='md:w-[50%]'>

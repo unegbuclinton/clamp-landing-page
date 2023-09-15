@@ -25,5 +25,6 @@ const CustomerSection = forwardRef<HTMLDivElement, {}>((props, ref) => {
     </div>
   )
 })
+CustomerSection.displayName = 'CustomerSection'
 
 export default CustomerSection

@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import Overview from '@/assets/svgs/overview.svg'
 
-const SectionFour = forwardRef<HTMLDivElement, {}>((props, ref) => {
+const CampaignInsight = forwardRef<HTMLDivElement, {}>((props, ref) => {
   return (
     <div
       ref={ref}
@@ -24,5 +24,5 @@ const SectionFour = forwardRef<HTMLDivElement, {}>((props, ref) => {
     </div>
   )
 })
-
-export default SectionFour
+CampaignInsight.displayName = 'CampaignInsight'
+export default CampaignInsight

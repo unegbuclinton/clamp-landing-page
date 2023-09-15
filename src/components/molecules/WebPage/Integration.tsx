@@ -24,5 +24,5 @@ const Integration = forwardRef<HTMLDivElement, {}>((props, ref) => {
     </div>
   )
 })
-
+Integration.displayName = 'Integration'
 export default Integration

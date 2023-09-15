@@ -27,5 +27,5 @@ const ProductThread = forwardRef<HTMLDivElement, {}>((props, ref) => {
     </div>
   )
 })
-
+ProductThread.displayName = 'ProductThread'
 export default ProductThread

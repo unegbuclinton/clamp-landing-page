@@ -29,5 +29,5 @@ const HowItWorks = forwardRef<HTMLDivElement, {}>((props, ref) => {
     </div>
   )
 })
-
+HowItWorks.displayName = 'HowItWorks'
 export default HowItWorks
