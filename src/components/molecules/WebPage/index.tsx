@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Retain from './Retain'
 import ProductThread from './ProductThread'
 import HowItWorks from './HowItWorks'
@@ -14,50 +14,64 @@ import ScheduleDemo from './ScheduleDemo'
 import AboutUs from './AboutUs'
 
 const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
-  const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [activeSection, setActiveSection] = useState<{
+    id: string
+    intersect: boolean
+  } | null>(null)
 
-  const handleScroll = () => {
-    const scrollY = window.scrollY
-    const viewportHeight = window.innerHeight
-
-    // Define section start and end points as percentages of viewport height
-    const sections = [
-      { id: 'section-three', start: 180, end: 250 },
-      { id: 'section-four', start: 255, end: 320 },
-      { id: 'section-five', start: 350, end: 450 },
-      { id: 'section-six', start: 480, end: 550 },
-    ]
-
-    const active = sections.find(
-      (section) =>
-        scrollY >= (section.start / 100) * viewportHeight &&
-        scrollY < (section.end / 100) * viewportHeight
-    )
-
-    console.log(active)
-    if (activeSection === active?.id) return
-
-    setActiveSection(active ? active.id : null)
+  const sectionRefs = {
+    Retain: useRef<HTMLDivElement>(null),
+    ProductThread: useRef<HTMLDivElement>(null),
+    HowItWorks: useRef<HTMLDivElement>(null),
+    CampaignInsight: useRef<HTMLDivElement>(null),
+    CustomerSection: useRef<HTMLDivElement>(null),
+    Integration: useRef<HTMLDivElement>(null),
+    Demo: useRef<HTMLDivElement>(null),
   }
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
+    const options = {
+      root: null, // Use the viewport as the root
+      rootMargin: '0px', // No margin
+      threshold: 0.5, // Trigger when at least 50% of the section is visible
+    }
 
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection({
+            id: entry.target.id,
+            intersect: entry.isIntersecting,
+          })
+        }
+      })
+    }, options)
+
+    // Observe each section
+    Object.values(sectionRefs).forEach((ref) => {
+      if (ref.current) {
+        observer.observe(ref.current)
+      }
+    })
+
+    // Cleanup the observer when the component unmounts
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
     }
   }, [])
+
+  console.log(activeSection)
 
   return (
     <div className='flex relative'>
       <div className='md:w-[50%]'>
-        <Retain />
-        <ProductThread />
-        <HowItWorks />
-        <CampaignInsight />
-        <CustomerSection />
-        <Integration />
-        <ScheduleDemo />
+        <Retain ref={sectionRefs.Retain} />
+        <ProductThread ref={sectionRefs.ProductThread} />
+        <HowItWorks ref={sectionRefs.HowItWorks} />
+        <CampaignInsight ref={sectionRefs.CampaignInsight} />
+        <CustomerSection ref={sectionRefs.CustomerSection} />
+        <Integration ref={sectionRefs.Integration} />
+        <ScheduleDemo ref={sectionRefs.Demo} />
       </div>
       <div
         className='hidden md:flex justify-center items-center'
@@ -74,7 +88,9 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
       >
         <div
           className={`animate-fadeIn ${
-            activeSection === 'section-three' ? 'block' : 'opacity-0 hidden'
+            activeSection?.intersect && activeSection.id === 'HowItWorks'
+              ? 'block'
+              : 'opacity-0 hidden'
           }`}
         >
           <Demo />
@@ -82,7 +98,9 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
 
         <div
           className={`animate-fadeInFromBottom ${
-            activeSection === 'section-four' ? 'block' : 'opacity-0 hidden'
+            activeSection?.intersect && activeSection.id === 'CampaignInsight'
+              ? 'block'
+              : 'opacity-0 hidden'
           }`}
         >
           <Overview />
@@ -90,14 +108,18 @@ const WebPageSections = ({ isVisible }: { isVisible: boolean }) => {
 
         <div
           className={`animate-fadeInFromBottom ${
-            activeSection === 'section-five' ? 'block' : 'opacity-0 hidden'
+            activeSection?.intersect && activeSection.id === 'CustomerSection'
+              ? 'block'
+              : 'opacity-0 hidden'
           }`}
         >
           <CustomerImg />
         </div>
         <div
           className={`animate-fadeInFromBottom ${
-            activeSection === 'section-six' ? 'block' : 'opacity-0 hidden'
+            activeSection?.intersect && activeSection.id === 'Integration'
+              ? 'block'
+              : 'opacity-0 hidden'
           }`}
         >
           <DataFlowImg />

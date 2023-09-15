@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import DataFlowImg from '@/assets/svgs/data-flow.svg'
 
-const Integration = () => {
+const Integration = forwardRef<HTMLDivElement, {}>((props, ref) => {
   return (
-    <div className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
+    <div
+      ref={ref}
+      id='Integration'
+      className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'
+    >
       <h2 className='text-[32px] max-w-[550px]'>
         <span className='font-bold'> ONE-TIME</span> QUICK INTEGRATION, CREATE
         <span className='font-bold'> MULTIPLE CAMPAIGNS</span> WITH
@@ -19,6 +23,6 @@ const Integration = () => {
       </div>
     </div>
   )
-}
+})
 
 export default Integration

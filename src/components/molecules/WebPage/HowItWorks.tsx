@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import Demo from '@/assets/svgs/static-demo.svg'
 
-const HowItWorks = () => {
+const HowItWorks = forwardRef<HTMLDivElement, {}>((props, ref) => {
   return (
-    <div className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
+    <div
+      ref={ref}
+      id='HowItWorks'
+      className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'
+    >
       <h2 className='text-[32px] max-w-[450px]'>
         HOW DOES IT WORK? WELL, IT&apos;S AS EASY AS
         <br />
@@ -24,6 +28,6 @@ const HowItWorks = () => {
       </div>
     </div>
   )
-}
+})
 
 export default HowItWorks

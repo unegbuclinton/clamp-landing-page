@@ -1,9 +1,13 @@
 import { diagrams } from '@/utilities/data/websiteData'
-import React from 'react'
+import React, { forwardRef } from 'react'
 
-const ProductThread = () => {
+const ProductThread = forwardRef<HTMLDivElement, {}>((props, ref) => {
   return (
-    <div className='section px-6 md:px-4 flex flex-wrap border-r border-light-grey/90'>
+    <div
+      ref={ref}
+      id='ProductThread'
+      className='section px-6 md:px-4 flex flex-wrap border-r border-light-grey/90'
+    >
       {diagrams?.map(({ header, img, text, borderStyle }, idx) => (
         <div
           key={idx}
@@ -22,6 +26,6 @@ const ProductThread = () => {
       ))}
     </div>
   )
-}
+})
 
 export default ProductThread

@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import CustomerImg from '@/assets/svgs/customer.svg'
 
-const CustomerSection = () => {
+const CustomerSection = forwardRef<HTMLDivElement, {}>((props, ref) => {
   return (
-    <div className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'>
+    <div
+      ref={ref}
+      id='CustomerSection'
+      className='section lg:pl-[112px] px-6 md:px-4 flex flex-col justify-center gap-10 border-r border-light-grey/90'
+    >
       <h2 className='text-[32px] max-w-[550px]'>
         CUSTOMER CAN MONITOR <span className='font-bold'>REWARDS EARNED</span>{' '}
         AND
@@ -20,6 +24,6 @@ const CustomerSection = () => {
       </div>
     </div>
   )
-}
+})
 
 export default CustomerSection
